@@ -327,7 +327,7 @@
                 
               
 
-              <time title="Erstellt: 2019-07-31 19:50:11 / Geändert am: 20:05:02" itemprop="dateCreated datePublished" datetime="2019-07-31T19:50:11+08:00">2019-07-31</time>
+              <time title="Erstellt: 2019-07-31 19:50:11 / Geändert am: 20:27:18" itemprop="dateCreated datePublished" datetime="2019-07-31T19:50:11+08:00">2019-07-31</time>
             </span>
           
 
@@ -371,8 +371,7 @@
       
         
           
-            <h2 id="hadoop-jar-BigData-jar-cn-sun-mapreduce-WordCount-s-tmp-input-tmp-txt-s-tmp-output2"><a href="#hadoop-jar-BigData-jar-cn-sun-mapreduce-WordCount-s-tmp-input-tmp-txt-s-tmp-output2" class="headerlink" title="hadoop jar ~/BigData.jar cn.sun.mapreduce.WordCount /s_tmp/input/tmp.txt /s_tmp/output2/"></a>hadoop jar ~/BigData.jar cn.sun.mapreduce.WordCount /s_tmp/input/tmp.txt /s_tmp/output2/</h2><p>##对这个命令很不理解，然后上网搜了一下，大概意思是说，其中，/home/lina/example.jar是jar包所在目录，cn.sun.mapreduce.WordCount是因为main程序是放在cn.sun.mapreduce包下的WordCount.java下，/s_tmp/input/tmp.txt是dfs文件系统下的tmp.txt输入文件的目录，/s_tmp/output2/是设定的输出目录。</p>
-<h2 id="hadoop2-8运行自带的Wordcount"><a href="#hadoop2-8运行自带的Wordcount" class="headerlink" title="hadoop2.8运行自带的Wordcount"></a>hadoop2.8运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
+            <h2 id="hadoop2-8运行自带的Wordcount"><a href="#hadoop2-8运行自带的Wordcount" class="headerlink" title="hadoop2.8运行自带的Wordcount"></a>hadoop2.8运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
 <p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
 <p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
 <p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>

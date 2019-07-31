@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&amp;lt;/1&amp;gt; ##第一次启动时没有问题 ##第二次启动时会有文件残留 ##产生一个新的namenode文件（id），就不认识以前的namenode了 ##导致集群不能正常启动 ##解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/">
+  <meta name="description" content="##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&amp;lt;/1&amp;gt; ##第一次启动时没有问题第二次启动时会有文件残留产生一个新的namenode文件（id），就不认识以前的namenode了导致集群不能正常启动解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://wenyouwang99.io/2019/07/31/DataNode无法启动/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&amp;lt;/1&amp;gt; ##第一次启动时没有问题 ##第二次启动时会有文件残留 ##产生一个新的namenode文件（id），就不认识以前的namenode了 ##导致集群不能正常启动 ##解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/">
+<meta property="og:description" content="##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&amp;lt;/1&amp;gt; ##第一次启动时没有问题第二次启动时会有文件残留产生一个新的namenode文件（id），就不认识以前的namenode了导致集群不能正常启动解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-31T10:33:07.440Z">
+<meta property="og:updated_time" content="2019-07-31T10:51:33.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&amp;lt;/1&amp;gt; ##第一次启动时没有问题 ##第二次启动时会有文件残留 ##产生一个新的namenode文件（id），就不认识以前的namenode了 ##导致集群不能正常启动 ##解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/">
+<meta name="twitter:description" content="##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&amp;lt;/1&amp;gt; ##第一次启动时没有问题第二次启动时会有文件残留产生一个新的namenode文件（id），就不认识以前的namenode了导致集群不能正常启动解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））">
 
 
 
@@ -328,10 +328,14 @@
                 
               
 
-              <time title="Erstellt: 2019-07-31 18:33:07" itemprop="dateCreated datePublished" datetime="2019-07-31T18:33:07+08:00">2019-07-31</time>
+              <time title="Erstellt: 2019-07-31 18:33:07 / Geändert am: 18:51:33" itemprop="dateCreated datePublished" datetime="2019-07-31T18:33:07+08:00">2019-07-31</time>
             </span>
           
 
+          
+            
+
+            
           
 
           
@@ -367,11 +371,7 @@
 
       
         <p>##</p><h1>关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&lt;/1&gt;<p></p>
-<p>##第一次启动时没有问题</p>
-<p>##第二次启动时会有文件残留</p>
-<p>##产生一个新的namenode文件（id），就不认识以前的namenode了</p>
-<p>##导致集群不能正常启动</p>
-<p>##解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））</p>
+<p>##第一次启动时没有问题<br>第二次启动时会有文件残留<br>产生一个新的namenode文件（id），就不认识以前的namenode了<br>导致集群不能正常启动<br>解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））</p>
 <p>##rm -rf /tmp    (从节点都要执行)</p>
 <p>##hdfs namenode -format (主节点执行)</p>
 <p>##主从节点都   jps    然后就成功启动了</p>
@@ -414,6 +414,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/31/wordcount/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -482,7 +486,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -525,11 +529,7 @@
 
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">关于hadoop集群中第二次启动时，DataNode没有启动的解决办法&lt;/1&gt;
-##第一次启动时没有问题
-##第二次启动时会有文件残留
-##产生一个新的namenode文件（id），就不认识以前的namenode了
-##导致集群不能正常启动
-##解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））
+##第一次启动时没有问题第二次启动时会有文件残留产生一个新的namenode文件（id），就不认识以前的namenode了导致集群不能正常启动解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））
 ##rm -rf /tmp    (从节点都要执行)
 ##hdfs namenode -format (主节点执行)
 ##主从节点都   jps    然后就成功启动了

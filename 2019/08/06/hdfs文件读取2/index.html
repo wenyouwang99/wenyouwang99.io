@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在windows下安装maven1.先在官网下载maven,并解压在自定义路径我的路径 D:\java\maven\apache-maven-3.6.1 2.修改配置文件D:\java\maven\apache-maven-3.6.1\conf\settings    D:\java\mavenrepository  自定义maven仓库路径，里面是存放jar包的 3.修改环境变量在系统变量中添加">
+  <meta name="description" content="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )package com.qf.a.b; import java.io.File;import java.io.FileOutputStream;import java.io.IOException;import java.io.OutputStream;import">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/06/maven安装1/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在windows下安装maven1.先在官网下载maven,并解压在自定义路径我的路径 D:\java\maven\apache-maven-3.6.1 2.修改配置文件D:\java\maven\apache-maven-3.6.1\conf\settings    D:\java\mavenrepository  自定义maven仓库路径，里面是存放jar包的 3.修改环境变量在系统变量中添加">
+<meta property="og:description" content="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )package com.qf.a.b; import java.io.File;import java.io.FileOutputStream;import java.io.IOException;import java.io.OutputStream;import">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-06T12:04:00.639Z">
+<meta property="og:updated_time" content="2019-08-06T12:47:44.989Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="在windows下安装maven1.先在官网下载maven,并解压在自定义路径我的路径 D:\java\maven\apache-maven-3.6.1 2.修改配置文件D:\java\maven\apache-maven-3.6.1\conf\settings    D:\java\mavenrepository  自定义maven仓库路径，里面是存放jar包的 3.修改环境变量在系统变量中添加">
+<meta name="twitter:description" content="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )package com.qf.a.b; import java.io.File;import java.io.FileOutputStream;import java.io.IOException;import java.io.OutputStream;import">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-maven安装1" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hdfs文件读取2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/06/maven安装1/" class="article-date">
-  <time datetime="2019-08-06T12:04:00.639Z" itemprop="datePublished">2019-08-06</time>
+    <a href="/2019/08/06/hdfs文件读取2/" class="article-date">
+  <time datetime="2019-08-06T12:45:49.641Z" itemprop="datePublished">2019-08-06</time>
 </a>
     
   </div>
@@ -82,25 +82,32 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="在windows下安装maven"><a href="#在windows下安装maven" class="headerlink" title="在windows下安装maven"></a>在windows下安装maven</h2><h2 id="1-先在官网下载maven-并解压在自定义路径"><a href="#1-先在官网下载maven-并解压在自定义路径" class="headerlink" title="1.先在官网下载maven,并解压在自定义路径"></a>1.先在官网下载maven,并解压在自定义路径</h2><p>我的路径 D:\java\maven\apache-maven-3.6.1</p>
-<h2 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h2><p>D:\java\maven\apache-maven-3.6.1\conf\settings</p>
-<!-- localRepository
-   | The path to the local repository maven will use to store artifacts.
-   |
-   | Default: ${user.home}/.m2/repository
-  <localRepository>/path/to/local/repo</localRepository>
-  -->
-<p>  <localrepository>D:\java\mavenrepository</localrepository><br>  自定义maven仓库路径，里面是存放jar包的</p>
-<h2 id="3-修改环境变量"><a href="#3-修改环境变量" class="headerlink" title="3.修改环境变量"></a>3.修改环境变量</h2><p>在系统变量中添加<br>MAVEN_HOME<br>D:\java\maven\apache-maven-3.6.1</p>
-<p>Path<br>D:\java\maven\apache-maven-3.6.1\bin</p>
-<h2 id="4-测试是否安装成功"><a href="#4-测试是否安装成功" class="headerlink" title="4.测试是否安装成功"></a>4.测试是否安装成功</h2><p>win+r<br>mvn -v</p>
-<h2 id="5-打开eclipse-配置maven"><a href="#5-打开eclipse-配置maven" class="headerlink" title="5.打开eclipse,配置maven"></a>5.打开eclipse,配置maven</h2><p>window–&gt;preference–&gt;maven–&gt;installations–&gt;add–&gt;<br>D:\java\maven\apache-maven-3.6.1–&gt;apply</p>
-<p>window–&gt;preference–&gt;maven–&gt;user settings–&gt;update<br>如果更新后仓库路径和 2.修改配置文件 路径一样，则apply后退出即可</p>
-<h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2>
+        <h2 id="hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成"><a href="#hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成" class="headerlink" title="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )"></a>hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )</h2><p>package com.qf.a.b;</p>
+<p>import java.io.File;<br>import java.io.FileOutputStream;<br>import java.io.IOException;<br>import java.io.OutputStream;<br>import java.net.URI;</p>
+<p>public static void readFileToLocal(String path) throws IOException {</p>
+<pre><code>FSDataInputStream fis = null;
+OutputStream out = null;
+
+try{
+
+Configuration conf = new Configuration();
+
+FileSystem fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
+fis = fs.open(new Path(path));
+out = new FileOutputStream(new File(&quot;D:\\text\\text.txt01&quot;));
+IOUtils.copyBytes(fis, System.out, 4096, true);
+
+}catch(Exception e){
+
+}finally{
+
+}
+
+}</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzsabf900028ovg1vugf7uh" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyztl1lv00016svglcebrwdu" class="article-share-link">分享</a>
       
       
       
@@ -152,17 +159,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/06/## hdfs文件的读取/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/06/maven安装2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/06/## hdfs文件的读取/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -200,7 +198,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在windows下安装maven"><span class="toc-number">1.</span> <span class="toc-text">在windows下安装maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-先在官网下载maven-并解压在自定义路径"><span class="toc-number">2.</span> <span class="toc-text">1.先在官网下载maven,并解压在自定义路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-修改配置文件"><span class="toc-number">3.</span> <span class="toc-text">2.修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-修改环境变量"><span class="toc-number">4.</span> <span class="toc-text">3.修改环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-测试是否安装成功"><span class="toc-number">5.</span> <span class="toc-text">4.测试是否安装成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-打开eclipse-配置maven"><span class="toc-number">6.</span> <span class="toc-text">5.打开eclipse,配置maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-创建maven工程，配置pom-xml-这个镜像可用"><span class="toc-number">7.</span> <span class="toc-text">6.创建maven工程，配置pom.xml    (这个镜像可用)</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成"><span class="toc-number">1.</span> <span class="toc-text">hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )</span></a></li></ol>
           </div>
       </div>
     </div>

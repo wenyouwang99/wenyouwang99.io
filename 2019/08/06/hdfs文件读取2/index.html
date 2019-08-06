@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )package com.qf.a.b; import java.io.File;import java.io.FileOutputStream;import java.io.IOException;import java.io.OutputStream;import">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-06T12:47:44.989Z">
+<meta property="og:updated_time" content="2019-08-06T12:51:54.543Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
 <meta name="twitter:description" content="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )package com.qf.a.b; import java.io.File;import java.io.FileOutputStream;import java.io.IOException;import java.io.OutputStream;import">
@@ -100,6 +100,8 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
 }catch(Exception e){
 
 }finally{
+    fis.close();
+    out.close();
 
 }
 
@@ -107,7 +109,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyztl1lv00016svglcebrwdu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyztlgzd00040svggq6jcziu" class="article-share-link">分享</a>
       
       
       
@@ -158,6 +160,15 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
 
     
 <nav id="article-nav">
+  
+    <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2019/08/06/## hdfs文件的读取/" id="article-nav-older" class="article-nav-link-wrap">

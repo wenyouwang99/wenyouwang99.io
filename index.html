@@ -98,7 +98,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzs2gqp0002gsvg22os5cnt" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzs72yg00025kvgxlytebqi" class="article-share-link">分享</a>
       
       
       
@@ -124,85 +124,75 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelversion>4.0.0</modelversion>
-  <groupid>com.me</groupid>
-  <artifactid>hadoop</artifactid>
-  <version>0.0.1-SNAPSHOT</version>
-  <description>        </description>
-  <properties> 
-      <project.build.sourceencoding>UTF-8</project.build.sourceencoding>
-  </properties>
-  /*可用镜像库*/
-  <repositories>  
-   <repository>  
-     <id>repo2</id>  
-     <name>Maven Repository Switchboard</name>  
-     <layout>default</layout>  
-     <url>http://repo2.maven.org/maven2</url>  
-     <snapshots>  
-       <enabled>false</enabled>  
-     </snapshots>  
-   </repository>  
-</repositories>
-
-<dependencies>
-<dependency>
+        <h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2><p>##1.  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"><br>  <modelversion>4.0.0</modelversion><br>  <groupid>com.me</groupid><br>  <artifactid>hadoop</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br>  <description>        </description></project></p>
+<h2 id><a href="#" class="headerlink" title></a><properties></properties></h2><pre><code>  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+&lt;/properties&gt;
+/*可用镜像库*/
+&lt;repositories&gt;  
+ &lt;repository&gt;  
+ &lt;id&gt;repo2&lt;/id&gt;  
+ &lt;name&gt;Maven Repository Switchboard&lt;/name&gt;  
+ &lt;layout&gt;default&lt;/layout&gt;  
+ &lt;url &gt;http://repo2.maven.org/maven2&lt;/url&gt;  
+ &lt;snapshots&gt;  
+   &lt;enabled&gt;false&lt;/enabled&gt;  
+ &lt;/snapshots&gt;  
+ &lt;/repository&gt;  
+ &lt;/repositories&gt;</code></pre>   <dependencies>
+   <dependency>
         <groupid>junit</groupid>
         <artifactid>junit</artifactid>
         <version>3.8.1</version>
         <scope>test</scope>
-  </dependency>
+     </dependency>
 
-  <dependency>
-      <groupid>org.apache.hadoop</groupid>
-      <artifactid>hadoop-hdfs</artifactid>
-      <version>2.6.0</version>
-  </dependency>
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+  &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;
+  &lt;version&gt;2.6.0&lt;/version&gt;
+&lt;/dependency&gt;
 
-  <dependency>  
-      <groupid>org.apache.hadoop</groupid>  
-      <artifactid>hadoop-client</artifactid>  
-      <version>2.6.0</version>  
-  </dependency> 
+&lt;dependency&gt;  
+  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;  
+  &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;  
+  &lt;version&gt;2.6.0&lt;/version&gt;  
+&lt;/dependency&gt; 
 
-  <dependency>
-      <groupid>org.apache.hadoop</groupid>
-      <artifactid>hadoop-common</artifactid>
-      <version>2.6.0</version>
-  </dependency>
-  <!-- https://mvnrepository.com/artifact/jdk.tools/jdk.tools -->
-<dependency>
-    <groupid>jdk.tools</groupid>
-    <artifactid>jdk.tools</artifactid>
-    <version>1.7</version>
-    <scope>system</scope>
-    <systempath>${JAVA_HOME}/lib/tools.jar</systempath>
-</dependency>
+&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+  &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
+  &lt;version&gt;2.6.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- https://mvnrepository.com/artifact/jdk.tools/jdk.tools --&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;jdk.tools&lt;/groupId&gt;
+&lt;artifactId&gt;jdk.tools&lt;/artifactId&gt;
+&lt;version&gt;1.7&lt;/version&gt;
+&lt;scope&gt;system&lt;/scope&gt;
+&lt;systemPath&gt;${JAVA_HOME}/lib/tools.jar&lt;/systemPath&gt;
+&lt;/dependency&gt;
 
-</dependencies>    
+&lt;/dependencies&gt;    
 
-  <build> 
-      <plugins>
-          <plugin>
-              <groupid>org.apache.maven.plugins</groupid>
-              <artifactid>maven-compiler-plugin</artifactid>
-              <version>3.1</version>
-              <configuration>
-                  <source>1.7
-                 <target>1.7</target>
-              </configuration>
-          </plugin>
-      </plugins>
-  </build>
-</project>
-
-<p>等待安装，安装时间挺长，请等待</p>
-
+&lt;build&gt; 
+  &lt;plugins&gt;
+      &lt;plugin&gt;
+          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+          &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.1&lt;/version&gt;
+          &lt;configuration&gt;
+              &lt;source&gt;1.7&lt;/source&gt;
+             &lt;target&gt;1.7&lt;/target&gt;
+          &lt;/configuration&gt;
+      &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+&lt;/project&gt;</code></pre><p>等待安装，安装时间挺长，请等待</p>
+</dependencies>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjyzs2gqx0004gsvgxg3lok78" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjyzs72yh00035kvggewictbp" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyzs2gqq0003gsvgxw41f0wa" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyzs72yh00045kvg978hyuq1" class="article-share-link">分享</a>
       
       
       
@@ -274,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjyzs2gqh0000gsvgnymww85r" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjyzs72ye00015kvg15dn1cio" class="article-share-link">分享</a>
       
       
       
@@ -315,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjyzs2gqn0001gsvgi5q61unh" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjyzs72y900005kvgw7yzvmzl" class="article-share-link">分享</a>
       
       
       
@@ -405,7 +395,7 @@
   
     
 <div class="widget-wrap">
-    <h3 class="widget-title">友情链接</h3>
+    <h3 class="widget-title">Links</h3>
     <div class="widget">
         <ul>
             
@@ -425,7 +415,7 @@
     <!--微信公众号二维码-->
 
   <div class="widget-wrap">
-    <h3 class="follow-title ">微信公众号</h3>
+    <h3 class="follow-title ">WeChat</h3>
     <div class="widget wechat-widget">
         <img src="http://blog.giscafer.com/static/images/qrcode_giscafer.jpg" alt="扫码关注" width="250"/>
     </div>

@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+  <meta name="description" content="在eclipse中向hdfs上传文件public class hdfs { static FileSystem fs = null; static{ Configuration conf = new Configuration(); String path = null; //fs = FileSystem.get(new URI(&amp;quot;hdfs://192.168.8.10:9000&amp;qu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/07/31/wordcount/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+<meta property="og:description" content="在eclipse中向hdfs上传文件public class hdfs { static FileSystem fs = null; static{ Configuration conf = new Configuration(); String path = null; //fs = FileSystem.get(new URI(&amp;quot;hdfs://192.168.8.10:9000&amp;qu">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-01T10:28:27.361Z">
+<meta property="og:updated_time" content="2019-08-06T13:37:07.168Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+<meta name="twitter:description" content="在eclipse中向hdfs上传文件public class hdfs { static FileSystem fs = null; static{ Configuration conf = new Configuration(); String path = null; //fs = FileSystem.get(new URI(&amp;quot;hdfs://192.168.8.10:9000&amp;qu">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-wordcount" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-在eclipse中向hdfs上传文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/07/31/wordcount/" class="article-date">
-  <time datetime="2019-07-31T11:50:11.181Z" itemprop="datePublished">2019-07-31</time>
+    <a href="/2019/08/06/在eclipse中向hdfs上传文件/" class="article-date">
+  <time datetime="2019-08-06T13:35:27.305Z" itemprop="datePublished">2019-08-06</time>
 </a>
     
   </div>
@@ -82,18 +82,34 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hadoop2-8运行自带的Wordcount"><a href="#hadoop2-8运行自带的Wordcount" class="headerlink" title="hadoop2.8运行自带的Wordcount"></a>hadoop2.8运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
-<p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
-<p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
-<p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>
-<p>⑤现在已经将文件上传到HDFS上了，接下来就要用hadoop自带的Wordcount程序对其进行统计<br>首先进入到Wordcount程序所在目录（找自己的hadoop的安装目录）<br>cd /opt/hadoop/share/hadoop//mapreduce/<br>ll<br>hadoop-mapreduce-examples-2.7.2.jar<br>hadoop jar hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output</p>
-<p>执行命令运行Wordcount程序，并将结果输出到/output目录下（输出目录自动生成，不可提前创建）<br>hadoop dfs -ls /output      （output作为输入结果的文件，不能提前存在，必须是临时生成的）</p>
-<p>⑥上面说明job已经成功运行。接下来看输出结果。先查看/output目录下新生成的文件，我们的统计结果在part-r-00000文件中。</p>
+        <h2 id="在eclipse中向hdfs上传文件"><a href="#在eclipse中向hdfs上传文件" class="headerlink" title="在eclipse中向hdfs上传文件"></a>在eclipse中向hdfs上传文件</h2><p>public class hdfs {</p>
+<pre><code>static FileSystem fs = null;
+static{
+Configuration conf = new Configuration();
+String path = null;
+//fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,root);
+try {
+    fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
+} catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+} catch (InterruptedException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+} catch (URISyntaxException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+}
+}
+public static void copyFromLocal() throws IOException {
+fs.copyFromLocalFile(new Path(&quot;D:\\text\\123.txt&quot;),new Path(&quot;/input/123&quot;));
+System.out.println(&quot;finished...&quot;);
+}    </code></pre><p>}</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyzv6o100006vkvghpbo3byn" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjyzvbxnx0000vcvgihf6y6nd" class="article-share-link">分享</a>
       
       
       
@@ -145,17 +161,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/06/maven安装2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/31/DataNode无法启动/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -193,7 +200,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop2-8运行自带的Wordcount"><span class="toc-number">1.</span> <span class="toc-text">hadoop2.8运行自带的Wordcount</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在eclipse中向hdfs上传文件"><span class="toc-number">1.</span> <span class="toc-text">在eclipse中向hdfs上传文件</span></a></li></ol>
           </div>
       </div>
     </div>

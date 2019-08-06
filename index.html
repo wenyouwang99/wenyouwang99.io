@@ -66,6 +66,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-在eclipse中向hdfs上传文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/在eclipse中向hdfs上传文件/" class="article-date">
+  <time datetime="2019-08-06T13:35:27.305Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="在eclipse中向hdfs上传文件"><a href="#在eclipse中向hdfs上传文件" class="headerlink" title="在eclipse中向hdfs上传文件"></a>在eclipse中向hdfs上传文件</h2><p>public class hdfs {</p>
+<pre><code>static FileSystem fs = null;
+static{
+Configuration conf = new Configuration();
+String path = null;
+//fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,root);
+try {
+    fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
+} catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+} catch (InterruptedException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+} catch (URISyntaxException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+}
+}
+public static void copyFromLocal() throws IOException {
+fs.copyFromLocalFile(new Path(&quot;D:\\text\\123.txt&quot;),new Path(&quot;/input/123&quot;));
+System.out.println(&quot;finished...&quot;);
+}    </code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjyzvbxnx0000vcvgihf6y6nd" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-解决eclipse中无法执行向hadoop上传文件问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" class="article-date">
@@ -97,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjyzv41yp0006wgvgyufn8utx" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjyzv6o1b0007vkvgukbkftfx" class="article-share-link">分享</a>
       
       
       
@@ -150,7 +203,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyzv41ym0003wgvgcm9h4xi6" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyzv6o0v0001vkvg0pfu1wdp" class="article-share-link">分享</a>
       
       
       
@@ -195,7 +248,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/## hdfs文件的读取/" data-id="cjyzv41yj0001wgvgoinnm7gk" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/## hdfs文件的读取/" data-id="cjyzv6o0q0000vkvgxdp2umhw" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +292,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzv41yl0002wgvghjk8fbfc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzv6o0z0004vkvgrci3mcv3" class="article-share-link">分享</a>
       
       
       
@@ -333,7 +386,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjyzv41yo0005wgvgqusrxegv" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjyzv6o100005vkvg9xxng6fl" class="article-share-link">分享</a>
       
       
       
@@ -370,7 +423,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyzv41yq0007wgvgq9blp2ww" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyzv6o100006vkvghpbo3byn" class="article-share-link">分享</a>
       
       
       
@@ -405,7 +458,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjyzv41yd0000wgvgmiho3b4s" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjyzv6o0w0002vkvgaeibhkqg" class="article-share-link">分享</a>
       
       
       
@@ -446,7 +499,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjyzv41yn0004wgvguu6l5l7x" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjyzv6o0x0003vkvgucqsy8gt" class="article-share-link">分享</a>
       
       
       
@@ -500,6 +553,10 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       <ul>
         
           <li>
+            <a href="/2019/08/06/在eclipse中向hdfs上传文件/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/">(no title)</a>
           </li>
         
@@ -515,10 +572,6 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
             <a href="/2019/08/06/maven安装1/">(no title)</a>
           </li>
         
-          <li>
-            <a href="/2019/08/06/maven安装2/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -528,7 +581,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

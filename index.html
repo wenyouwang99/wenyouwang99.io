@@ -83,21 +83,12 @@
         <h2 id="解决eclipse中无法执行向hadoop上传文件问题"><a href="#解决eclipse中无法执行向hadoop上传文件问题" class="headerlink" title="解决eclipse中无法执行向hadoop上传文件问题"></a>解决eclipse中无法执行向hadoop上传文件问题</h2><p>main……的问题</p>
 <p>Permission denied: user=zhuy, access=WRITE, inode=”/user”:root:supergroup:drwxr-xr-x<br>从这句话我们可知道是权限问题</p>
 <p>所以要修改权限在  hdfs-site.xml加入如下代码   （每台都要修改）</p>
-<property>
-  <name>dfs.permissions</name>
-  <value>false</value>
-  <description>
-    If "true", enable permission checking in HDFS.
-    If "false", permission checking is turned off,
-    but all other behavior is unchanged.
-    Switching from one parameter value to the other does not change the mode,
-    owner or group of files or directories.
-  </description>
-</property>
+<pre><code>&lt;property&gt;</code></pre><p>  <name>dfs.permissions</name><br>  <value>false</value><br>  <description><br>    If “true”, enable permission checking in HDFS.<br>    If “false”, permission checking is turned off,<br>    but all other behavior is unchanged.<br>    Switching from one parameter value to the other does not change the mode,<br>    owner or group of files or directories.<br>  </description><br>       </p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjyzv1zry0000ykvg2ff1ltxi" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjyzv2ee30007hcvg178mlis7" class="article-share-link">分享</a>
       
       
       
@@ -150,7 +141,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyztlgzd00040svggq6jcziu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjyzv2edr0002hcvgru47jg8f" class="article-share-link">分享</a>
       
       
       
@@ -195,7 +186,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/## hdfs文件的读取/" data-id="cjyztlgz400000svgim5epx7r" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/## hdfs文件的读取/" data-id="cjyzv2edh0000hcvg0momb8p9" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +230,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyztlgzc00030svgo7kfdj2o" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzv2eds0003hcvgq5urrakv" class="article-share-link">分享</a>
       
       
       
@@ -333,7 +324,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjyztlgze00050svgstcww3i3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjyzv2edv0005hcvgsq4gu8rw" class="article-share-link">分享</a>
       
       
       
@@ -370,7 +361,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyztlgzf00060svg1hzh90ac" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjyzv2edw0006hcvguo2evrra" class="article-share-link">分享</a>
       
       
       
@@ -405,7 +396,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjyztlgz900010svgay6n8u5h" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjyzv2edn0001hcvgzj9acpyc" class="article-share-link">分享</a>
       
       
       
@@ -446,7 +437,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjyztlgzb00020svgwx73a2bc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjyzv2edt0004hcvgkqpoxl8u" class="article-share-link">分享</a>
       
       
       

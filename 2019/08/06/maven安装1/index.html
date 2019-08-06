@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+  <meta name="description" content="在windows下安装maven1.先在官网下载maven,并解压在自定义路径我的路径 D:\java\maven\apache-maven-3.6.1 2.修改配置文件D:\java\maven\apache-maven-3.6.1\conf\settings    D:\java\mavenrepository  自定义maven仓库路径，里面是存放jar包的 3.修改环境变量在系统变量中添加">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/07/31/wordcount/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/06/maven安装1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+<meta property="og:description" content="在windows下安装maven1.先在官网下载maven,并解压在自定义路径我的路径 D:\java\maven\apache-maven-3.6.1 2.修改配置文件D:\java\maven\apache-maven-3.6.1\conf\settings    D:\java\mavenrepository  自定义maven仓库路径，里面是存放jar包的 3.修改环境变量在系统变量中添加">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-01T10:28:27.361Z">
+<meta property="og:updated_time" content="2019-08-06T12:04:00.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+<meta name="twitter:description" content="在windows下安装maven1.先在官网下载maven,并解压在自定义路径我的路径 D:\java\maven\apache-maven-3.6.1 2.修改配置文件D:\java\maven\apache-maven-3.6.1\conf\settings    D:\java\mavenrepository  自定义maven仓库路径，里面是存放jar包的 3.修改环境变量在系统变量中添加">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-wordcount" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-maven安装1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/07/31/wordcount/" class="article-date">
-  <time datetime="2019-07-31T11:50:11.181Z" itemprop="datePublished">2019-07-31</time>
+    <a href="/2019/08/06/maven安装1/" class="article-date">
+  <time datetime="2019-08-06T12:04:00.639Z" itemprop="datePublished">2019-08-06</time>
 </a>
     
   </div>
@@ -82,18 +82,25 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hadoop2-8运行自带的Wordcount"><a href="#hadoop2-8运行自带的Wordcount" class="headerlink" title="hadoop2.8运行自带的Wordcount"></a>hadoop2.8运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
-<p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
-<p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
-<p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>
-<p>⑤现在已经将文件上传到HDFS上了，接下来就要用hadoop自带的Wordcount程序对其进行统计<br>首先进入到Wordcount程序所在目录（找自己的hadoop的安装目录）<br>cd /opt/hadoop/share/hadoop//mapreduce/<br>ll<br>hadoop-mapreduce-examples-2.7.2.jar<br>hadoop jar hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output</p>
-<p>执行命令运行Wordcount程序，并将结果输出到/output目录下（输出目录自动生成，不可提前创建）<br>hadoop dfs -ls /output      （output作为输入结果的文件，不能提前存在，必须是临时生成的）</p>
-<p>⑥上面说明job已经成功运行。接下来看输出结果。先查看/output目录下新生成的文件，我们的统计结果在part-r-00000文件中。</p>
-
+        <h2 id="在windows下安装maven"><a href="#在windows下安装maven" class="headerlink" title="在windows下安装maven"></a>在windows下安装maven</h2><h2 id="1-先在官网下载maven-并解压在自定义路径"><a href="#1-先在官网下载maven-并解压在自定义路径" class="headerlink" title="1.先在官网下载maven,并解压在自定义路径"></a>1.先在官网下载maven,并解压在自定义路径</h2><p>我的路径 D:\java\maven\apache-maven-3.6.1</p>
+<h2 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h2><p>D:\java\maven\apache-maven-3.6.1\conf\settings</p>
+<!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+<p>  <localrepository>D:\java\mavenrepository</localrepository><br>  自定义maven仓库路径，里面是存放jar包的</p>
+<h2 id="3-修改环境变量"><a href="#3-修改环境变量" class="headerlink" title="3.修改环境变量"></a>3.修改环境变量</h2><p>在系统变量中添加<br>MAVEN_HOME<br>D:\java\maven\apache-maven-3.6.1</p>
+<p>Path<br>D:\java\maven\apache-maven-3.6.1\bin</p>
+<h2 id="4-测试是否安装成功"><a href="#4-测试是否安装成功" class="headerlink" title="4.测试是否安装成功"></a>4.测试是否安装成功</h2><p>win+r<br>mvn -v</p>
+<h2 id="5-打开eclipse-配置maven"><a href="#5-打开eclipse-配置maven" class="headerlink" title="5.打开eclipse,配置maven"></a>5.打开eclipse,配置maven</h2><p>window–&gt;preference–&gt;maven–&gt;installations–&gt;add–&gt;<br>D:\java\maven\apache-maven-3.6.1–&gt;apply</p>
+<p>window–&gt;preference–&gt;maven–&gt;user settings–&gt;update<br>如果更新后仓库路径和 2.修改配置文件 路径一样，则apply后退出即可</p>
+<h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjytz6cht0001m0vgxg68jpbj" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjyzs11k70000ykvgqzbf11kx" class="article-share-link">分享</a>
       
       
       
@@ -145,17 +152,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/06/maven安装2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/31/DataNode无法启动/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/06/maven安装2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -193,7 +191,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop2-8运行自带的Wordcount"><span class="toc-number">1.</span> <span class="toc-text">hadoop2.8运行自带的Wordcount</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在windows下安装maven"><span class="toc-number">1.</span> <span class="toc-text">在windows下安装maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-先在官网下载maven-并解压在自定义路径"><span class="toc-number">2.</span> <span class="toc-text">1.先在官网下载maven,并解压在自定义路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-修改配置文件"><span class="toc-number">3.</span> <span class="toc-text">2.修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-修改环境变量"><span class="toc-number">4.</span> <span class="toc-text">3.修改环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-测试是否安装成功"><span class="toc-number">5.</span> <span class="toc-text">4.测试是否安装成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-打开eclipse-配置maven"><span class="toc-number">6.</span> <span class="toc-text">5.打开eclipse,配置maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-创建maven工程，配置pom-xml-这个镜像可用"><span class="toc-number">7.</span> <span class="toc-text">6.创建maven工程，配置pom.xml    (这个镜像可用)</span></a></li></ol>
           </div>
       </div>
     </div>

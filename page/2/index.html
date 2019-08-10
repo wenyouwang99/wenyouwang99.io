@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://wenyouwang99.io/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://wenyouwang99.io"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-wordcount2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/31/wordcount2/" class="article-date">
+  <time datetime="2019-07-31T12:23:18.563Z" itemprop="datePublished">2019-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="运行自己写的wordcount程序"><a href="#运行自己写的wordcount程序" class="headerlink" title="运行自己写的wordcount程序"></a>运行自己写的wordcount程序</h2><h2 id="1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce"><a href="#1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce" class="headerlink" title="1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce"></a>1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce</h2><h2 id="2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功"><a href="#2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功" class="headerlink" title="2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)"></a>2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)</h2><p>hadoop dfs -put /opt/hadoop/file/file1.txt /input</p>
+<h2 id="3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令"><a href="#3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令" class="headerlink" title="3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令"></a>3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令</h2><p>yarn jar /opt/hadoop/share/hadoop/mapreduce/wc.jar hadoop.task /input /output3          (我的wordcount程序名叫wc.jar)</p>
+<h2 id="4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件"><a href="#4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件" class="headerlink" title="4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件"></a>4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件</h2><p>yarn jar /opt/hadoop/share/hadoop/mapreduce/wc.jar hadoop.task /input/file1.txt /output3</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz5ijkr900070svg6d3pfevj" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-wordcount" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/31/wordcount/" class="article-date">
+  <time datetime="2019-07-31T11:50:11.181Z" itemprop="datePublished">2019-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hadoop2-8运行自带的Wordcount"><a href="#hadoop2-8运行自带的Wordcount" class="headerlink" title="hadoop2.8运行自带的Wordcount"></a>hadoop2.8运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
+<p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
+<p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
+<p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>
+<p>⑤现在已经将文件上传到HDFS上了，接下来就要用hadoop自带的Wordcount程序对其进行统计<br>首先进入到Wordcount程序所在目录（找自己的hadoop的安装目录）<br>cd /opt/hadoop/share/hadoop//mapreduce/<br>ll<br>hadoop-mapreduce-examples-2.7.2.jar<br>hadoop jar hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output</p>
+<p>执行命令运行Wordcount程序，并将结果输出到/output目录下（输出目录自动生成，不可提前创建）<br>hadoop dfs -ls /output      （output作为输入结果的文件，不能提前存在，必须是临时生成的）</p>
+<p>⑥上面说明job已经成功运行。接下来看输出结果。先查看/output目录下新生成的文件，我们的统计结果在part-r-00000文件中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz5ijkr800060svg5uzrrehm" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-DataNode无法启动" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/31/DataNode无法启动/" class="article-date">
+  <time datetime="2019-07-31T10:33:07.440Z" itemprop="datePublished">2019-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法</p>
+<p>##第一次启动时没有问题<br>第二次启动时会有文件残留<br>产生一个新的namenode文件（id），就不认识以前的namenode了<br>导致集群不能正常启动<br>解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））</p>
+<p>##rm -rf /tmp    (从节点都要执行)</p>
+<p>##hdfs namenode -format (主节点执行)</p>
+<p>##主从节点都   jps    然后就成功启动了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjz5ijkqr00000svg9t0hnuqc" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/25/hello-world/" class="article-date">
+  <time datetime="2019-07-25T09:06:02.527Z" itemprop="datePublished">2019-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/25/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="hello-hexo"><a href="#hello-hexo" class="headerlink" title="hello hexo"></a><h1>hello hexo</h1></h2><h2 id="hello-hexo-1"><a href="#hello-hexo-1" class="headerlink" title="hello hexo"></a><h3s>hello hexo</h3s></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjz5ijkr100020svgxvw74moz" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/10/二次排序/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/数据去重/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/数据排序/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/09/平均成绩/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/06/在eclipse中向hdfs上传文件/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 WenYouWang&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;youemail@outlook.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

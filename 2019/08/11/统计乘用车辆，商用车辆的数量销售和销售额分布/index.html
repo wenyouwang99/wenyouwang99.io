@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="运行自己写的wordcount程序1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)hadoop dfs -put /opt/h">
+  <meta name="description" content="统计乘用车辆，商用车辆的数量销售和销售额分布/**     * 根据汽车所属（个人，商用）来进行划分     * 计算乘用车辆，商用车辆各自的数量，以及各自所占的比重     */    public static class CountMap extends Mapper&amp;lt;LongWritable, Text, Text, LongWritable&amp;gt;{     @Override">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/07/31/wordcount2/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="运行自己写的wordcount程序1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)hadoop dfs -put /opt/h">
+<meta property="og:description" content="统计乘用车辆，商用车辆的数量销售和销售额分布/**     * 根据汽车所属（个人，商用）来进行划分     * 计算乘用车辆，商用车辆各自的数量，以及各自所占的比重     */    public static class CountMap extends Mapper&amp;lt;LongWritable, Text, Text, LongWritable&amp;gt;{     @Override">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-02T07:08:45.350Z">
+<meta property="og:updated_time" content="2019-08-11T09:47:01.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="运行自己写的wordcount程序1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)hadoop dfs -put /opt/h">
+<meta name="twitter:description" content="统计乘用车辆，商用车辆的数量销售和销售额分布/**     * 根据汽车所属（个人，商用）来进行划分     * 计算乘用车辆，商用车辆各自的数量，以及各自所占的比重     */    public static class CountMap extends Mapper&amp;lt;LongWritable, Text, Text, LongWritable&amp;gt;{     @Override">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-wordcount2" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-统计乘用车辆，商用车辆的数量销售和销售额分布" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/07/31/wordcount2/" class="article-date">
-  <time datetime="2019-07-31T12:23:18.563Z" itemprop="datePublished">2019-07-31</time>
+    <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="article-date">
+  <time datetime="2019-08-11T09:47:01.730Z" itemprop="datePublished">2019-08-11</time>
 </a>
     
   </div>
@@ -82,14 +82,61 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="运行自己写的wordcount程序"><a href="#运行自己写的wordcount程序" class="headerlink" title="运行自己写的wordcount程序"></a>运行自己写的wordcount程序</h2><h2 id="1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce"><a href="#1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce" class="headerlink" title="1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce"></a>1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce</h2><h2 id="2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功"><a href="#2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功" class="headerlink" title="2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)"></a>2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)</h2><p>hadoop dfs -put /opt/hadoop/file/file1.txt /input</p>
-<h2 id="3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令"><a href="#3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令" class="headerlink" title="3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令"></a>3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令</h2><p>yarn jar /opt/hadoop/share/hadoop/mapreduce/wc.jar hadoop.task /input /output3          (我的wordcount程序名叫wc.jar)</p>
-<h2 id="4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件"><a href="#4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件" class="headerlink" title="4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件"></a>4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件</h2><p>yarn jar /opt/hadoop/share/hadoop/mapreduce/wc.jar hadoop.task /input/file1.txt /output3</p>
+        <h2 id="统计乘用车辆，商用车辆的数量销售和销售额分布"><a href="#统计乘用车辆，商用车辆的数量销售和销售额分布" class="headerlink" title="统计乘用车辆，商用车辆的数量销售和销售额分布"></a>统计乘用车辆，商用车辆的数量销售和销售额分布</h2><p>/**<br>     * 根据汽车所属（个人，商用）来进行划分<br>     * 计算乘用车辆，商用车辆各自的数量，以及各自所占的比重<br>     */<br>    public static class CountMap extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{</p>
+<pre><code>    @Override
+    public void map(LongWritable key, Text value,                
+            Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context)
+            throws IOException, InterruptedException {
 
+        String [] owns = value.toString().trim().split(&quot; &quot;);
+        if(null != owns &amp;&amp; owns.length &gt; 10 &amp;&amp; owns[10] != null) {
+            if(owns[10].equals(&quot;非营运&quot;)) {
+                context.write(new Text(&quot;乘用车辆&quot;), new LongWritable(1));
+            }else {
+                context.write(new Text(&quot;商用车辆&quot;), new LongWritable(1));
+            }
+        }             
+    };
+}
+
+
+
+
+/**
+ * 统计乘用车辆和商用车辆的数量以及他们的总量
+ */
+public static class CountReduce extends Reducer&lt;Text, LongWritable, Text, DoubleWritable&gt; {
+    Map&lt;String,Long&gt; maps = new HashMap&lt;String,Long&gt;();
+    //准备存放非营运的乘用车辆和营运的商用车辆的总和
+    double all = 0;
+    @Override
+    public void reduce(Text key, Iterable&lt;LongWritable&gt; values,Context context) throws IOException, InterruptedException {
+         Long sum = (long) 0;
+         for (LongWritable val : values) {
+            sum += val.get();
+        }
+         //求出车辆的总和
+         all += sum;
+         maps.put(key.toString(),sum);
+    };
+
+    protected  void cleanup(
+            org.apache.hadoop.mapreduce.Reducer&lt;Text, LongWritable, Text, DoubleWritable&gt;.Context context) throws IOException, InterruptedException {
+        Set&lt;String&gt; keySet = maps.keySet();
+        //循环set集合中的乘用车辆和商用车辆的数量
+        for (String str : keySet) {
+            long value = maps.get(str);
+            //用乘用车辆/总量  和  商用车辆/总量，求出各自的比例
+            double percent = value/all;
+            //输出的key为车辆类型，value的值为该车辆类型的占比
+            context.write(new Text(str), new DoubleWritable(percent));
+        }
+    };
+}</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz5il7jc00082kvgk1yonszf" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjz6sdaxp000008vgy9lu8y71" class="article-share-link">分享</a>
       
       
       
@@ -141,17 +188,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/06/maven安装2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/31/wordcount/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/10/二次排序/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -189,7 +227,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行自己写的wordcount程序"><span class="toc-number">1.</span> <span class="toc-text">运行自己写的wordcount程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce"><span class="toc-number">2.</span> <span class="toc-text">1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功"><span class="toc-number">3.</span> <span class="toc-text">2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令"><span class="toc-number">4.</span> <span class="toc-text">3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件"><span class="toc-number">5.</span> <span class="toc-text">4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计乘用车辆，商用车辆的数量销售和销售额分布"><span class="toc-number">1.</span> <span class="toc-text">统计乘用车辆，商用车辆的数量销售和销售额分布</span></a></li></ol>
           </div>
       </div>
     </div>

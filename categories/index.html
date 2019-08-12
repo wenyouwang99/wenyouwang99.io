@@ -2,23 +2,19 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-<title>Hexo</title>
+<title>Categorias - Hexo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="hdfs文件的读取  (在eclipse中console输出)package com.qf.a.b; import java.io.IOException; import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.fs.FSDataInputStream;import org.apache.hadoop.fs.Fil">
-<meta property="og:type" content="article">
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/categories/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hdfs文件的读取  (在eclipse中console输出)package com.qf.a.b; import java.io.IOException; import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.fs.FSDataInputStream;import org.apache.hadoop.fs.Fil">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wenyouwang99.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-08-06T12:46:06.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hdfs文件的读取  (在eclipse中console输出)package com.qf.a.b; import java.io.IOException; import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.fs.FSDataInputStream;import org.apache.hadoop.fs.Fil">
 <meta name="twitter:image" content="https://wenyouwang99.io/images/og_image.png">
 
 
@@ -93,7 +89,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt height="28">
+                <img src="/images/logo.svg" alt="Hexo" height="28">
             
             </a>
         </div>
@@ -105,7 +101,7 @@
                 
                 <a class="navbar-item" href="/archives">Archives</a>
                 
-                <a class="navbar-item" href="/categories">Categories</a>
+                <a class="navbar-item is-active" href="/categories">Categories</a>
                 
                 <a class="navbar-item" href="/tags">Tags</a>
                 
@@ -138,115 +134,19 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-06T12:14:14.636Z">2019-08-06</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 113 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                
-            
-        </h1>
-        <div class="content">
-            <h2 id="hdfs文件的读取-在eclipse中console输出"><a href="#hdfs文件的读取-在eclipse中console输出" class="headerlink" title="hdfs文件的读取  (在eclipse中console输出)"></a>hdfs文件的读取  (在eclipse中console输出)</h2><p>package com.qf.a.b;</p>
-<p>import java.io.IOException;</p>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.FSDataInputStream;<br>import org.apache.hadoop.fs.FileSystem;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.IOUtils;</p>
-<p>public class hdfs {<br>    public static void main(String[] args) throws IOException {<br>        readFileToConsole(“/input/a.txt”);<br>    }</p>
-<pre><code>public static void readFileToConsole(String pat) throws IOException {
-    Configuration conf = new Configuration();
-    conf.set(&quot;fs.defaultFS&quot;,&quot;hdfs://192.168.8.10:9000&quot;);
-    FileSystem fs = FileSystem.get(conf);
-    //String path = null;
-    //FSDataInputStream fis = fs.open(new Path(path));
-    FSDataInputStream fis = fs.open(new Path(&quot;/input/a.txt&quot;));
-    IOUtils.copyBytes(fis, System.out, 4096, true);
-
-
-}</code></pre><p>}</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-<div class="card">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card widget">
     <div class="card-content">
-        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
-        <div class="buttons is-centered">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categorias
+            </h3>
+            <ul class="menu-list">
             
-                
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
-
-<div class="notification is-danger">
-    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
-</div>
-
-                
+            </ul>
         </div>
     </div>
-</div>
-
-
-
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/08/06/hdfs文件读取2/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item"></span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/06/maven安装1/">
-                <span class="level-item"></span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-
-</div>
+</div></div>
                 
 
 
@@ -748,7 +648,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt height="28">
+                    <img src="/images/logo.svg" alt="Hexo" height="28">
                 
                 </a>
                 <p class="is-size-7">

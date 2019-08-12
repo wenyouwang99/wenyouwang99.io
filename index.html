@@ -1,21 +1,125 @@
 <!DOCTYPE html>
-<html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-<title>Hexo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 
 
 
-    <meta property="og:type" content="website">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://wenyouwang99.io/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://wenyouwang99.io/images/og_image.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:image" content="https://wenyouwang99.io/images/og_image.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://wenyouwang99.io/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hexo</title>
+  
 
 
 
@@ -23,232 +127,246 @@
 
 
 
-<link rel="icon" href="/images/favicon.svg">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
 
 
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
 
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    
-    
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-
-    
-    
-    
-
-
-<link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="is-3-column">
-    <nav class="navbar navbar-main">
-    <div class="container">
-        <div class="navbar-brand is-flex-center">
-            <a class="navbar-item navbar-logo" href="/">
-            
-                <img src="/images/logo.svg" alt="Hexo" height="28">
-            
-            </a>
-        </div>
-        <div class="navbar-menu">
-            
-            <div class="navbar-start">
-                
-                <a class="navbar-item is-active" href="/">Home</a>
-                
-                <a class="navbar-item" href="/archives">Archives</a>
-                
-                <a class="navbar-item" href="/categories">Categories</a>
-                
-                <a class="navbar-item" href="/tags">Tags</a>
-                
-                <a class="navbar-item" href="/about">About</a>
-                
-            </div>
-            
-            <div class="navbar-end">
-                
-                    
-                    
-                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                    
-                
-                
-                
-                <a class="navbar-item search" title="Search" href="javascript:;">
-                    <i class="fas fa-search"></i>
-                </a>
-                
-            </div>
-        </div>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Cambiar a barra de navegación">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Inicio</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archivo</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
 </nav>
-    
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-12T11:30:22.851Z">2019-08-12</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 32 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/12/test1/"></a>
-            
-        </h1>
-        <div class="content">
-            <p>title: 标签测试<br>tags:</p>
-<ul>
-<li>Testing                   （这个就是文章的标签了）</li>
-<li>Another Tag               （这个就是文章的标签了</li>
-</ul>
 
-        </div>
-        
-        
-        
-    </div>
+
+
+  
+
+
+
 </div>
+    </header>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-12T11:29:38.712Z">2019-08-12</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 19 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
             
-                <a class="has-link-black-ter" href="/2019/08/12/test/"></a>
-            
-        </h1>
-        <div class="content">
-            <p>title: 分类测试<br>categories:</p>
-<ul>
-<li>hexo                       （这个就是文章的分类了）</li>
-</ul>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
+  <section id="posts" class="posts-expand">
     
-    <div class="card-content article ">
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-11T09:47:01.730Z">2019-08-11</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 minutes read (About 320 words)
-                </span>
+                <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-11 17:47:01" itemprop="dateCreated datePublished" datetime="2019-08-11T17:47:01+08:00">2019-08-11</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="统计乘用车辆，商用车辆的数量销售和销售额分布"><a href="#统计乘用车辆，商用车辆的数量销售和销售额分布" class="headerlink" title="统计乘用车辆，商用车辆的数量销售和销售额分布"></a>统计乘用车辆，商用车辆的数量销售和销售额分布</h2><p>/**<br>     * 根据汽车所属（个人，商用）来进行划分<br>     * 计算乘用车辆，商用车辆各自的数量，以及各自所占的比重<br>     */<br>    public static class CountMap extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{</p>
 <pre><code>    @Override
     public void map(LongWritable key, Text value,                
@@ -300,45 +418,150 @@ public static class CountReduce extends Reducer&lt;Text, LongWritable, Text, Dou
         }
     };
 }</code></pre>
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/10/二次排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-10T12:13:35.519Z">2019-08-10</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 830 words)
-                </span>
+                <a href="/2019/08/10/二次排序/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-10 20:13:35 / Modificado por: 20:18:52" itemprop="dateCreated datePublished" datetime="2019-08-10T20:13:35+08:00">2019-08-10</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/10/二次排序/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="二次排序（对key-value都排序）"><a href="#二次排序（对key-value都排序）" class="headerlink" title="二次排序（对key,value都排序）"></a>二次排序（对key,value都排序）</h2><pre><code>import org.apache.hadoop.conf.Configured;</code></pre><p>   import org.apache.hadoop.io.WritableComparable;<br>   import java.io.DataInput;<br>   import java.io.DataOutput;<br>   import java.io.IOException;<br>   import org.apache.hadoop.io.*;<br>   import org.apache.hadoop.mapreduce.Partitioner;<br>   import org.apache.hadoop.mapreduce.Mapper;<br>   import org.apache.hadoop.mapreduce.Reducer;<br>  import org.apache.hadoop.conf.Configuration;<br>  import org.apache.hadoop.fs.FileSystem;<br>  import org.apache.hadoop.fs.Path;<br>  import org.apache.hadoop.mapreduce.Job;<br>  import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>  import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;<br>  import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;<br>  import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;<br>  import org.apache.hadoop.util.Tool;<br>  import org.apache.hadoop.util.ToolRunner;<br>  import org.slf4j.Logger;<br>  import org.slf4j.LoggerFactory;</p>
 <p>  public class SecondrySort extends Configured implements Tool {</p>
 <pre><code>static class Fruit implements WritableComparable&lt;Fruit&gt;{
@@ -524,45 +747,146 @@ public int run(String[] args) throws Exception {
 <p>总结：</p>
 <p>1、在使用实现WritableComparable接口的方式实现自定义比较器时，必须有一个无参的构造函数。否则会报Unable to initialize any output collector的错误。<br>2、readFields和write方法中处理字段的顺序必须一致，否则会报MapReduce Error: java.io.EOFException at java.io.DataInputStream.readFully(DataInputStream.java:197)的错误。</p>
 
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/09/数据去重/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-09T10:56:25.743Z">2019-08-09</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 58 words)
-                </span>
+                <a href="/2019/08/09/数据去重/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-09 18:56:25" itemprop="dateCreated datePublished" datetime="2019-08-09T18:56:25+08:00">2019-08-09</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/09/数据去重/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>        private static Text line = new Text();</p>
 <pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
         line = value;
@@ -577,45 +901,146 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
         context.write(key, new Text(&quot;&quot;));
     }
 }</code></pre>
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/09/数据排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-09T10:55:12.862Z">2019-08-09</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 79 words)
-                </span>
+                <a href="/2019/08/09/数据排序/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-09 18:55:12" itemprop="dateCreated datePublished" datetime="2019-08-09T18:55:12+08:00">2019-08-09</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/09/数据排序/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
 <pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
         String line = value.toString();
@@ -636,45 +1061,146 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
         }
     }
 }</code></pre>
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/09/平均成绩/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-09T10:53:39.751Z">2019-08-09</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 110 words)
-                </span>
+                <a href="/2019/08/09/平均成绩/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-09 18:53:39" itemprop="dateCreated datePublished" datetime="2019-08-09T18:53:39+08:00">2019-08-09</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/09/平均成绩/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="平均成绩"><a href="#平均成绩" class="headerlink" title="平均成绩"></a>平均成绩</h2><p>mapreduce 计算平均成绩</p>
 <p>  public static class Map extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
 <pre><code>    public void map(LongWritable key,Text value,Context context)throws IOException, InterruptedException{
@@ -704,45 +1230,150 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
         context.write(key, new IntWritable(average));
     }
 }</code></pre>
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-06T13:35:27.305Z">2019-08-06</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 91 words)
-                </span>
+                <a href="/2019/08/06/在eclipse中向hdfs上传文件/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-06 21:35:27 / Modificado por: 21:37:07" itemprop="dateCreated datePublished" datetime="2019-08-06T21:35:27+08:00">2019-08-06</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/06/在eclipse中向hdfs上传文件/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="在eclipse中向hdfs上传文件"><a href="#在eclipse中向hdfs上传文件" class="headerlink" title="在eclipse中向hdfs上传文件"></a>在eclipse中向hdfs上传文件</h2><p>public class hdfs {</p>
 <pre><code>static FileSystem fs = null;
 static{
@@ -767,45 +1398,160 @@ fs.copyFromLocalFile(new Path(&quot;D:\\text\\123.txt&quot;),new Path(&quot;/inp
 System.out.println(&quot;finished...&quot;);
 }    </code></pre><p>}</p>
 
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-06T13:29:08.157Z">2019-08-06</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 115 words)
+                <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
+                
+              
+
+              <time title="Creado por: 2019-08-06 21:29:08" itemprop="dateCreated datePublished" datetime="2019-08-06T21:29:08+08:00">2019-08-06</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
+                  <span class="post-meta-item-text">Editado el</span>
                 
-            </div>
+                <time title="Modificado por: 2019-08-10 20:20:56" itemprop="dateModified" datetime="2019-08-10T20:20:56+08:00">2019-08-10</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="解决eclipse中无法执行向hadoop上传文件问题"><a href="#解决eclipse中无法执行向hadoop上传文件问题" class="headerlink" title="解决eclipse中无法执行向hadoop上传文件问题"></a>解决eclipse中无法执行向hadoop上传文件问题</h2><p>main……的问题</p>
 <p>Permission denied: user=zhuy, access=WRITE, inode=”/user”:root:supergroup:drwxr-xr-x<br>从这句话我们可知道是权限问题</p>
 <p>所以要修改权限在  hdfs-site.xml加入如下代码   （每台都要修改）</p>
@@ -820,45 +1566,150 @@ System.out.println(&quot;finished...&quot;);
       owner or group of files or directories.
     &lt;/description&gt;
 &lt;/property&gt;</code></pre>
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
-
-
-
-
-
-
-
-    <div class="card">
     
-    <div class="card-content article ">
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-06T12:45:49.641Z">2019-08-06</time>
+        
+          <h1 class="post-title" itemprop="name headline">
                 
                 
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 110 words)
-                </span>
+                <a href="/2019/08/06/hdfs文件读取2/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
                 
-                
-            </div>
+              
+
+              <time title="Creado por: 2019-08-06 20:45:49 / Modificado por: 20:51:54" itemprop="dateCreated datePublished" datetime="2019-08-06T20:45:49+08:00">2019-08-06</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/06/hdfs文件读取2/"></a>
-            
-        </h1>
-        <div class="content">
+          
             <h2 id="hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成"><a href="#hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成" class="headerlink" title="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )"></a>hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )</h2><p>package com.qf.a.b;</p>
 <p>import java.io.File;<br>import java.io.FileOutputStream;<br>import java.io.IOException;<br>import java.io.OutputStream;<br>import java.net.URI;</p>
 <p>public static void readFileToLocal(String path) throws IOException {</p>
@@ -883,713 +1734,616 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
 }
 
 }</code></pre>
-        </div>
+          
         
-        
-        
+      
     </div>
-</div>
 
+    
 
+    
+    
+    
 
+    
 
+    
+      
+    
+    
 
+    
 
+    <footer class="post-footer">
+      
 
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
     
-<div class="card card-transparent">
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <div class="pagination-previous is-invisible is-hidden-mobile">
-            <a class="is-flex-grow has-text-black-ter" href="/page/0/">Anterior</a>
-        </div>
-        <div class="pagination-next">
-            <a class="is-flex-grow has-text-black-ter" href="/page/2/">Siguiente</a>
-        </div>
-        <ul class="pagination-list is-hidden-mobile">
-            
-            <li><a class="pagination-link is-current" href="/">1</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
-            
-        </ul>
-    </nav>
-</div>
-</div>
-                
+      
 
+  
 
+  
+  
+  
 
+  
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
     
+      <header class="post-header">
+
         
-<div class="card widget">
-    <div class="card-content">
-        <nav class="level">
-            <div class="level-item has-text-centered" style="flex-shrink: 1">
-                <div>
-                    
-                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="Your name">
-                    
-                    
-                    <p class="is-size-4 is-block">
-                        Your name
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-block">
-                        Your title
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
-                        <i class="fas fa-map-marker-alt has-mr-7"></i>
-                        <span>Your location</span>
-                    </p>
-                    
-                </div>
-            </div>
-        </nav>
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        Entradas
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        17
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        Categorias
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        0
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        Etiquetas
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        0
-                    </p>
-                </div>
-            </div>
-        </nav>
-        <div class="level">
-            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
-                SEGUIR</a>
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/06/hdfs文件的读取/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
+                
+              
+
+              <time title="Creado por: 2019-08-06 20:14:14 / Modificado por: 20:46:06" itemprop="dateCreated datePublished" datetime="2019-08-06T20:14:14+08:00">2019-08-06</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
+          
+            <h2 id="hdfs文件的读取-在eclipse中console输出"><a href="#hdfs文件的读取-在eclipse中console输出" class="headerlink" title="hdfs文件的读取  (在eclipse中console输出)"></a>hdfs文件的读取  (在eclipse中console输出)</h2><p>package com.qf.a.b;</p>
+<p>import java.io.IOException;</p>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.FSDataInputStream;<br>import org.apache.hadoop.fs.FileSystem;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.IOUtils;</p>
+<p>public class hdfs {<br>    public static void main(String[] args) throws IOException {<br>        readFileToConsole(“/input/a.txt”);<br>    }</p>
+<pre><code>public static void readFileToConsole(String pat) throws IOException {
+    Configuration conf = new Configuration();
+    conf.set(&quot;fs.defaultFS&quot;,&quot;hdfs://192.168.8.10:9000&quot;);
+    FileSystem fs = FileSystem.get(conf);
+    //String path = null;
+    //FSDataInputStream fis = fs.open(new Path(path));
+    FSDataInputStream fis = fs.open(new Path(&quot;/input/a.txt&quot;));
+    IOUtils.copyBytes(fis, System.out, 4096, true);
+
+
+}</code></pre><p>}</p>
+
+          
         
-        <div class="level is-mobile">
-            
-            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/ppoffice">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="https://facebook.com">
-                
-                <i class="fab fa-facebook"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com">
-                
-                <i class="fab fa-twitter"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="https://dribbble.com">
-                
-                <i class="fab fa-dribbble"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
-                
-                <i class="fas fa-rss"></i>
-                
-            </a>
-            
-        </div>
-        
+      
     </div>
-</div>
+
     
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenyouwang99.io/2019/08/06/maven安装1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WenYouWang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-    
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/06/maven安装1/" class="post-title-link" itemprop="url">Sin título</a>
+              
+            
+          </h1>
         
 
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Links
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Publicado el</span>
+              
+
+              
+                
+              
+
+              <time title="Creado por: 2019-08-06 20:04:00" itemprop="dateCreated datePublished" datetime="2019-08-06T20:04:00+08:00">2019-08-06</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="在windows下安装maven"><a href="#在windows下安装maven" class="headerlink" title="在windows下安装maven"></a>在windows下安装maven</h2><h2 id="1-先在官网下载maven-并解压在自定义路径"><a href="#1-先在官网下载maven-并解压在自定义路径" class="headerlink" title="1.先在官网下载maven,并解压在自定义路径"></a>1.先在官网下载maven,并解压在自定义路径</h2><p>我的路径 D:\java\maven\apache-maven-3.6.1</p>
+<h2 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h2><p>D:\java\maven\apache-maven-3.6.1\conf\settings</p>
+<!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+<p>  <localrepository>D:\java\mavenrepository</localrepository><br>  自定义maven仓库路径，里面是存放jar包的</p>
+<h2 id="3-修改环境变量"><a href="#3-修改环境变量" class="headerlink" title="3.修改环境变量"></a>3.修改环境变量</h2><p>在系统变量中添加<br>MAVEN_HOME<br>D:\java\maven\apache-maven-3.6.1</p>
+<p>Path<br>D:\java\maven\apache-maven-3.6.1\bin</p>
+<h2 id="4-测试是否安装成功"><a href="#4-测试是否安装成功" class="headerlink" title="4.测试是否安装成功"></a>4.测试是否安装成功</h2><p>win+r<br>mvn -v</p>
+<h2 id="5-打开eclipse-配置maven"><a href="#5-打开eclipse-配置maven" class="headerlink" title="5.打开eclipse,配置maven"></a>5.打开eclipse,配置maven</h2><p>window–&gt;preference–&gt;maven–&gt;installations–&gt;add–&gt;<br>D:\java\maven\apache-maven-3.6.1–&gt;apply</p>
+<p>window–&gt;preference–&gt;maven–&gt;user settings–&gt;update<br>如果更新后仓库路径和 2.修改配置文件 路径一样，则apply后退出即可</p>
+<h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2>
+          
+        
+      
     </div>
-</div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
     
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Categorias
-            </h3>
-            <ul class="menu-list">
-            
-            </ul>
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Página siguiente"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
         </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
-</div>
-    
-        
-    
-    
-        <div class="column-right-shadow is-hidden-widescreen ">
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recientes
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/08/12/test1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-12T11:30:22.851Z">2019-08-12</time></div>
-                    <a href="/2019/08/12/test1/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/12/test/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-12T11:29:38.712Z">2019-08-12</time></div>
-                    <a href="/2019/08/12/test/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-11T09:47:01.730Z">2019-08-11</time></div>
-                    <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/10/二次排序/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-10T12:13:35.519Z">2019-08-10</time></div>
-                    <a href="/2019/08/10/二次排序/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/09/数据去重/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-09T10:56:25.743Z">2019-08-09</time></div>
-                    <a href="/2019/08/09/数据去重/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
+  </div>
 
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archivos
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">13</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/07/">
-                <span class="level-start">
-                    <span class="level-item">July 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">WenYouWang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">entradas</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
         </div>
+      </div>
+
+      
+
+      
+
     </div>
-</div>
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Etiquetas
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-        
-        </div>
-    
-</div>
-
-                
+  </aside>
+  
 
 
+        
+      </div>
+    </main>
 
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WenYouWang</span>
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recientes
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/08/12/test1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-12T11:30:22.851Z">2019-08-12</time></div>
-                    <a href="/2019/08/12/test1/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/12/test/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-12T11:29:38.712Z">2019-08-12</time></div>
-                    <a href="/2019/08/12/test/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-11T09:47:01.730Z">2019-08-11</time></div>
-                    <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/10/二次排序/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-10T12:13:35.519Z">2019-08-10</time></div>
-                    <a href="/2019/08/10/二次排序/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/09/数据去重/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-09T10:56:25.743Z">2019-08-09</time></div>
-                    <a href="/2019/08/09/数据去重/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
+  
+
+  
 </div>
 
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archivos
-        </h3>
-        <ul class="menu-list">
+
+  <div class="powered-by">Creado mediante <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Tema – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.2.0</div>
+
+
+
+
         
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">August 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">13</span>
-                </span>
-            </a>
-        </li>
+
+
+
+
+
+
+
+
         
-        <li>
-            <a class="level is-marginless" href="/archives/2019/07/">
-                <span class="level-start">
-                    <span class="level-item">July 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
         
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Etiquetas
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
-            </div>
-        </div>
-    </section>
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
-                
-                    <img src="/images/logo.svg" alt="Hexo" height="28">
-                
-                </a>
-                <p class="is-size-7">
-                &copy; 2019 WenYouWang&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
-                
-                </p>
-            </div>
-            <div class="level-end">
-            
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
-                </div>
-            
-            </div>
-        </div>
-    </div>
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("en");</script>
-
-
-    
-    
-    
-    <script src="/js/animation.js"></script>
+      </div>
     
 
     
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-    <script src="/js/gallery.js" defer></script>
+
     
 
     
-    
+  </div>
 
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+  
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
-</script>
-
-    
-    
-
-<a id="back-to-top" title="Back to Top" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
 
 
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
-    <script src="/js/clipboard.js" defer></script>
-    
-
-    
-    
-    
 
 
-<script src="/js/main.js" defer></script>
 
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: 'Entradas',
-                PAGES: 'Pages',
-                CATEGORIES: 'Categorias',
-                TAGS: 'Etiquetas',
-                UNTITLED: '(Untitled)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+
+  
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

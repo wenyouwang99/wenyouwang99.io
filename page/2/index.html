@@ -66,6 +66,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hdfs文件的读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/hdfs文件的读取/" class="article-date">
+  <time datetime="2019-08-06T12:14:14.636Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hdfs文件的读取-在eclipse中console输出"><a href="#hdfs文件的读取-在eclipse中console输出" class="headerlink" title="hdfs文件的读取  (在eclipse中console输出)"></a>hdfs文件的读取  (在eclipse中console输出)</h2><p>package com.qf.a.b;</p>
+<p>import java.io.IOException;</p>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.FSDataInputStream;<br>import org.apache.hadoop.fs.FileSystem;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.IOUtils;</p>
+<p>public class hdfs {<br>    public static void main(String[] args) throws IOException {<br>        readFileToConsole(“/input/a.txt”);<br>    }</p>
+<pre><code>public static void readFileToConsole(String pat) throws IOException {
+    Configuration conf = new Configuration();
+    conf.set(&quot;fs.defaultFS&quot;,&quot;hdfs://192.168.8.10:9000&quot;);
+    FileSystem fs = FileSystem.get(conf);
+    //String path = null;
+    //FSDataInputStream fis = fs.open(new Path(path));
+    FSDataInputStream fis = fs.open(new Path(&quot;/input/a.txt&quot;));
+    IOUtils.copyBytes(fis, System.out, 4096, true);
+
+
+}</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjz8dkot9000180vgrl0f5cpk" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-maven安装1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/06/maven安装1/" class="article-date">
@@ -98,7 +143,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjz8cfv3j00055gvgbk9o4o5z" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjz8dkote000580vgfkngm0g1" class="article-share-link">分享</a>
       
       
       
@@ -192,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjz8cfv3i00045gvgi04epo9w" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjz8dkotf000680vge5jf3bls" class="article-share-link">分享</a>
       
       
       
@@ -225,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz8cfv3k00065gvgi0q2bkll" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz8dkotg000780vgm69vgett" class="article-share-link">分享</a>
       
       
       
@@ -262,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz8cfv3n00075gvg23yb9bf3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz8dkotg000880vgtdyf0k1p" class="article-share-link">分享</a>
       
       
       
@@ -297,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjz8cfv3g00025gvg05kvfgin" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjz8dkot4000080vgiqvf5tza" class="article-share-link">分享</a>
       
       
       
@@ -338,7 +383,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjz8cfv3h00035gvg5zgoos6q" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjz8dkotc000380vg6nf5ck7d" class="article-share-link">分享</a>
       
       
       
@@ -376,6 +421,10 @@
       <ul>
         
           <li>
+            <a href="/2019/08/12/wordcount 完整案例/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/12/hive命令1/">(no title)</a>
           </li>
         
@@ -389,10 +438,6 @@
         
           <li>
             <a href="/2019/08/09/数据去重/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/09/数据排序/">(no title)</a>
           </li>
         
       </ul>

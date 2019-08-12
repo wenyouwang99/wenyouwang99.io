@@ -66,6 +66,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/12/hive命令1/" class="article-date">
+  <time datetime="2019-08-12T12:29:38.492Z" itemprop="datePublished">2019-08-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hive命令"><a href="#hive命令" class="headerlink" title="hive命令"></a>hive命令</h2><p>1.登录到hive<br>cd $HIVE_HOME<br>bin/hive<br>或者环境变量没问题的话，直接hive&gt;</p>
+<p>2.<br>show databases;</p>
+<p>3.<br>show tables;</p>
+<p>4.查看表列的定义<br>describe &lt;表名&gt;;</p>
+<p>5.查看表具体的某一列<br>describe &lt;列名&gt;;</p>
+<p>6.查看10条列的信息<br>select * from &lt;列名&gt; limit 10;</p>
+<p>7.创建数据库(默认创建语法),其位置在hive.metastore.warehouse.dir<br>中定义的默认顶层目录下创建一个&lt;库名&gt;.db的目录<br>create database &lt;库名&gt;;</p>
+<p>8.创建数据库(完整创建语法),with dbproperties可以将<br>任何自定义属性指派给数据库<br>create database if not exists &lt;库名&gt;<br>comment ‘stores all &lt;库名&gt; basket dara’<br>location ‘/opt/hive/&lt;库名&gt;.db’<br>with dbproperties (‘purpose’ = ‘texting’);</p>
+<p>9.查看with dbproperties的属性<br>describe database extended &lt;库名&gt;;</p>
+<p>10.更改数据库<br>alter database &lt;库名&gt;<br>set dbproperties (‘department’ = ‘sales’);</p>
+<p>11.删除数据库,cascade的使用可选,其作用是<br>允许你删除数据库时将已有表一起删除<br>该命令将删除该库所有内部表和外部表<br>drop database &lt;库名&gt; cascade;</p>
+<p>12.列出所有名字是s开头的数据库<br>show databases like ‘s*’;</p>
+<p>13.基本数据类型<br>数值型–存放正负数字和浮点数<br>日期/时间型–存放时间值<br>字符型–将字符和数字存放在字符串中<br>布尔型–true或false<br>二进制型–二进制数的可变长数组</p>
+<p>14.复杂数据类型<br>数组<br>map<br>结构体<br>联合体</p>
+<p>15.数组<br>有序，下标从0开始，和java不同的是，不能在hive数组中定义最大元素值<br>例如，声明一个items数组来保存字符串值<br>items array&lt;”bread”,”butter”,”happy”&gt;<br>字符串的复合集有一个预定义的排序，因此可以从0访问<br>items[0] returns “bread”<br>items[2] returns “happy”</p>
+<p>16.map<br>无序的键/值对集合，map的键可以用基本类型，map的值可以用基本和复杂数据类，map数据类型的元素需要使用键来访问，map数据类型的元素不能用下标访问<br>例如，声明一个包含商品项和数量的basket集合<br>basket map&lt;’string’,’int’&gt;<br>basket map&lt;”eggs”,’12’&gt;<br>通过在map函数中指定商品项，可以打印该商品项的数量<br>basket(“eggs”) returns 12</p>
+<p>17.结构体<br>是一个对象，其中含有多个字段，而这些字段可以是任何数据类型<br>例如，使用struct定义来声明客户的地址记录<br>addrss struct&lt;houseno:string,street:string,city:string,<br>zipcode:int,state:string,country:string&gt;</p>
+<p>address &lt;”17”,”main st”,”seattle”,98104,”wa”,”usa”&gt;<br>可以使用点号来访问某一字段，使用address.zipcode来访问各个地址的邮政编码</p>
+<p>18.联合体<br>联合体提供了一种方法，可以将不同数据类型的元素存储在同一字段的不同行中。<br>当字段的底层数据不同质的时候，这种方法很有用</p>
+<p>例如，如果数据文件中存放了客户的联系信息，但是每条联系信息中包含一个或多个<br>电话号码，或者包含一个或多个电子邮件地址，那么可以声明一个contact变量来存储<br>信息<br>contact uniontype &lt;int,array<int>,string,array<string>&gt;</string></int></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjz8dk8oy0000x0vghvk7ua1l" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-统计乘用车辆，商用车辆的数量销售和销售额分布" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="article-date">
@@ -134,7 +184,7 @@ public static class CountReduce extends Reducer&lt;Text, LongWritable, Text, Dou
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjz8c40rr000dnwvg2bthsn9i" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjz8cfv3s000c5gvgbgeygp5v" class="article-share-link">分享</a>
       
       
       
@@ -348,7 +398,7 @@ public int run(String[] args) throws Exception {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjz8c40uz000enwvgj4rvnp6w" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjz8cfv40000e5gvgekg7lhcn" class="article-share-link">分享</a>
       
       
       
@@ -391,7 +441,7 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjz8c40rp000anwvghbwpxbwu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjz8cfv3q000a5gvg2bd6s6vq" class="article-share-link">分享</a>
       
       
       
@@ -440,7 +490,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjz8c40rq000bnwvg8lxf6tpc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjz8cfv3r000b5gvgm8qs68jg" class="article-share-link">分享</a>
       
       
       
@@ -498,7 +548,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjz8c40rn0009nwvgi4n2mli8" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjz8cfv3p00095gvgq8qiqkuk" class="article-share-link">分享</a>
       
       
       
@@ -551,7 +601,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjz8c40rm0008nwvgj2xvi5pk" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjz8cfv3o00085gvg62gmo9hr" class="article-share-link">分享</a>
       
       
       
@@ -594,7 +644,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjz8c40rr000cnwvgci14jvdc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjz8cfv40000d5gvg6yvvbsej" class="article-share-link">分享</a>
       
       
       
@@ -647,7 +697,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjz8c40rh0004nwvgctmbc6wl" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjz8cfv3900005gvgs2e06o1c" class="article-share-link">分享</a>
       
       
       
@@ -692,51 +742,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjz8c40r90000nwvgr532ebep" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-maven安装1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/06/maven安装1/" class="article-date">
-  <time datetime="2019-08-06T12:04:00.639Z" itemprop="datePublished">2019-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="在windows下安装maven"><a href="#在windows下安装maven" class="headerlink" title="在windows下安装maven"></a>在windows下安装maven</h2><h2 id="1-先在官网下载maven-并解压在自定义路径"><a href="#1-先在官网下载maven-并解压在自定义路径" class="headerlink" title="1.先在官网下载maven,并解压在自定义路径"></a>1.先在官网下载maven,并解压在自定义路径</h2><p>我的路径 D:\java\maven\apache-maven-3.6.1</p>
-<h2 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h2><p>D:\java\maven\apache-maven-3.6.1\conf\settings</p>
-<!-- localRepository
-   | The path to the local repository maven will use to store artifacts.
-   |
-   | Default: ${user.home}/.m2/repository
-  <localRepository>/path/to/local/repo</localRepository>
-  -->
-<p>  <localrepository>D:\java\mavenrepository</localrepository><br>  自定义maven仓库路径，里面是存放jar包的</p>
-<h2 id="3-修改环境变量"><a href="#3-修改环境变量" class="headerlink" title="3.修改环境变量"></a>3.修改环境变量</h2><p>在系统变量中添加<br>MAVEN_HOME<br>D:\java\maven\apache-maven-3.6.1</p>
-<p>Path<br>D:\java\maven\apache-maven-3.6.1\bin</p>
-<h2 id="4-测试是否安装成功"><a href="#4-测试是否安装成功" class="headerlink" title="4.测试是否安装成功"></a>4.测试是否安装成功</h2><p>win+r<br>mvn -v</p>
-<h2 id="5-打开eclipse-配置maven"><a href="#5-打开eclipse-配置maven" class="headerlink" title="5.打开eclipse,配置maven"></a>5.打开eclipse,配置maven</h2><p>window–&gt;preference–&gt;maven–&gt;installations–&gt;add–&gt;<br>D:\java\maven\apache-maven-3.6.1–&gt;apply</p>
-<p>window–&gt;preference–&gt;maven–&gt;user settings–&gt;update<br>如果更新后仓库路径和 2.修改配置文件 路径一样，则apply后退出即可</p>
-<h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjz8c40rh0003nwvge1gyfprf" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjz8cfv3f00015gvgxukftolz" class="article-share-link">分享</a>
       
       
       
@@ -794,6 +800,10 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       <ul>
         
           <li>
+            <a href="/2019/08/12/hive命令1/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/">(no title)</a>
           </li>
         
@@ -809,10 +819,6 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
             <a href="/2019/08/09/数据排序/">(no title)</a>
           </li>
         
-          <li>
-            <a href="/2019/08/09/平均成绩/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -822,7 +828,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 

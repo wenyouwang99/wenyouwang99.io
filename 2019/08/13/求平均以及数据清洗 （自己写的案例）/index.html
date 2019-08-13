@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据排序  public static class Map extends Mapper&amp;lt;Object, Text, IntWritable, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(Object key,Text value,Contex">
+  <meta name="description" content="求平均数以及数据清洗 （自己写的案例）package hadoop;//每个人平均花多少钱//并且对数据进行清洗/**  数据样式：姓名，日期，金额，三个字段 数据： 张三，20198-1，30 张三，20198-2，30 李四，20198-1，30 李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据 李四，20198-3，，      —日期位置是逗号">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/09/数据排序/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 （自己写的案例）/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="数据排序  public static class Map extends Mapper&amp;lt;Object, Text, IntWritable, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(Object key,Text value,Contex">
+<meta property="og:description" content="求平均数以及数据清洗 （自己写的案例）package hadoop;//每个人平均花多少钱//并且对数据进行清洗/**  数据样式：姓名，日期，金额，三个字段 数据： 张三，20198-1，30 张三，20198-2，30 李四，20198-1，30 李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据 李四，20198-3，，      —日期位置是逗号">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-09T10:55:12.863Z">
+<meta property="og:updated_time" content="2019-08-13T09:03:52.805Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="数据排序  public static class Map extends Mapper&amp;lt;Object, Text, IntWritable, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(Object key,Text value,Contex">
+<meta name="twitter:description" content="求平均数以及数据清洗 （自己写的案例）package hadoop;//每个人平均花多少钱//并且对数据进行清洗/**  数据样式：姓名，日期，金额，三个字段 数据： 张三，20198-1，30 张三，20198-2，30 李四，20198-1，30 李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据 李四，20198-3，，      —日期位置是逗号">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-数据排序" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-求平均以及数据清洗 （自己写的案例）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/09/数据排序/" class="article-date">
-  <time datetime="2019-08-09T10:55:12.862Z" itemprop="datePublished">2019-08-09</time>
+    <a href="/2019/08/13/求平均以及数据清洗 （自己写的案例）/" class="article-date">
+  <time datetime="2019-08-13T09:03:52.805Z" itemprop="datePublished">2019-08-13</time>
 </a>
     
   </div>
@@ -82,30 +82,98 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
-<pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
+        <h2 id="求平均数以及数据清洗-（自己写的案例）"><a href="#求平均数以及数据清洗-（自己写的案例）" class="headerlink" title="求平均数以及数据清洗 （自己写的案例）"></a>求平均数以及数据清洗 （自己写的案例）</h2><p>package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
+<ul>
+<li>数据样式：姓名，日期，金额，三个字段</li>
+<li>数据：</li>
+<li>张三，20198-1，30</li>
+<li>张三，20198-2，30</li>
+<li>李四，20198-1，30</li>
+<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
+<li>李四，20198-3，，      —日期位置是逗号</li>
+<li>李四，20198-4， ，     —日期位置是空格</li>
+<li>王五，20198-1</li>
+<li>王五，20198-1，30</li>
+<li>/</li>
+</ul>
+<p>  package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
+<ul>
+<li>数据样式：姓名，日期，金额，三个字段</li>
+<li>数据：</li>
+<li>张三，20198-1，30</li>
+<li>张三，20198-2，30</li>
+<li>李四，20198-1，30</li>
+<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
+<li>李四，20198-3，，      —日期位置是逗号</li>
+<li>李四，20198-4， ，     —日期位置是空格</li>
+<li>王五，20198-1</li>
+<li>王五，20198-1，30</li>
+<li>/<br>import java.io.IOException;</li>
+</ul>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
+<p>public class MapReduce_avgClean {</p>
+<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
+
+    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
+    {
+        //数据样式：姓名，日期，金额，三个字段
         String line = value.toString();
-        data.set(Integer.parseInt(line));
-        context.write(data, new IntWritable(1));
-    }        
+        String[] split = line.split(&quot;,&quot;);
+        //对数据进行过滤，将数组长度不为3的过滤出去
+        //首先将字段不满足数量的过滤掉
+        if(split.length == 3) {
+            //将关键字段不满足需求的进行清洗，回填
+            if(split[2].equals(null) || split[2].equals(&quot;&quot;) || split[2].equals(&quot; &quot;)) {
+                split[2] = &quot;0&quot;;
+            }
+
+            String name = split[0];
+            Long money = Long.parseLong(split[2]);
+            context.write(new Text(name), new LongWritable(money));
+
+        }
+
+    };    
+}
+
+public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
+
+    @Override
+    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
+            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
+        //在reduce算出消费总和，以及消费次数，因为在同一个reduce中是同一个人消费
+        //所以直接算出reduce的数据条数
+        long sum = 0l;
+        //定义次数
+        long count = 0l;
+        for (LongWritable value : v2s) {
+            count++;
+            sum += value.get();
+        }
+        context.write(k2, new LongWritable(sum/count));        
+    }
 }
 
 
+public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, MapReduce_sumClean.class.getSimpleName());
+    job.setJarByClass(MapReduce_avgClean.class);    
+    FileInputFormat.addInputPath(job, new Path(args[0]));    
+    job.setMapperClass(MyMapper.class);    
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(LongWritable.class);
+    job.setReducerClass(MyReduce.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(LongWritable.class);    
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
+    job.waitForCompletion(true);    
+}</code></pre><p>}</p>
 
-
-public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {
-    private static IntWritable linenum = new IntWritable(1);
-    protected void reduce(IntWritable key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
-        for (IntWritable val : values) {
-            context.write(linenum, key);
-            linenum = new IntWritable(linenum.get()+1);
-        }
-    }
-}</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjz8f9gp3000dssvgiukpw3em" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 （自己写的案例）/" data-id="cjz9lsvhw0004f8vg2c52ed1b" class="article-share-link">分享</a>
       
       
       
@@ -157,7 +225,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
     
 <nav id="article-nav">
   
-    <a href="/2019/08/09/数据去重/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/13/hive命令2/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -167,7 +235,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
     </a>
   
   
-    <a href="/2019/08/09/平均成绩/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/13/求和以及数据清洗 （自己写的案例）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -205,7 +273,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据排序"><span class="toc-number">1.</span> <span class="toc-text">数据排序</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#求平均数以及数据清洗-（自己写的案例）"><span class="toc-number">1.</span> <span class="toc-text">求平均数以及数据清洗 （自己写的案例）</span></a></li></ol>
           </div>
       </div>
     </div>

@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+  <meta name="description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct&amp;lt;houseno:string, street:string, city:string&amp;gt;,active boolean,create date,location ‘/opt/stud’">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/07/31/wordcount/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/13/hive命令2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+<meta property="og:description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct&amp;lt;houseno:string, street:string, city:string&amp;gt;,active boolean,create date,location ‘/opt/stud’">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-08T07:22:13.703Z">
+<meta property="og:updated_time" content="2019-08-13T09:04:52.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hadoop2.8运行自带的Wordcount①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件我是在/opt/hadoop路径下创建的文件夹filecd /opt/hadoopmkdir file ②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容cd filevi file1.txt">
+<meta name="twitter:description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct&amp;lt;houseno:string, street:string, city:string&amp;gt;,active boolean,create date,location ‘/opt/stud’">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-wordcount" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/07/31/wordcount/" class="article-date">
-  <time datetime="2019-07-31T11:50:11.181Z" itemprop="datePublished">2019-07-31</time>
+    <a href="/2019/08/13/hive命令2/" class="article-date">
+  <time datetime="2019-08-13T09:04:52.056Z" itemprop="datePublished">2019-08-13</time>
 </a>
     
   </div>
@@ -82,18 +82,24 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hadoop2-8运行自带的Wordcount"><a href="#hadoop2-8运行自带的Wordcount" class="headerlink" title="hadoop2.8运行自带的Wordcount"></a>hadoop2.8运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
-<p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
-<p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
-<p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>
-<p>⑤现在已经将文件上传到HDFS上了，接下来就要用hadoop自带的Wordcount程序对其进行统计<br>首先进入到Wordcount程序所在目录（找自己的hadoop的安装目录）<br>cd /opt/hadoop/share/hadoop//mapreduce/<br>ll<br>hadoop-mapreduce-examples-2.7.2.jar<br>hadoop jar hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output</p>
-<p>执行命令运行Wordcount程序，并将结果输出到/output目录下（输出目录自动生成，不可提前创建）<br>hadoop dfs -ls /output      （output作为输入结果的文件，不能提前存在，必须是临时生成的）</p>
-<p>⑥上面说明job已经成功运行。接下来看输出结果。先查看/output目录下新生成的文件，我们的统计结果在part-r-00000文件中。</p>
+        <h2 id="hive命令2"><a href="#hive命令2" class="headerlink" title="hive命令2"></a>hive命令2</h2><p>1.创建表–stud:表名    retail–数据库名<br>create external table stud(<br>fname string,<br>lname string,<br>address struct&lt;houseno:string, street:string, city:string&gt;,<br>active boolean,<br>create date,<br>location ‘/opt/stud’);</p>
+<p>2.可以在数据库中直接创建一个表<br>在表名前加上数据库名<br>create external table retail.stud(）</p>
+<p>3.列出表<br>show tables in retail</p>
+<p>4.如果数据库中有很多表，可以用通配符搜索特定的表</p>
+<p>5.外部表，其在被删除时，数据保留，在create table 中使用<br>external关键字来创建外部表<br>create external table retail.stud(）</p>
+<p>6.内部表,其在被删除时，数据不保留<br>create table retail.stud(）</p>
+<p>7.查看表内容<br>select * from stud;</p>
+<p>8.查看表的模式，其中在table type中指明表是否是内部表（外部表）<br>describe formatted stud;</p>
+<p>9.表的属性<br>(1)last_modified_user<br>(2)last_modified_time<br>(3)immutable<br>(4)orc.compress<br>(5)skip.header.line.count</p>
+<p>(1)(2)属性可控，由hive自动增加，hive通过它们<br>将上次修改的用户和时间信息存放在metastore中</p>
+<p>(3)当immutable属性设置为true,此时一个表里已经有一些数据了，则无法<br>在向其插入新行，强行插入，会报错<br>insert into text1 values (‘bacon’);<br>failed: SemanticException……..immutable table is not allowed text1</p>
+<p>(4)orc.compress属性用于指定基于orc的存储所采用的算法</p>
+<p>(5)skip.header.line.count<br>使用该属性，可以跳过底层数据文件的标题行<br>例子，如果一个文件中有2个标题行，那么跳过标题行写法如下<br>create external table stud (states string) location ‘/opt/stud’<br>tblproperties(“skip.header.line.count” = “2”);<br>此时创建的新表，再次查询时就会跳过2个标题行来显示文件内容</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz8f9gov0008ssvgedejr1ao" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjz9lsvhi0000f8vgrtidu94b" class="article-share-link">分享</a>
       
       
       
@@ -145,17 +151,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/07/31/wordcount2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/31/DataNode无法启动/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/13/求平均以及数据清洗 （自己写的案例）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -193,7 +190,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop2-8运行自带的Wordcount"><span class="toc-number">1.</span> <span class="toc-text">hadoop2.8运行自带的Wordcount</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hive命令2"><span class="toc-number">1.</span> <span class="toc-text">hive命令2</span></a></li></ol>
           </div>
       </div>
     </div>

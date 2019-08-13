@@ -66,6 +66,262 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-数据排序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/09/数据排序/" class="article-date">
+  <time datetime="2019-08-09T10:55:12.862Z" itemprop="datePublished">2019-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
+<pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
+        String line = value.toString();
+        data.set(Integer.parseInt(line));
+        context.write(data, new IntWritable(1));
+    }        
+}
+
+
+
+
+public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {
+    private static IntWritable linenum = new IntWritable(1);
+    protected void reduce(IntWritable key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
+        for (IntWritable val : values) {
+            context.write(linenum, key);
+            linenum = new IntWritable(linenum.get()+1);
+        }
+    }
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjz8f9gp3000dssvgiukpw3em" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-平均成绩" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/09/平均成绩/" class="article-date">
+  <time datetime="2019-08-09T10:53:39.751Z" itemprop="datePublished">2019-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="平均成绩"><a href="#平均成绩" class="headerlink" title="平均成绩"></a>平均成绩</h2><p>mapreduce 计算平均成绩</p>
+<p>  public static class Map extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
+<pre><code>    public void map(LongWritable key,Text value,Context context)throws IOException, InterruptedException{
+        String line = value.toString();
+        String [] ss = line.split(&quot; &quot;);        
+        String strName = ss[0];
+        String strScore = ss[1];        
+        Text name = new Text(strName);
+        int scoreInt =     Integer.parseInt(strScore);
+        context.write(name, new IntWritable(scoreInt));
+    }        
+}
+
+
+
+
+public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
+    protected void reduce(Text key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
+        int sum = 0;
+        int count = 0;
+        Iterator&lt;IntWritable&gt; iterator = values.iterator();
+        while(iterator.hasNext()) {
+            sum += iterator.next().get();
+            count++;
+        }
+        int average = (int)sum/count;
+        context.write(key, new IntWritable(average));
+    }
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjz8f9gow000assvg93ef6lnu" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-在eclipse中向hdfs上传文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/在eclipse中向hdfs上传文件/" class="article-date">
+  <time datetime="2019-08-06T13:35:27.305Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="在eclipse中向hdfs上传文件"><a href="#在eclipse中向hdfs上传文件" class="headerlink" title="在eclipse中向hdfs上传文件"></a>在eclipse中向hdfs上传文件</h2><p>public class hdfs {</p>
+<pre><code>static FileSystem fs = null;
+static{
+Configuration conf = new Configuration();
+String path = null;
+//fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,root);
+try {
+    fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
+} catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+} catch (InterruptedException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+} catch (URISyntaxException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+}
+}
+public static void copyFromLocal() throws IOException {
+fs.copyFromLocalFile(new Path(&quot;D:\\text\\123.txt&quot;),new Path(&quot;/input/123&quot;));
+System.out.println(&quot;finished...&quot;);
+}    </code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjz8f9goy000bssvgol4znoyd" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-解决eclipse中无法执行向hadoop上传文件问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" class="article-date">
+  <time datetime="2019-08-06T13:29:08.157Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="解决eclipse中无法执行向hadoop上传文件问题"><a href="#解决eclipse中无法执行向hadoop上传文件问题" class="headerlink" title="解决eclipse中无法执行向hadoop上传文件问题"></a>解决eclipse中无法执行向hadoop上传文件问题</h2><p>main……的问题</p>
+<p>Permission denied: user=zhuy, access=WRITE, inode=”/user”:root:supergroup:drwxr-xr-x<br>从这句话我们可知道是权限问题</p>
+<p>所以要修改权限在  hdfs-site.xml加入如下代码   （每台都要修改）</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;dfs.permissions&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+    &lt;description&gt;
+      If &quot;true&quot;, enable permission checking in HDFS.
+      If &quot;false&quot;, permission checking is turned off,
+      but all other behavior is unchanged.
+      Switching from one parameter value to the other does not change the mode,
+      owner or group of files or directories.
+    &lt;/description&gt;
+&lt;/property&gt;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjz8f9gpe000gssvgcl25lj4j" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hdfs文件读取2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/hdfs文件读取2/" class="article-date">
+  <time datetime="2019-08-06T12:45:49.641Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成"><a href="#hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成" class="headerlink" title="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )"></a>hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )</h2><p>package com.qf.a.b;</p>
+<p>import java.io.File;<br>import java.io.FileOutputStream;<br>import java.io.IOException;<br>import java.io.OutputStream;<br>import java.net.URI;</p>
+<p>public static void readFileToLocal(String path) throws IOException {</p>
+<pre><code>FSDataInputStream fis = null;
+OutputStream out = null;
+
+try{
+
+Configuration conf = new Configuration();
+
+FileSystem fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
+fis = fs.open(new Path(path));
+out = new FileOutputStream(new File(&quot;D:\\text\\text.txt01&quot;));
+IOUtils.copyBytes(fis, System.out, 4096, true);
+
+}catch(Exception e){
+
+}finally{
+    fis.close();
+    out.close();
+
+}
+
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjz8f9gop0002ssvgh0uhvugg" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hdfs文件的读取" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/06/hdfs文件的读取/" class="article-date">
@@ -99,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjz8dkot9000180vgrl0f5cpk" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjz8f9goo0001ssvgos4afvoh" class="article-share-link">分享</a>
       
       
       
@@ -143,7 +399,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjz8dkote000580vgfkngm0g1" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjz8f9gos0005ssvgt3esk97h" class="article-share-link">分享</a>
       
       
       
@@ -237,7 +493,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjz8dkotf000680vge5jf3bls" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjz8f9got0006ssvgsd6wv940" class="article-share-link">分享</a>
       
       
       
@@ -270,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz8dkotg000780vgm69vgett" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz8f9gov0009ssvgwwkw5b6p" class="article-share-link">分享</a>
       
       
       
@@ -307,83 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz8dkotg000880vgtdyf0k1p" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-DataNode无法启动" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/07/31/DataNode无法启动/" class="article-date">
-  <time datetime="2019-07-31T10:33:07.440Z" itemprop="datePublished">2019-07-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法</p>
-<p>##第一次启动时没有问题<br>第二次启动时会有文件残留<br>产生一个新的namenode文件（id），就不认识以前的namenode了<br>导致集群不能正常启动<br>解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））</p>
-<p>##rm -rf /tmp    (从节点都要执行)</p>
-<p>##hdfs namenode -format (主节点执行)</p>
-<p>##主从节点都   jps    然后就成功启动了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjz8dkot4000080vgiqvf5tza" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/07/25/hello-world/" class="article-date">
-  <time datetime="2019-07-25T09:06:02.527Z" itemprop="datePublished">2019-07-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="hello-hexo"><a href="#hello-hexo" class="headerlink" title="hello hexo"></a><h1>hello hexo</h1></h2><h2 id="hello-hexo-1"><a href="#hello-hexo-1" class="headerlink" title="hello hexo"></a><h3s>hello hexo</h3s></h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjz8dkotc000380vg6nf5ck7d" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz8f9gov0008ssvgedejr1ao" class="article-share-link">分享</a>
       
       
       
@@ -398,7 +578,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -421,23 +601,23 @@
       <ul>
         
           <li>
-            <a href="/2019/08/12/wordcount 完整案例/">(no title)</a>
+            <a href="/2019/08/13/hive命令2/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/08/12/hive命令1/">(no title)</a>
+            <a href="/2019/08/13/求平均以及数据清洗 （自己写的案例）/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/">(no title)</a>
+            <a href="/2019/08/13/求和以及数据清洗 （自己写的案例）/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/08/10/二次排序/">(no title)</a>
+            <a href="/2019/08/13/求和 （自己写的案例）/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/08/09/数据去重/">(no title)</a>
+            <a href="/2019/08/13/单词计数 （自己写的案例）/">(no title)</a>
           </li>
         
       </ul>

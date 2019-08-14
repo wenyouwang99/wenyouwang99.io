@@ -66,6 +66,76 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-wordcount2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/31/wordcount2/" class="article-date">
+  <time datetime="2019-07-31T12:23:18.563Z" itemprop="datePublished">2019-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="运行自己写的wordcount程序"><a href="#运行自己写的wordcount程序" class="headerlink" title="运行自己写的wordcount程序"></a>运行自己写的wordcount程序</h2><h2 id="1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce"><a href="#1-将生成的jar文件用xfpt上传到namenode节点，我上传的路径是-opt-hadoop-share-hadoop-mapreduce" class="headerlink" title="1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce"></a>1.将生成的jar文件用xfpt上传到namenode节点，我上传的路径是/opt/hadoop/share/hadoop/mapreduce</h2><h2 id="2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功"><a href="#2-在-input文件中上传数据-opt-hadoop-file-对应-input-为同级目录-input下-file1-txt不可存在-才能上传成功" class="headerlink" title="2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)"></a>2.在/input文件中上传数据    (//opt/hadoop/file 对应 /input 为同级目录    /input下 /file1.txt不可存在   才能上传成功)</h2><p>hadoop dfs -put /opt/hadoop/file/file1.txt /input</p>
+<h2 id="3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令"><a href="#3-在此路径-opt-hadoop-share-hadoop-mapreduce下执行如下命令" class="headerlink" title="3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令"></a>3.在此路径/opt/hadoop/share/hadoop/mapreduce下执行如下命令</h2><p>yarn jar /opt/hadoop/share/hadoop/mapreduce/wc.jar hadoop.task /input /output3          (我的wordcount程序名叫wc.jar)</p>
+<h2 id="4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件"><a href="#4-input目录下如果有3个txt-file1-txt-file2-txt-file3-txt-3中的-input可指明具体哪个文件" class="headerlink" title="4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件"></a>4./input目录下如果有3个txt,     file1.txt,file2.txt,file3.txt,    3中的/input可指明具体哪个文件</h2><p>yarn jar /opt/hadoop/share/hadoop/mapreduce/wc.jar hadoop.task /input/file1.txt /output3</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjz9m19c500092svge5lbjjrk" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-wordcount" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/31/wordcount/" class="article-date">
+  <time datetime="2019-07-31T11:50:11.181Z" itemprop="datePublished">2019-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hadoop2-x运行自带的Wordcount"><a href="#hadoop2-x运行自带的Wordcount" class="headerlink" title="hadoop2.x运行自带的Wordcount"></a>hadoop2.x运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
+<p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
+<p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
+<p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>
+<p>⑤现在已经将文件上传到HDFS上了，接下来就要用hadoop自带的Wordcount程序对其进行统计<br>首先进入到Wordcount程序所在目录（找自己的hadoop的安装目录）<br>cd /opt/hadoop/share/hadoop//mapreduce/<br>ll<br>hadoop-mapreduce-examples-2.7.2.jar<br>hadoop jar hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output</p>
+<p>执行命令运行Wordcount程序，并将结果输出到/output目录下（输出目录自动生成，不可提前创建）<br>hadoop dfs -ls /output      （output作为输入结果的文件，不能提前存在，必须是临时生成的）</p>
+<p>⑥接下来看输出结果，一共生成2个文件，我们的统计结果在part-r-00000文件中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjz9m19c400082svgazx09f5k" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-DataNode无法启动" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/31/DataNode无法启动/" class="article-date">
@@ -89,48 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjz8f9goj0000ssvgrj01o2vc" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/07/25/hello-world/" class="article-date">
-  <time datetime="2019-07-25T09:06:02.527Z" itemprop="datePublished">2019-07-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="hello-hexo"><a href="#hello-hexo" class="headerlink" title="hello hexo"></a><h1>hello hexo</h1></h2><h2 id="hello-hexo-1"><a href="#hello-hexo-1" class="headerlink" title="hello hexo"></a><h3s>hello hexo</h3s></h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/25/hello-world/" data-id="cjz8f9gor0004ssvgq5tg7k4b" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjz9m19by00012svgewhcacy3" class="article-share-link">分享</a>
       
       
       
@@ -168,6 +197,14 @@
       <ul>
         
           <li>
+            <a href="/2019/08/14/求每个用户平均停留时长/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/14/hadoop中combine优化/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/13/hive命令2/">(no title)</a>
           </li>
         
@@ -177,14 +214,6 @@
         
           <li>
             <a href="/2019/08/13/求和以及数据清洗 （自己写的案例）/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/13/求和 （自己写的案例）/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/13/单词计数 （自己写的案例）/">(no title)</a>
           </li>
         
       </ul>

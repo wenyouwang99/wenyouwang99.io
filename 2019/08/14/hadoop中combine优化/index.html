@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据排序  public static class Map extends Mapper&amp;lt;Object, Text, IntWritable, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(Object key,Text value,Contex">
+  <meta name="description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/09/数据排序/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="数据排序  public static class Map extends Mapper&amp;lt;Object, Text, IntWritable, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(Object key,Text value,Contex">
+<meta property="og:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-09T10:55:12.863Z">
+<meta property="og:updated_time" content="2019-08-14T03:33:19.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="数据排序  public static class Map extends Mapper&amp;lt;Object, Text, IntWritable, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(Object key,Text value,Contex">
+<meta name="twitter:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-数据排序" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hadoop中combine优化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/09/数据排序/" class="article-date">
-  <time datetime="2019-08-09T10:55:12.862Z" itemprop="datePublished">2019-08-09</time>
+    <a href="/2019/08/14/hadoop中combine优化/" class="article-date">
+  <time datetime="2019-08-14T03:31:19.531Z" itemprop="datePublished">2019-08-14</time>
 </a>
     
   </div>
@@ -82,30 +82,16 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
-<pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
-        String line = value.toString();
-        data.set(Integer.parseInt(line));
-        context.write(data, new IntWritable(1));
-    }        
-}
+        <h2 id="hadoop中combine优化"><a href="#hadoop中combine优化" class="headerlink" title="hadoop中combine优化"></a>hadoop中combine优化</h2><p>1.写法<br>  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名<br>  改为MapReduce_Combine(名字自己随便写)</p>
+<p>  (2)在main中加入<br>  job.setCombinerClass(MapReduce_Combine.class);</p>
+<p>2.优点<br>  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少在map和reduce节点<br>  之间的数据传输量，以提高io性能</p>
+<p>3.缺点<br>  增加了reduce的进程</p>
+<p>4.杀死进程<br>  如果进程卡住了，或者时间太长而不想继续执行了，可以杀死进程<br>  加入进程编号为：  job_135525622353<br>  hadoop job -kill job_135525622353</p>
 
-
-
-
-public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {
-    private static IntWritable linenum = new IntWritable(1);
-    protected void reduce(IntWritable key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
-        for (IntWritable val : values) {
-            context.write(linenum, key);
-            linenum = new IntWritable(linenum.get()+1);
-        }
-    }
-}</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjz9m19cb000f2svgwyr0w23d" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzb145fk000098vg7wz7g9my" class="article-share-link">分享</a>
       
       
       
@@ -157,7 +143,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
     
 <nav id="article-nav">
   
-    <a href="/2019/08/09/数据去重/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/14/求每个用户平均停留时长/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -167,7 +153,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
     </a>
   
   
-    <a href="/2019/08/09/平均成绩/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/13/hive命令2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -205,7 +191,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据排序"><span class="toc-number">1.</span> <span class="toc-text">数据排序</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop中combine优化"><span class="toc-number">1.</span> <span class="toc-text">hadoop中combine优化</span></a></li></ol>
           </div>
       </div>
     </div>

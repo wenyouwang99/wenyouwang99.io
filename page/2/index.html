@@ -66,6 +66,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-统计乘用车辆，商用车辆的数量销售和销售额分布" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" class="article-date">
+  <time datetime="2019-08-11T09:47:01.730Z" itemprop="datePublished">2019-08-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="统计乘用车辆，商用车辆的数量销售和销售额分布"><a href="#统计乘用车辆，商用车辆的数量销售和销售额分布" class="headerlink" title="统计乘用车辆，商用车辆的数量销售和销售额分布"></a>统计乘用车辆，商用车辆的数量销售和销售额分布</h2><p>/**<br>     * 根据汽车所属（个人，商用）来进行划分<br>     * 计算乘用车辆，商用车辆各自的数量，以及各自所占的比重<br>     */<br>    public static class CountMap extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{</p>
+<pre><code>    @Override
+    public void map(LongWritable key, Text value,                
+            Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context)
+            throws IOException, InterruptedException {
+
+        String [] owns = value.toString().trim().split(&quot; &quot;);
+        if(null != owns &amp;&amp; owns.length &gt; 10 &amp;&amp; owns[10] != null) {
+            if(owns[10].equals(&quot;非营运&quot;)) {
+                context.write(new Text(&quot;乘用车辆&quot;), new LongWritable(1));
+            }else {
+                context.write(new Text(&quot;商用车辆&quot;), new LongWritable(1));
+            }
+        }             
+    };
+}
+
+
+
+
+/**
+ * 统计乘用车辆和商用车辆的数量以及他们的总量
+ */
+public static class CountReduce extends Reducer&lt;Text, LongWritable, Text, DoubleWritable&gt; {
+    Map&lt;String,Long&gt; maps = new HashMap&lt;String,Long&gt;();
+    //准备存放非营运的乘用车辆和营运的商用车辆的总和
+    double all = 0;
+    @Override
+    public void reduce(Text key, Iterable&lt;LongWritable&gt; values,Context context) throws IOException, InterruptedException {
+         Long sum = (long) 0;
+         for (LongWritable val : values) {
+            sum += val.get();
+        }
+         //求出车辆的总和
+         all += sum;
+         maps.put(key.toString(),sum);
+    };
+
+    protected  void cleanup(
+            org.apache.hadoop.mapreduce.Reducer&lt;Text, LongWritable, Text, DoubleWritable&gt;.Context context) throws IOException, InterruptedException {
+        Set&lt;String&gt; keySet = maps.keySet();
+        //循环set集合中的乘用车辆和商用车辆的数量
+        for (String str : keySet) {
+            long value = maps.get(str);
+            //用乘用车辆/总量  和  商用车辆/总量，求出各自的比例
+            double percent = value/all;
+            //输出的key为车辆类型，value的值为该车辆类型的占比
+            context.write(new Text(str), new DoubleWritable(percent));
+        }
+    };
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjzb14u8n000krcvgdtmo74yb" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-二次排序" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/10/二次排序/" class="article-date">
@@ -268,7 +348,7 @@ public int run(String[] args) throws Exception {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjz9m19cq000l2svg5ygyq79k" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjzb14u8y000mrcvg9bnsxidk" class="article-share-link">分享</a>
       
       
       
@@ -311,7 +391,7 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjz9m19ca000d2svg71brll5k" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzb14u8j000ercvgkxaxbskg" class="article-share-link">分享</a>
       
       
       
@@ -360,7 +440,7 @@ public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWrita
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjz9m19cb000f2svgwyr0w23d" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjzb14u8k000frcvg6ss7j1gs" class="article-share-link">分享</a>
       
       
       
@@ -418,7 +498,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjz9m19ca000e2svgken9jzqg" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzb14u8i000drcvg0k0ulld8" class="article-share-link">分享</a>
       
       
       
@@ -471,7 +551,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjz9m19c9000c2svgp3fxou14" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjzb14u8h000brcvgbjc1vflg" class="article-share-link">分享</a>
       
       
       
@@ -514,7 +594,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjz9m19cp000k2svg6bnq3pwd" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzb14u8o000lrcvgi86bwvms" class="article-share-link">分享</a>
       
       
       
@@ -567,7 +647,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjz9m19bz00022svggurmyfwb" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjzb14u870003rcvgcsweuna5" class="article-share-link">分享</a>
       
       
       
@@ -612,7 +692,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjz9m19bs00002svgaadqxuhx" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzb14u850001rcvgq7wpuk98" class="article-share-link">分享</a>
       
       
       
@@ -656,101 +736,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjz9m19c400072svgugr9ami2" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-maven安装2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/06/maven安装2/" class="article-date">
-  <time datetime="2019-08-06T12:02:49.190Z" itemprop="datePublished">2019-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2><p>##1.  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"><br>  <modelversion>4.0.0</modelversion><br>  <groupid>com.me</groupid><br>  <artifactid>hadoop</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br>  <description>        </description></project></p>
-<h2 id><a href="#" class="headerlink" title></a><properties></properties></h2><pre><code>  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-&lt;/properties&gt;
-/*可用镜像库*/
-&lt;repositories&gt;  
- &lt;repository&gt;  
- &lt;id&gt;repo2&lt;/id&gt;  
- &lt;name&gt;Maven Repository Switchboard&lt;/name&gt;  
- &lt;layout&gt;default&lt;/layout&gt;  
- &lt;url &gt;http://repo2.maven.org/maven2&lt;/url&gt;  
- &lt;snapshots&gt;  
-   &lt;enabled&gt;false&lt;/enabled&gt;  
- &lt;/snapshots&gt;  
- &lt;/repository&gt;  
- &lt;/repositories&gt;</code></pre>   <dependencies>
-   <dependency>
-        <groupid>junit</groupid>
-        <artifactid>junit</artifactid>
-        <version>3.8.1</version>
-        <scope>test</scope>
-     </dependency>
-
-<pre><code>&lt;dependency&gt;
-  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-  &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;
-  &lt;version&gt;2.6.0&lt;/version&gt;
-&lt;/dependency&gt;
-
-&lt;dependency&gt;  
-  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;  
-  &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;  
-  &lt;version&gt;2.6.0&lt;/version&gt;  
-&lt;/dependency&gt; 
-
-&lt;dependency&gt;
-  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-  &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
-  &lt;version&gt;2.6.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- https://mvnrepository.com/artifact/jdk.tools/jdk.tools --&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;jdk.tools&lt;/groupId&gt;
-&lt;artifactId&gt;jdk.tools&lt;/artifactId&gt;
-&lt;version&gt;1.7&lt;/version&gt;
-&lt;scope&gt;system&lt;/scope&gt;
-&lt;systemPath&gt;${JAVA_HOME}/lib/tools.jar&lt;/systemPath&gt;
-&lt;/dependency&gt;
-
-&lt;/dependencies&gt;    
-
-&lt;build&gt; 
-  &lt;plugins&gt;
-      &lt;plugin&gt;
-          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-          &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
-          &lt;version&gt;3.1&lt;/version&gt;
-          &lt;configuration&gt;
-              &lt;source&gt;1.7&lt;/source&gt;
-             &lt;target&gt;1.7&lt;/target&gt;
-          &lt;/configuration&gt;
-      &lt;/plugin&gt;
-  &lt;/plugins&gt;
-&lt;/build&gt;
-&lt;/project&gt;</code></pre><p>等待安装，安装时间挺长，请等待</p>
-</dependencies>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjz9m19c300062svg3cn7sml7" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzb14u8a0006rcvg6x2gph52" class="article-share-link">分享</a>
       
       
       
@@ -788,6 +774,10 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       <ul>
         
           <li>
+            <a href="/2019/08/14/MapReduce_Join/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/14/求每个用户平均停留时长/">(no title)</a>
           </li>
         
@@ -801,10 +791,6 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
         
           <li>
             <a href="/2019/08/13/求平均以及数据清洗 （自己写的案例）/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/13/求和以及数据清洗 （自己写的案例）/">(no title)</a>
           </li>
         
       </ul>

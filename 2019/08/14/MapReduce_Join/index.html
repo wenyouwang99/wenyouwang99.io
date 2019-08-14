@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="求每个用户平均停留时长package hadoop;//需求：求每个用户平均停留时长/**  数据样式： 用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期 数据进入hdfs的方式：put  /import java.io.IOException;  import org.apache.hadoop.conf.Configuration;imp">
+  <meta name="description" content="##  package hadoop;//需求：城市区域id,城市id,城市名/**  数据样式： 用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期 数据进入hdfs的方式：put  /import java.io.IOException;import java.util.Iterator;import java.util.Vector;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/14/MapReduce_Join/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="求每个用户平均停留时长package hadoop;//需求：求每个用户平均停留时长/**  数据样式： 用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期 数据进入hdfs的方式：put  /import java.io.IOException;  import org.apache.hadoop.conf.Configuration;imp">
+<meta property="og:description" content="##  package hadoop;//需求：城市区域id,城市id,城市名/**  数据样式： 用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期 数据进入hdfs的方式：put  /import java.io.IOException;import java.util.Iterator;import java.util.Vector;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-14T09:04:11.916Z">
+<meta property="og:updated_time" content="2019-08-14T12:02:39.641Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="求每个用户平均停留时长package hadoop;//需求：求每个用户平均停留时长/**  数据样式： 用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期 数据进入hdfs的方式：put  /import java.io.IOException;  import org.apache.hadoop.conf.Configuration;imp">
+<meta name="twitter:description" content="##  package hadoop;//需求：城市区域id,城市id,城市名/**  数据样式： 用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期 数据进入hdfs的方式：put  /import java.io.IOException;import java.util.Iterator;import java.util.Vector;">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-求每个用户平均停留时长" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-MapReduce_Join" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/14/求每个用户平均停留时长/" class="article-date">
-  <time datetime="2019-08-14T09:04:11.915Z" itemprop="datePublished">2019-08-14</time>
+    <a href="/2019/08/14/MapReduce_Join/" class="article-date">
+  <time datetime="2019-08-14T12:01:19.908Z" itemprop="datePublished">2019-08-14</time>
 </a>
     
   </div>
@@ -82,70 +82,125 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="求每个用户平均停留时长"><a href="#求每个用户平均停留时长" class="headerlink" title="求每个用户平均停留时长"></a>求每个用户平均停留时长</h2><p>package hadoop;<br>//需求：求每个用户平均停留时长<br>/**</p>
+        <p>## </p>
+<p>package hadoop;<br>//需求：城市区域id,城市id,城市名<br>/**</p>
 <ul>
 <li>数据样式：</li>
 <li>用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期</li>
 <li>数据进入hdfs的方式：put</li>
 <li></li>
-<li>/<br>import java.io.IOException;</li>
+<li>/<br>import java.io.IOException;<br>import java.util.Iterator;<br>import java.util.Vector;</li>
 </ul>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class test {</p>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapred.FileSplit;<br>import org.apache.hadoop.mapreduce.InputSplit;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
+<p>public class MapReduce_Join {</p>
 <pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, Text&gt;{
 
     protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, Text&gt;.Context context) throws java.io.IOException ,InterruptedException 
     {
-        String line = value.toString();
-        String[] split = line.split(&quot;\t&quot;);
-        //  \N 是所取数据位置上出现的错误数据
-        if(split.length == 3 &amp;&amp; split[4] != null ) {
-            if(split[4].equals(&quot;\\N&quot;)) {
-                split[4]=&quot;0&quot;;    
+        //获取切片信息
+        InputSplit inputSplit = (FileSplit)context.getInputSplit();
+        //获取路径信息
+        String path = ((FileSplit) inputSplit).getPath().toString();
+        //====打标签===区分两个输入路径的数据
+        //判断是否是data的数据
+
+
+        if(path.contains(&quot;data&quot;)) {
+            String line = value.toString();
+            String [] split = line.split(&quot;\t&quot;);
+            if(split.length==8 &amp;&amp; split[2] != null) {
+                String JoinKey = split[2];
+                //将value打上标记
+                String joinValue = &quot;data&quot;+split[0] + split[4];
+                context.write(new Text(JoinKey), new Text(joinValue));
+                //数据此时会变成
+                //83522     data.txt,手机号码,停留时间    
             }
-            context.write(new Text(split[0]), new Text(split[4]));
-
+        }    
+        //给city_ID的数据打标记
+        if(path.contains(&quot;city_id&quot;)) {
+            String line = value.toString();
+            String [] split = line.split(&quot;,&quot;);
+            if(split.length==2) {
+                String JoinKey = split[0];
+                //将value打上标记
+                String joinValue = &quot;city_id&quot; + &quot;,&quot; +split[1];    
+                context.write(new Text(JoinKey), new Text(joinValue));
+                //数据此时会变成
+                //83522   city_id,合肥市    
+            }
         }
-
     };    
 }
 
-public static class MyReduce extends Reducer&lt;Text, Text, Text, LongWritable&gt;{
+public static class MyReduce extends Reducer&lt;Text, Text, Text, Text&gt;{
 
     @Override
     protected void reduce(Text k2, Iterable&lt;Text&gt; v2s,
-            Reducer&lt;Text, Text, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        long sum = 0l;
-        //定义次数
-        long count = 0l;
-        for (Text time : v2s) {
-            count++;
-            sum += Long.parseLong(time.toString());
+            Reducer&lt;Text, Text, Text, Text&gt;.Context context) throws IOException, InterruptedException {
+
+        //01  {data.txt,手机号码,301  city_id,合肥市}
+
+        //创建2个集合,用ArrayList也可以，都行
+        Vector&lt;String&gt; vecA = new Vector&lt;String&gt;();
+        Vector&lt;String&gt; vecB = new Vector&lt;String&gt;();
+        //判断两个输入数据的value,分别加入上面两个集合
+        for (Text value : v2s) {
+            String line = value.toString();
+            //判断开头标记，然后放入集合
+            if(line.startsWith(&quot;data&quot;)) {
+                //把数据中的data截取掉，让输出的数据中没有data
+                vecA.add(line.substring(4)); 
+            }
+            if(line.startsWith(&quot;city_id&quot;)) {
+                //把数据中的data截取掉，让输出的数据中没有city_id
+                vecB.add(line.substring(7)); 
+            }
+
         }
-        context.write(k2, new LongWritable(sum/count));        
+
+        //将两个集合 拼接，笛卡尔积
+        for (String s1 : vecA) {
+            for (String s2 : vecB) {
+
+                context.write(new Text(s1+k2.toString()), new Text(s2));
+
+            }
+        }
+
+
+
     }
 }
 
 
 public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
     Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, test.class.getSimpleName());
-    job.setJarByClass(test.class);    
+    Job job = Job.getInstance(conf, MapReduce_Join.class.getSimpleName());
+
+    //输出以逗号为间隔,加上这个配置，前面substring里的值都加x
+    //conf.set(&quot;mapred.textoutputformat.separator&quot;,&quot;,&quot;);
+
+    job.setJarByClass(MapReduce_Join.class);
+
+    //输入两个路径  //在传参数时，两个文件夹路径之间用空格
     FileInputFormat.addInputPath(job, new Path(args[0]));    
+    FileInputFormat.addInputPath(job, new Path(args[1]));
+
     job.setMapperClass(MyMapper.class);    
     job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
+    job.setMapOutputValueClass(Text.class);
     job.setReducerClass(MyReduce.class);
     job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
+    job.setOutputValueClass(Text.class);    
+    FileOutputFormat.setOutputPath(job, new Path(args[2]));    
     job.waitForCompletion(true);    
 }</code></pre><p>}</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzb14u8n000jrcvgubssd86r" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzb7hgmq0000isvgieohu89p" class="article-share-link">分享</a>
       
       
       
@@ -197,17 +252,8 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
     
 <nav id="article-nav">
   
-    <a href="/2019/08/14/MapReduce_Join/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/14/hadoop中combine优化/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/14/求每个用户平均停留时长/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -239,24 +285,42 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
 
   
     
-    <div class="widget-wrap">
+  
     
-      <div class="widget" id="toc-widget-fixed">
-      
-        <strong class="toc-title">文章目录</strong>
-        <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#求每个用户平均停留时长"><span class="toc-number">1.</span> <span class="toc-text">求每个用户平均停留时长</span></a></li></ol>
-          </div>
-      </div>
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/14/MapReduce_Join/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/14/求每个用户平均停留时长/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/14/hadoop中combine优化/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/13/hive命令2/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/13/求平均以及数据清洗 （自己写的案例）/">(no title)</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
 
-  
-    
-
-  
-    
-  
-    
   
     
 

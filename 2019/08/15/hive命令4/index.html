@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+  <meta name="description" content="hive命令41.分区注意事项(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间(2)避免分区小于1GB（越大越好）(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小(5)当使用hive流处理插入数据时，如">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/15/hive命令4/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+<meta property="og:description" content="hive命令41.分区注意事项(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间(2)避免分区小于1GB（越大越好）(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小(5)当使用hive流处理插入数据时，如">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-14T03:33:19.700Z">
+<meta property="og:updated_time" content="2019-08-15T09:22:36.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+<meta name="twitter:description" content="hive命令41.分区注意事项(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间(2)避免分区小于1GB（越大越好）(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小(5)当使用hive流处理插入数据时，如">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hadoop中combine优化" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/14/hadoop中combine优化/" class="article-date">
-  <time datetime="2019-08-14T03:31:19.531Z" itemprop="datePublished">2019-08-14</time>
+    <a href="/2019/08/15/hive命令4/" class="article-date">
+  <time datetime="2019-08-15T09:22:36.897Z" itemprop="datePublished">2019-08-15</time>
 </a>
     
   </div>
@@ -82,16 +82,19 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hadoop中combine优化"><a href="#hadoop中combine优化" class="headerlink" title="hadoop中combine优化"></a>hadoop中combine优化</h2><p>1.写法<br>  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名<br>  改为MapReduce_Combine(名字自己随便写)</p>
-<p>  (2)在main中加入<br>  job.setCombinerClass(MapReduce_Combine.class);</p>
-<p>2.优点<br>  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少在map和reduce节点<br>  之间的数据传输量，以提高io性能</p>
-<p>3.缺点<br>  增加了reduce的进程</p>
-<p>4.杀死进程<br>  如果进程卡住了，或者时间太长而不想继续执行了，可以杀死进程<br>  加入进程编号为：  job_135525622353<br>  hadoop job -kill job_135525622353</p>
+        <h2 id="hive命令4"><a href="#hive命令4" class="headerlink" title="hive命令4"></a>hive命令4</h2><p>1.分区注意事项<br>(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间<br>(2)避免分区小于1GB（越大越好）<br>(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存<br>(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的<br>嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小<br>(5)当使用hive流处理插入数据时，如果多个会话向相同的分区写入数据，那么就会导致锁闭<br>(6)可以修改某一分区表的模式，但是，一旦结构发生变化，就无法在已有分区中修改数据了<br>(7)如果要将数据并行插入到多个分区，应该将<br>hive.optimize.sort.dynamic.partition设置为true</p>
+<p>2.对日期列进行高效分区<br>如：日期中按照”YYYY-MM-DD”格式比按照 年月日各自的值进行多深度分区在某些时候<br>更加高效。<br>使用单个字符串的优势：它允许使用更多的SQL运算符，例如：LIKE,IN,BETWEEN，<br>但是如果采用嵌套分区，就不太容易使用这些运算符了</p>
+<p>3.案例<br>假设有表A，通过DataStamp字符串按照”YYYY-MM-DD”格式进行分区，SQL查询如下</p>
+<p>查询选择特定日期：<br>select * from table A where DataStamp IN (‘2015-01-01’,’2016-02-02’,’2017-03-03’);</p>
+<p>查询一年中所有的日期<br>select * from table A where DataStamp LIKE ‘2018-%’;</p>
+<p>查询一年中特定月的所有日期<br>select * from table A where DataStamp LIKE ‘2019-02-%’;</p>
+<p>查询所有以5开始/结束的日子<br>select * from table A where DataStamp LIKE ‘%-%-%5’;</p>
+<p>查询2015年1月1日到2015年3月1日的所有日子<br>select * from table A where DataStamp BETWEEN ‘2015-01-01’ AND ‘2015-03-01’;</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzb7ibt00004dwvgf0k9cg3m" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzch8juo0001w8vgt4edcdec" class="article-share-link">分享</a>
       
       
       
@@ -143,7 +146,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/14/求每个用户平均停留时长/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/15/hive命令5/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -153,7 +156,7 @@
     </a>
   
   
-    <a href="/2019/08/13/hive命令2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/15/hive命令3/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -191,7 +194,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop中combine优化"><span class="toc-number">1.</span> <span class="toc-text">hadoop中combine优化</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hive命令4"><span class="toc-number">1.</span> <span class="toc-text">hive命令4</span></a></li></ol>
           </div>
       </div>
     </div>

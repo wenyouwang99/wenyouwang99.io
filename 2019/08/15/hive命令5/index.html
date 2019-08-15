@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+  <meta name="description" content="hive命令51.分桶hive中的分桶是另一种将数据切分为更小片段的方式，然而，高效的分区要求采用分区键，并不会导致出现大量的非常小的分区因此，对于你的分区键有很多的值，但是分区键的每个值都没有多少行时，那么分区并不是最佳选择，此时分桶很适合这种情形 2.分桶可以让你为每个表的分桶列定义桶的最大数目，hive中的一个分区就是一个目录，分区键的值存放在实际的分区目录名中，而分区键是表中的一个虚拟列。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/15/hive命令5/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+<meta property="og:description" content="hive命令51.分桶hive中的分桶是另一种将数据切分为更小片段的方式，然而，高效的分区要求采用分区键，并不会导致出现大量的非常小的分区因此，对于你的分区键有很多的值，但是分区键的每个值都没有多少行时，那么分区并不是最佳选择，此时分桶很适合这种情形 2.分桶可以让你为每个表的分桶列定义桶的最大数目，hive中的一个分区就是一个目录，分区键的值存放在实际的分区目录名中，而分区键是表中的一个虚拟列。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-14T03:33:19.700Z">
+<meta property="og:updated_time" content="2019-08-15T09:23:13.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+<meta name="twitter:description" content="hive命令51.分桶hive中的分桶是另一种将数据切分为更小片段的方式，然而，高效的分区要求采用分区键，并不会导致出现大量的非常小的分区因此，对于你的分区键有很多的值，但是分区键的每个值都没有多少行时，那么分区并不是最佳选择，此时分桶很适合这种情形 2.分桶可以让你为每个表的分桶列定义桶的最大数目，hive中的一个分区就是一个目录，分区键的值存放在实际的分区目录名中，而分区键是表中的一个虚拟列。">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hadoop中combine优化" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令5" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/14/hadoop中combine优化/" class="article-date">
-  <time datetime="2019-08-14T03:31:19.531Z" itemprop="datePublished">2019-08-14</time>
+    <a href="/2019/08/15/hive命令5/" class="article-date">
+  <time datetime="2019-08-15T09:23:13.126Z" itemprop="datePublished">2019-08-15</time>
 </a>
     
   </div>
@@ -82,16 +82,18 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hadoop中combine优化"><a href="#hadoop中combine优化" class="headerlink" title="hadoop中combine优化"></a>hadoop中combine优化</h2><p>1.写法<br>  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名<br>  改为MapReduce_Combine(名字自己随便写)</p>
-<p>  (2)在main中加入<br>  job.setCombinerClass(MapReduce_Combine.class);</p>
-<p>2.优点<br>  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少在map和reduce节点<br>  之间的数据传输量，以提高io性能</p>
-<p>3.缺点<br>  增加了reduce的进程</p>
-<p>4.杀死进程<br>  如果进程卡住了，或者时间太长而不想继续执行了，可以杀死进程<br>  加入进程编号为：  job_135525622353<br>  hadoop job -kill job_135525622353</p>
+        <h2 id="hive命令5"><a href="#hive命令5" class="headerlink" title="hive命令5"></a>hive命令5</h2><p>1.分桶<br>hive中的分桶是另一种将数据切分为更小片段的方式，<br>然而，高效的分区要求采用分区键，并不会导致出现大量的非常小的分区<br>因此，对于你的分区键有很多的值，但是分区键的每个值都没有多少行时，那么分区<br>并不是最佳选择，此时分桶很适合这种情形</p>
+<p>2.分桶可以让你为每个表的分桶列定义桶的最大数目，hive中的一个分区就是一个目录，<br>分区键的值存放在实际的分区目录名中，而分区键是表中的一个虚拟列。<br>然而，在分桶中，每个桶都是一个保存实际数据的文件，这些数据基于一种散列算法进行<br>分割。分桶并不会为当前表添加一个虚拟列。</p>
+<p>3.分桶的优势，最主要的一点就是能够提升多种查询的性能，如果分桶所用的键是非倾斜的，<br>那么对你的数据将会均衡分布，这一点可以用于实现高效的数据抽样。</p>
+<p>4.分桶代码案例<br>创建customers表，并且将创建的custid列作为一个分桶列，将其分割成11个桶。<br>create external table customers(<br>custid     int,<br>fname    string,<br>lname    string<br>)<br>clustered by (custid) into 11 buckets<br>location ‘/opt/customers’;</p>
+<p>现在，当你向该表插入数据时，Hive将custid用于散列函数，将数据分发到11个桶当中。<br>对于有些数据类型来说，就意味着哪写含有相同custid值的行将被存放在相同的桶中。</p>
+<p>注意：要设置<br>hive.enforce.bucketing=true<br>没有这个参数，就需要为表定义与桶的数量相同的映射器。</p>
+<p>5.分桶的注意事项<br>(1)选择唯一值的个数较多的桶键，这样会减小出现倾斜的可能性<br>(2)采用质数作为桶的编号<br>(3)如果桶键中的数据时倾斜的，为倾斜的值单独创建桶，这可以通过列表分桶来实现<br>(4)分桶对于通常连接在一起的事实表来说非常有用<br>(5)需要连接在一起的表，其桶的数目必须相同，或者一个表的桶数是另一个表的桶数的因子<br>(6)要仔细选择桶的数目，一个cpu核只会对一个桶进行写入操作，因此对于一个大型集群而言，如果桶的数目很小，则集群的利用严重不足<br>(7)一旦表建好，桶的数目就不能改变了<br>(8)仔细选择进行分桶的列，因为散列函数会引发倾斜，字符串散列更有这种倾向，因为通常使用的字符串子集很小。例如，如果桶键含有abc789,abc567,abc123三个值，但是散列算法在计算候选桶时仅仅用到了前3个字符(abc),那么最后这3个值都会在同一个桶中<br>(9)桶文件的大小至少是1GB<br>(10)通过设置hive.enforce.bucketing=true实现强制分桶<br>(11)对于Map端连接，分桶表要比非分桶表的速度更快。在Map端连接中，映射器处理左侧表的某个桶时，知道右侧表中相匹配的行在其对应的桶中，因此只需要检索该桶即可，这只是右侧表中存储的全部数据中的一小部分<br>(12)分桶也允许你按照一列或多列对每个桶中的数据进行排序，这样就可以把Map端连接转换成排序-合并连接，使速度更快</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzb7ibt00004dwvgf0k9cg3m" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzch8jup0002w8vgbh4eu9wj" class="article-share-link">分享</a>
       
       
       
@@ -143,17 +145,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/14/求每个用户平均停留时长/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/13/hive命令2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/15/hive命令4/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -191,7 +184,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop中combine优化"><span class="toc-number">1.</span> <span class="toc-text">hadoop中combine优化</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hive命令5"><span class="toc-number">1.</span> <span class="toc-text">hive命令5</span></a></li></ol>
           </div>
       </div>
     </div>

@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+  <meta name="description" content="hive命令31.重命名表   –stud:表名create external table stud (state string) location ‘/opt/stud’; alter table stud rename to stud_old;  2.修改表的存储属性(1)alter table(2)删除该表，然后重新创建表，修改create table中的存储属性 3.orc文件格式将sta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/15/hive命令3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+<meta property="og:description" content="hive命令31.重命名表   –stud:表名create external table stud (state string) location ‘/opt/stud’; alter table stud rename to stud_old;  2.修改表的存储属性(1)alter table(2)删除该表，然后重新创建表，修改create table中的存储属性 3.orc文件格式将sta">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-14T03:33:19.700Z">
+<meta property="og:updated_time" content="2019-08-15T09:21:51.256Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hadoop中combine优化1.写法  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名  改为MapReduce_Combine(名字自己随便写)   (2)在main中加入  job.setCombinerClass(MapReduce_Combine.class); 2.优点  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少">
+<meta name="twitter:description" content="hive命令31.重命名表   –stud:表名create external table stud (state string) location ‘/opt/stud’; alter table stud rename to stud_old;  2.修改表的存储属性(1)alter table(2)删除该表，然后重新创建表，修改create table中的存储属性 3.orc文件格式将sta">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hadoop中combine优化" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/14/hadoop中combine优化/" class="article-date">
-  <time datetime="2019-08-14T03:31:19.531Z" itemprop="datePublished">2019-08-14</time>
+    <a href="/2019/08/15/hive命令3/" class="article-date">
+  <time datetime="2019-08-15T09:21:51.256Z" itemprop="datePublished">2019-08-15</time>
 </a>
     
   </div>
@@ -82,16 +82,22 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hadoop中combine优化"><a href="#hadoop中combine优化" class="headerlink" title="hadoop中combine优化"></a>hadoop中combine优化</h2><p>1.写法<br>  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名<br>  改为MapReduce_Combine(名字自己随便写)</p>
-<p>  (2)在main中加入<br>  job.setCombinerClass(MapReduce_Combine.class);</p>
-<p>2.优点<br>  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少在map和reduce节点<br>  之间的数据传输量，以提高io性能</p>
-<p>3.缺点<br>  增加了reduce的进程</p>
-<p>4.杀死进程<br>  如果进程卡住了，或者时间太长而不想继续执行了，可以杀死进程<br>  加入进程编号为：  job_135525622353<br>  hadoop job -kill job_135525622353</p>
+        <h2 id="hive命令3"><a href="#hive命令3" class="headerlink" title="hive命令3"></a>hive命令3</h2><p>1.重命名表   –stud:表名<br>create external table stud (state string) location ‘/opt/stud’;</p>
+<p>alter table stud rename to stud_old; </p>
+<p>2.修改表的存储属性<br>(1)alter table<br>(2)删除该表，然后重新创建表，修改create table中的存储属性</p>
+<p>3.orc文件格式<br>将states表转换成orc文件格式并且查看其属性<br>create table states_orc stored as orc tblproperties(“orc.compress”=”snappy”)<br>as select * from states;</p>
+<p>4.hadoop中处理小文件将会大量耗费大量的namenode元数据记录，所以通常合并小文件<br>hdfs的namenode进程维护了hdfs上所有文件的元数据<br>对于以rcfile或orcfile格式存储的hive表，可以做下面的操作，将多个数据文件合并成一个<br>alter table states concatenate;</p>
+<p>5.避免小文件的方式之一（推荐），在数据进入hadoop之前，将它们合并成集群数据块<br>数倍大小的文件，通常为好几GB或者更大。在数据进入hadoop之后，有很多的方式整合，<br>但hadoop处理小文件并不在行，因此这样合并速度会比较慢。</p>
+<p>6.hive表分区<br>hive中的分区表有一个或多个分区键，基于这些键，数据被分割成若干逻辑块并存放在单独<br>的路径中。每个分区键都为表的存储添加了一个目录层结构。</p>
+<p>7.hive表分区代码案例<br>create external table retail.transactions(<br>transdate  date,<br>transid       int,<br>custid        int,<br>fname       string     //注意：最后一个属性不要打逗号<br>)<br>partitioned by (store string);<br>本例中的表基于一个名为store(存放商店的名称)的字符串列进行分区。<br>注意：在分区中用到的列实际上在create table 结构中并不存在。</p>
+<p>8.当你查询一个分区表时，分区的值会作为该分区中所有行在这一列的值，例<br>select * from retail.transactions 将返回store列的值，即使数据库中兵没有<br>存储这样的数据。</p>
+<p>9.创建分区表需要你预先为底层分区创建目录结构。对于内部表的情形，当你使用insert<br>命令将数据插入新分区时，分区目录是自动创建的。</p>
+<p>10.注意：不能在实际的表定义中加入分区键列，否则报错<br>failed:error in semantic analysis:column repeated in patitioning columns错误</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzb7ibt00004dwvgf0k9cg3m" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzch8jt70000w8vg3uug9sts" class="article-share-link">分享</a>
       
       
       
@@ -143,7 +149,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/14/求每个用户平均停留时长/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/15/hive命令4/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -153,7 +159,7 @@
     </a>
   
   
-    <a href="/2019/08/13/hive命令2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/14/MapReduce_Join/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -191,7 +197,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop中combine优化"><span class="toc-number">1.</span> <span class="toc-text">hadoop中combine优化</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hive命令3"><span class="toc-number">1.</span> <span class="toc-text">hive命令3</span></a></li></ol>
           </div>
       </div>
     </div>

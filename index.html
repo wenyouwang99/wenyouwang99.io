@@ -81,8 +81,8 @@
         <!-- Table of Contents -->
         
         <p>1.将数据装载到表中<br>load data [local] inpath ‘filepath’ [overwrite] into table table_name;<br>(1)load data –向hive装载数据的关键字<br>(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据<br>          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件<br>(3)inpath ‘filrpath’ –如果使用local：file://user/hive/example (自己写的路径，随便写)<br>如果省略local：hdfs://namenode:9000/user/hive/example(这里举例区别不同)<br>(4)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(5)into table table_name  –tablename是hive中已经存在的表的名称<br>                使用create table tablename语句</p>
-<p>2.hive的建表语法<br>create [external] table <table_name>(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</table_name></p>
-<p>注意：还可以这样写<br>create [external] table <table_name>(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</table_name></p>
+<p>2.hive的建表语法<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下   </p>
+<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
 <p>3.案例<br>创建一个新数据库<br>create database census;<br>使用该数据库<br>use census;<br>创建一个新表<br>create table person(<br>persid        int,<br>lastname    string,<br>firstname   string<br>)<br>row format delimited terminated by ‘,’;<br>将数据从csv(逗号文件，以逗号分隔，excel也能打开)文件装载到该新表<br>load data local inpath ‘file:///root/hive/example/person001’ overwrite into table person;<br>查看表中是否有数据<br>select persid,lastname,firstname from person limit 10;  //limit有助于观赏效果</p>
 <p>4.使用查询装载数据<br>insert [overwrite]<br>table tablename [if not exists]<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(4)if not exists  –如果在命令中包含if not exists，那么hive命令将在当前数据库中创建一个          表，如果省略，当该表不存在时将执行失败<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
 <p>5.使用已有表创建新表，案例<br>使用已有数据库<br>use census;<br>创建新表<br>create table personhub(<br>persid  int<br>);<br>将数据插入新表，覆盖表中已有数据<br>insert overwrite<br>table tablename<br>select Distinct personID from Person;<br>//SELECT DISTINCT 表示查询结果中，去掉了重复的行；Distinct表示去掉重复的行<br>检查数据是否已在表中(测试数据假设是80条)<br>select persid from personhub limit 10;</p>
@@ -91,7 +91,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzdyxl8j000234vga11xi11q" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzdyy6tl000cocvgk68vsp9f" class="article-share-link">分享</a>
       
       
       
@@ -121,11 +121,11 @@
 <p>show partitions ids;</p>
 <p>datestamp=2016-05-30 (修改前)<br>datestamp=31-05-2016 (修改后)</p>
 <p>2.修改列–添加列<br>在schema-on-read架构上，有一个关键需求，就是要能够修改模式或表的元数据。<br>用户可以在表上定义各种类型的元数据，而且修改这些元数据时，不需要担心修改<br>底层数据（只对外部表）。<br>alter table retail.transactions add columns (loyalty_card boolean);<br>新列将被添加到当前列之后、分区列之前。分区列的值来自于分区定义，并不是<br>存放在数据文件本身之中，也不在create table命令中列的列表之中。<br>虽然实际上分区列并没有嵌入到数据本身之中，但是当你执行select * 语句时，分区列<br>总是会出现在列的列表的最后。</p>
-<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table <table_name>;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table <table_name> purge;</table_name></table_name></p>
+<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table table_name;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table table_name purge;</p>
 <p>4.删除分区,只有当表是受控表时，hive才能删除真实的分区数据，下面2种删除方式(一样)<br>alter table transactions drop partition (store=’oakdrive’);<br>dropped the partition store=oakdrive;<br>本例中，数据仍然存放在hdfs上（假设你使用了一个外部表），但是针对该事务处理表的<br>查询无法再读取该分区。因此查询结果集中没有含有store=oakdrive的行，因为这个表<br>中已经没有这个分区了</p>
 <p>5.保护表/分区<br>alter table enable no_drop防止用户删除hive中的表<br>案例：如何在hive更改一个表，以避免它被删除<br>alter table transactions enable no_drop;<br>drop table transactions ;     //这个命令会报错</p>
 <p>案例：使某个表处于离线状态，以防止该表的数据被用户查询到，同时这并不会对另一个<br>访问同一底层数据的表造成影响<br>alter table transactions enable offline;<br>select * from transactions ;   //这个命令会报错</p>
-<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table <table_name> partition <partition _spec> enable offline;</partition></table_name></p>
+<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table table_name partition partition _spec enable offline;</p>
 <p>6.其他create table 命令选项<br>(1)使用 create table as select (ctas) 命令，利用其结果集和查询输出模式来创建一个内部表<br>create table retail.transactions _top100<br>as<br>select * from retail.transactions where custid&lt;101;</p>
 <p>你可以使用这一特性来抽取某个表的子集，并且以另一种格式将该子集存放在一个新表中。<br>下面给出例子，实现：它为目标表指定了一种新格式<br>create table retail.transactions _top100 stored as orcfile<br>as<br>select * from retail.transactions where custid&lt;101;<br>注意：在ctas命令中，hive对目标表的格式有一些限制。新的目标表不能是外部表、分区表或<br>分桶表。</p>
 <p>(2)create table like 命令<br>如果向复制某个已有表的模式而不复制它的数据，可以使用这个命令<br>create table transactions_test like transactions;</p>
@@ -133,7 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzdyxl8i000134vgc1zjavyu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzdyy6tk000bocvg2dv23ae2" class="article-share-link">分享</a>
       
       
       
@@ -189,7 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzdyxl8e000034vg5kfeyys2" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzdyy6tj000aocvgy7eo708k" class="article-share-link">分享</a>
       
       
       
@@ -226,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzch9hjj00088svgz7kqg7b1" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzdyy6th0009ocvg4ut6r8pv" class="article-share-link">分享</a>
       
       
       
@@ -264,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzch9hjj00098svgtrmni4v1" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzdyy6tg0008ocvghax7iycs" class="article-share-link">分享</a>
       
       
       
@@ -305,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzch9hji00078svgs5892hsi" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzdyy6tg0007ocvg7xxc21c2" class="article-share-link">分享</a>
       
       
       
@@ -449,7 +449,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzch9hj900018svg2ckmmz06" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzdyy6t30000ocvgzkyud0ud" class="article-share-link">分享</a>
       
       
       
@@ -538,7 +538,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzch9hk4000o8svgjurq85si" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzdyy6tw000qocvgmk3dayao" class="article-share-link">分享</a>
       
       
       
@@ -573,7 +573,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzch9hja00028svg4ow4m6bi" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzdyy6tb0002ocvg68z5mi68" class="article-share-link">分享</a>
       
       
       
@@ -616,7 +616,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzch9hjf00068svg4n7wdzln" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzdyy6tf0006ocvg5ad1jct1" class="article-share-link">分享</a>
       
       
       

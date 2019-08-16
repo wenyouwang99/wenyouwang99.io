@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:25:35.546Z">
+<meta property="og:updated_time" content="2019-08-16T10:29:55.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
 <meta name="twitter:description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
@@ -86,11 +86,11 @@
 <p>show partitions ids;</p>
 <p>datestamp=2016-05-30 (修改前)<br>datestamp=31-05-2016 (修改后)</p>
 <p>2.修改列–添加列<br>在schema-on-read架构上，有一个关键需求，就是要能够修改模式或表的元数据。<br>用户可以在表上定义各种类型的元数据，而且修改这些元数据时，不需要担心修改<br>底层数据（只对外部表）。<br>alter table retail.transactions add columns (loyalty_card boolean);<br>新列将被添加到当前列之后、分区列之前。分区列的值来自于分区定义，并不是<br>存放在数据文件本身之中，也不在create table命令中列的列表之中。<br>虽然实际上分区列并没有嵌入到数据本身之中，但是当你执行select * 语句时，分区列<br>总是会出现在列的列表的最后。</p>
-<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table <table_name>;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table <table_name> purge;</table_name></table_name></p>
+<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table table_name;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table table_name purge;</p>
 <p>4.删除分区,只有当表是受控表时，hive才能删除真实的分区数据，下面2种删除方式(一样)<br>alter table transactions drop partition (store=’oakdrive’);<br>dropped the partition store=oakdrive;<br>本例中，数据仍然存放在hdfs上（假设你使用了一个外部表），但是针对该事务处理表的<br>查询无法再读取该分区。因此查询结果集中没有含有store=oakdrive的行，因为这个表<br>中已经没有这个分区了</p>
 <p>5.保护表/分区<br>alter table enable no_drop防止用户删除hive中的表<br>案例：如何在hive更改一个表，以避免它被删除<br>alter table transactions enable no_drop;<br>drop table transactions ;     //这个命令会报错</p>
 <p>案例：使某个表处于离线状态，以防止该表的数据被用户查询到，同时这并不会对另一个<br>访问同一底层数据的表造成影响<br>alter table transactions enable offline;<br>select * from transactions ;   //这个命令会报错</p>
-<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table <table_name> partition <partition _spec> enable offline;</partition></table_name></p>
+<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table table_name partition partition _spec enable offline;</p>
 <p>6.其他create table 命令选项<br>(1)使用 create table as select (ctas) 命令，利用其结果集和查询输出模式来创建一个内部表<br>create table retail.transactions _top100<br>as<br>select * from retail.transactions where custid&lt;101;</p>
 <p>你可以使用这一特性来抽取某个表的子集，并且以另一种格式将该子集存放在一个新表中。<br>下面给出例子，实现：它为目标表指定了一种新格式<br>create table retail.transactions _top100 stored as orcfile<br>as<br>select * from retail.transactions where custid&lt;101;<br>注意：在ctas命令中，hive对目标表的格式有一些限制。新的目标表不能是外部表、分区表或<br>分桶表。</p>
 <p>(2)create table like 命令<br>如果向复制某个已有表的模式而不复制它的数据，可以使用这个命令<br>create table transactions_test like transactions;</p>
@@ -98,7 +98,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzdyxl8i000134vgc1zjavyu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzdyy6tk000bocvg2dv23ae2" class="article-share-link">分享</a>
       
       
       

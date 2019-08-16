@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6.创建maven工程，配置pom.xml    (这个镜像可用)##1.    4.0.0  com.me  hadoop  0.0.1-SNAPSHOT             &amp;lt;project.build.sourceEncoding&amp;gt;UTF-8&amp;lt;/project.build.sourceEncoding&amp;gt; &amp;lt;/properties&amp;gt; /*可用镜像库*/">
+  <meta name="description" content="单词计数 （自己写）package hadoop;//单词计数import java.io.IOException; import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.fs.Path;import org.apache.hadoop.io.LongWritable;import org.apache.hadoo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/06/maven安装2/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/13/单词计数/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="6.创建maven工程，配置pom.xml    (这个镜像可用)##1.    4.0.0  com.me  hadoop  0.0.1-SNAPSHOT             &amp;lt;project.build.sourceEncoding&amp;gt;UTF-8&amp;lt;/project.build.sourceEncoding&amp;gt; &amp;lt;/properties&amp;gt; /*可用镜像库*/">
+<meta property="og:description" content="单词计数 （自己写）package hadoop;//单词计数import java.io.IOException; import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.fs.Path;import org.apache.hadoop.io.LongWritable;import org.apache.hadoo">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-06T12:11:51.497Z">
+<meta property="og:updated_time" content="2019-08-13T08:43:48.369Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="6.创建maven工程，配置pom.xml    (这个镜像可用)##1.    4.0.0  com.me  hadoop  0.0.1-SNAPSHOT             &amp;lt;project.build.sourceEncoding&amp;gt;UTF-8&amp;lt;/project.build.sourceEncoding&amp;gt; &amp;lt;/properties&amp;gt; /*可用镜像库*/">
+<meta name="twitter:description" content="单词计数 （自己写）package hadoop;//单词计数import java.io.IOException; import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.fs.Path;import org.apache.hadoop.io.LongWritable;import org.apache.hadoo">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-maven安装2" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-单词计数" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/06/maven安装2/" class="article-date">
-  <time datetime="2019-08-06T12:02:49.190Z" itemprop="datePublished">2019-08-06</time>
+    <a href="/2019/08/13/单词计数/" class="article-date">
+  <time datetime="2019-08-13T08:43:48.369Z" itemprop="datePublished">2019-08-13</time>
 </a>
     
   </div>
@@ -82,75 +82,54 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2><p>##1.  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"><br>  <modelversion>4.0.0</modelversion><br>  <groupid>com.me</groupid><br>  <artifactid>hadoop</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br>  <description>        </description></project></p>
-<h2 id><a href="#" class="headerlink" title></a><properties></properties></h2><pre><code>  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-&lt;/properties&gt;
-/*可用镜像库*/
-&lt;repositories&gt;  
- &lt;repository&gt;  
- &lt;id&gt;repo2&lt;/id&gt;  
- &lt;name&gt;Maven Repository Switchboard&lt;/name&gt;  
- &lt;layout&gt;default&lt;/layout&gt;  
- &lt;url &gt;http://repo2.maven.org/maven2&lt;/url&gt;  
- &lt;snapshots&gt;  
-   &lt;enabled&gt;false&lt;/enabled&gt;  
- &lt;/snapshots&gt;  
- &lt;/repository&gt;  
- &lt;/repositories&gt;</code></pre>   <dependencies>
-   <dependency>
-        <groupid>junit</groupid>
-        <artifactid>junit</artifactid>
-        <version>3.8.1</version>
-        <scope>test</scope>
-     </dependency>
+        <h2 id="单词计数-（自己写）"><a href="#单词计数-（自己写）" class="headerlink" title="单词计数 （自己写）"></a>单词计数 （自己写）</h2><p>package hadoop;<br>//单词计数<br>import java.io.IOException;</p>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
+<p>public class MapReduceWC {</p>
+<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
 
-<pre><code>&lt;dependency&gt;
-  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-  &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;
-  &lt;version&gt;2.6.0&lt;/version&gt;
-&lt;/dependency&gt;
+    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
+    {
+        String line = value.toString();
+        String[] split = line.split(&quot;,&quot;);
+        for (String word : split) {
+            context.write(new Text(word), new LongWritable(1L));
+        }
+    };    
+}
 
-&lt;dependency&gt;  
-  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;  
-  &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;  
-  &lt;version&gt;2.6.0&lt;/version&gt;  
-&lt;/dependency&gt; 
+public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
 
-&lt;dependency&gt;
-  &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-  &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
-  &lt;version&gt;2.6.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- https://mvnrepository.com/artifact/jdk.tools/jdk.tools --&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;jdk.tools&lt;/groupId&gt;
-&lt;artifactId&gt;jdk.tools&lt;/artifactId&gt;
-&lt;version&gt;1.7&lt;/version&gt;
-&lt;scope&gt;system&lt;/scope&gt;
-&lt;systemPath&gt;${JAVA_HOME}/lib/tools.jar&lt;/systemPath&gt;
-&lt;/dependency&gt;
+    @Override
+    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
+            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
+        long count = 0l;
+        for (LongWritable value : v2s) {
+            count += value.get();
+        }
+        context.write(k2, new LongWritable(count));        
+    }
+}
 
-&lt;/dependencies&gt;    
 
-&lt;build&gt; 
-  &lt;plugins&gt;
-      &lt;plugin&gt;
-          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-          &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
-          &lt;version&gt;3.1&lt;/version&gt;
-          &lt;configuration&gt;
-              &lt;source&gt;1.7&lt;/source&gt;
-             &lt;target&gt;1.7&lt;/target&gt;
-          &lt;/configuration&gt;
-      &lt;/plugin&gt;
-  &lt;/plugins&gt;
-&lt;/build&gt;
-&lt;/project&gt;</code></pre><p>等待安装，安装时间挺长，请等待</p>
-</dependencies>
+public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, MapReduceWC.class.getSimpleName());
+    job.setJarByClass(MapReduceWC.class);    
+    FileInputFormat.addInputPath(job, new Path(args[0]));    
+    job.setMapperClass(MyMapper.class);    
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(LongWritable.class);
+    job.setReducerClass(MyReduce.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(LongWritable.class);    
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
+    job.waitForCompletion(true);    
+}</code></pre><p>}</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzch9hjm000b8svgnf0dccvf" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数/" data-id="cjzdyxl8k000334vg388mcgye" class="article-share-link">分享</a>
       
       
       
@@ -202,7 +181,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/06/maven安装1/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/13/求和/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -212,7 +191,7 @@
     </a>
   
   
-    <a href="/2019/07/31/wordcount2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/12/wordcount 完整案例/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -250,7 +229,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-创建maven工程，配置pom-xml-这个镜像可用"><span class="toc-number">1.</span> <span class="toc-text">6.创建maven工程，配置pom.xml    (这个镜像可用)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单词计数-（自己写）"><span class="toc-number">1.</span> <span class="toc-text">单词计数 （自己写）</span></a></li></ol>
           </div>
       </div>
     </div>

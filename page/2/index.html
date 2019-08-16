@@ -66,9 +66,303 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-单词计数 （自己写的案例）" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-求平均以及数据清洗 " class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/13/单词计数 （自己写的案例）/" class="article-date">
+    <a href="/2019/08/13/求平均以及数据清洗 /" class="article-date">
+  <time datetime="2019-08-13T09:03:52.805Z" itemprop="datePublished">2019-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="求平均数以及数据清洗"><a href="#求平均数以及数据清洗" class="headerlink" title="求平均数以及数据清洗"></a>求平均数以及数据清洗</h2><p>package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
+<ul>
+<li>数据样式：姓名，日期，金额，三个字段</li>
+<li>数据：</li>
+<li>张三，20198-1，30</li>
+<li>张三，20198-2，30</li>
+<li>李四，20198-1，30</li>
+<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
+<li>李四，20198-3，，      —日期位置是逗号</li>
+<li>李四，20198-4， ，     —日期位置是空格</li>
+<li>王五，20198-1</li>
+<li>王五，20198-1，30</li>
+<li>/</li>
+</ul>
+<p>  package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
+<ul>
+<li>数据样式：姓名，日期，金额，三个字段</li>
+<li>数据：</li>
+<li>张三，20198-1，30</li>
+<li>张三，20198-2，30</li>
+<li>李四，20198-1，30</li>
+<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
+<li>李四，20198-3，，      —日期位置是逗号</li>
+<li>李四，20198-4， ，     —日期位置是空格</li>
+<li>王五，20198-1</li>
+<li>王五，20198-1，30</li>
+<li>/<br>import java.io.IOException;</li>
+</ul>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
+<p>public class MapReduce_avgClean {</p>
+<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
+
+    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
+    {
+        //数据样式：姓名，日期，金额，三个字段
+        String line = value.toString();
+        String[] split = line.split(&quot;,&quot;);
+        //对数据进行过滤，将数组长度不为3的过滤出去
+        //首先将字段不满足数量的过滤掉
+        if(split.length == 3) {
+            //将关键字段不满足需求的进行清洗，回填
+            if(split[2].equals(null) || split[2].equals(&quot;&quot;) || split[2].equals(&quot; &quot;)) {
+                split[2] = &quot;0&quot;;
+            }
+
+            String name = split[0];
+            Long money = Long.parseLong(split[2]);
+            context.write(new Text(name), new LongWritable(money));
+
+        }
+
+    };    
+}
+
+public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
+
+    @Override
+    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
+            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
+        //在reduce算出消费总和，以及消费次数，因为在同一个reduce中是同一个人消费
+        //所以直接算出reduce的数据条数
+        long sum = 0l;
+        //定义次数
+        long count = 0l;
+        for (LongWritable value : v2s) {
+            count++;
+            sum += value.get();
+        }
+        context.write(k2, new LongWritable(sum/count));        
+    }
+}
+
+
+public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, MapReduce_sumClean.class.getSimpleName());
+    job.setJarByClass(MapReduce_avgClean.class);    
+    FileInputFormat.addInputPath(job, new Path(args[0]));    
+    job.setMapperClass(MyMapper.class);    
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(LongWritable.class);
+    job.setReducerClass(MyReduce.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(LongWritable.class);    
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
+    job.waitForCompletion(true);    
+}</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 /" data-id="cjzdyxl8l000634vgjsiusabe" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-求和以及数据清洗 " class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/13/求和以及数据清洗 /" class="article-date">
+  <time datetime="2019-08-13T08:46:30.399Z" itemprop="datePublished">2019-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="求和以及数据清洗"><a href="#求和以及数据清洗" class="headerlink" title="求和以及数据清洗"></a>求和以及数据清洗</h2><p>package hadoop;<br>//每个人总共花多少钱<br>//并且对数据进行清洗<br>/**</p>
+<ul>
+<li>数据样式：姓名，日期，金额，三个字段</li>
+<li>数据：</li>
+<li>张三，20198-1，30</li>
+<li>张三，20198-2，30</li>
+<li>李四，20198-1，30</li>
+<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
+<li>李四，20198-3，，      —日期位置是逗号</li>
+<li>李四，20198-4， ，     —日期位置是空格</li>
+<li>王五，20198-1</li>
+<li>王五，20198-1，30</li>
+<li>/<br>import java.io.IOException;</li>
+</ul>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
+<p>public class MapReduce_sumClean {</p>
+<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
+
+    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
+    {
+        //数据样式：姓名，日期，金额，三个字段
+        String line = value.toString();
+        String[] split = line.split(&quot;,&quot;);
+        //对数据进行过滤，将数组长度不为3的过滤出去
+        //首先将字段不满足数量的过滤掉
+        if(split.length == 3) {
+            //将关键字段不满足需求的进行清洗，回填
+            if(split[2].equals(null) || split[2].equals(&quot;&quot;) || split[2].equals(&quot; &quot;)) {
+                split[2] = &quot;0&quot;;
+            }
+
+            String name = split[0];
+            Long money = Long.parseLong(split[2]);
+            context.write(new Text(name), new LongWritable(money));
+
+        }
+
+    };    
+}
+
+public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
+
+    @Override
+    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
+            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
+        long sum = 0l;
+        for (LongWritable value : v2s) {
+            sum += value.get();
+        }
+        context.write(k2, new LongWritable(sum));        
+    }
+}
+
+
+public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, MapReduce_sumClean.class.getSimpleName());
+    job.setJarByClass(MapReduce_sumClean.class);    
+    FileInputFormat.addInputPath(job, new Path(args[0]));    
+    job.setMapperClass(MyMapper.class);    
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(LongWritable.class);
+    job.setReducerClass(MyReduce.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(LongWritable.class);    
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
+    job.waitForCompletion(true);    
+}</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/13/求和以及数据清洗 /" data-id="cjzdyxl8l000534vgj9ipk0lx" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-求和" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/13/求和/" class="article-date">
+  <time datetime="2019-08-13T08:45:34.747Z" itemprop="datePublished">2019-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="求和"><a href="#求和" class="headerlink" title="求和"></a>求和</h2><p>package hadoop;<br>//每个人花多少钱<br>import java.io.IOException;</p>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
+<p>public class MapReduce_Sum {</p>
+<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
+
+    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
+    {
+        //数据样式：姓名，日期，金额，三个字段
+        String line = value.toString();
+        String[] split = line.split(&quot;,&quot;);
+        //对数据进行过滤，将数组长度为3的过滤出来
+        if(split.length==3) {
+        for (String string : split) {
+            String name = split[0];
+            Long money = Long.parseLong(split[2]);
+            context.write(new Text(name), new LongWritable(money));
+        }
+        }
+    };    
+}
+
+public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
+
+    @Override
+    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
+            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
+        long sum = 0l;
+        for (LongWritable value : v2s) {
+            sum += value.get();
+        }
+        context.write(k2, new LongWritable(sum));        
+    }
+}
+
+
+public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, MapReduce_Sum.class.getSimpleName());
+    job.setJarByClass(MapReduce_Sum.class);    
+    FileInputFormat.addInputPath(job, new Path(args[0]));    
+    job.setMapperClass(MyMapper.class);    
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(LongWritable.class);
+    job.setReducerClass(MyReduce.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(LongWritable.class);    
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
+    job.waitForCompletion(true);    
+}</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/13/求和/" data-id="cjzdyxl8k000434vgkalkwlqe" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-单词计数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/13/单词计数/" class="article-date">
   <time datetime="2019-08-13T08:43:48.369Z" itemprop="datePublished">2019-08-13</time>
 </a>
     
@@ -127,7 +421,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数 （自己写的案例）/" data-id="cjzb7ibtb000ddwvgdnq6rmsu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数/" data-id="cjzdyxl8k000334vg388mcgye" class="article-share-link">分享</a>
       
       
       
@@ -201,7 +495,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/12/wordcount 完整案例/" data-id="cjzb7ibt70009dwvghv4y00sa" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/12/wordcount 完整案例/" data-id="cjzch9hjn000c8svggfk7tcow" class="article-share-link">分享</a>
       
       
       
@@ -251,7 +545,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjzb7ibt10005dwvg6ag5hris" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjzch9hjc00048svg5abo4mcx" class="article-share-link">分享</a>
       
       
       
@@ -331,7 +625,7 @@ public static class CountReduce extends Reducer&lt;Text, LongWritable, Text, Dou
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjzb7ibtf000ldwvgiig7ng1u" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjzch9hk5000p8svgt82gtcrn" class="article-share-link">分享</a>
       
       
       
@@ -545,7 +839,7 @@ public int run(String[] args) throws Exception {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjzb7ibtq000ndwvguv5s7ppq" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjzch9hk3000n8svgl99u09j5" class="article-share-link">分享</a>
       
       
       
@@ -571,7 +865,7 @@ public int run(String[] args) throws Exception {
       
         <!-- Table of Contents -->
         
-        <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>        private static Text line = new Text();</p>
+        <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>    //map将输入中的value复制到输出数据的key上,并直接输出<br>        private static Text line = new Text();</p>
 <pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
         line = value;
         context.write(line, new Text(&quot;&quot;));
@@ -580,7 +874,10 @@ public int run(String[] args) throws Exception {
 
 
 
+//reduce将输入中的key复制到输出数据的key上，并直接输出
 public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
+
+    //实现reduce函数
     protected void reduce(Text key, Iterable&lt;Text&gt; values,Context context) throws IOException, InterruptedException {
         context.write(key, new Text(&quot;&quot;));
     }
@@ -588,7 +885,7 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzb7ibtc000gdwvgb3ni1n2k" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzch9hjs000k8svgpfqailj5" class="article-share-link">分享</a>
       
       
       
@@ -614,184 +911,13 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
       
         <!-- Table of Contents -->
         
-        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
-<pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
-        String line = value.toString();
-        data.set(Integer.parseInt(line));
-        context.write(data, new IntWritable(1));
-    }        
-}
-
-
-
-
-public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {
-    private static IntWritable linenum = new IntWritable(1);
-    protected void reduce(IntWritable key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
-        for (IntWritable val : values) {
-            context.write(linenum, key);
-            linenum = new IntWritable(linenum.get()+1);
-        }
-    }
-}</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjzb7ibtc000fdwvggkc3j6km" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-平均成绩" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/09/平均成绩/" class="article-date">
-  <time datetime="2019-08-09T10:53:39.751Z" itemprop="datePublished">2019-08-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="平均成绩"><a href="#平均成绩" class="headerlink" title="平均成绩"></a>平均成绩</h2><p>mapreduce 计算平均成绩</p>
-<p>  public static class Map extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
-<pre><code>    public void map(LongWritable key,Text value,Context context)throws IOException, InterruptedException{
-        String line = value.toString();
-        String [] ss = line.split(&quot; &quot;);        
-        String strName = ss[0];
-        String strScore = ss[1];        
-        Text name = new Text(strName);
-        int scoreInt =     Integer.parseInt(strScore);
-        context.write(name, new IntWritable(scoreInt));
-    }        
-}
-
-
-
-
-public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
-    protected void reduce(Text key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
-        int sum = 0;
-        int count = 0;
-        Iterator&lt;IntWritable&gt; iterator = values.iterator();
-        while(iterator.hasNext()) {
-            sum += iterator.next().get();
-            count++;
-        }
-        int average = (int)sum/count;
-        context.write(key, new IntWritable(average));
-    }
-}</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzb7ibta000cdwvg6s5vic48" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-在eclipse中向hdfs上传文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/06/在eclipse中向hdfs上传文件/" class="article-date">
-  <time datetime="2019-08-06T13:35:27.305Z" itemprop="datePublished">2019-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="在eclipse中向hdfs上传文件"><a href="#在eclipse中向hdfs上传文件" class="headerlink" title="在eclipse中向hdfs上传文件"></a>在eclipse中向hdfs上传文件</h2><p>public class hdfs {</p>
-<pre><code>static FileSystem fs = null;
-static{
-Configuration conf = new Configuration();
-String path = null;
-//fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,root);
-try {
-    fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
-} catch (IOException e) {
-    // TODO Auto-generated catch block
-    e.printStackTrace();
-} catch (InterruptedException e) {
-    // TODO Auto-generated catch block
-    e.printStackTrace();
-} catch (URISyntaxException e) {
-    // TODO Auto-generated catch block
-    e.printStackTrace();
-}
-}
-public static void copyFromLocal() throws IOException {
-fs.copyFromLocalFile(new Path(&quot;D:\\text\\123.txt&quot;),new Path(&quot;/input/123&quot;));
-System.out.println(&quot;finished...&quot;);
-}    </code></pre><p>}</p>
+        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>  //map将输入中的value转化成IntWritable类型，作为输出的key<br>        private static IntWritable data = new IntWritable();<br>        //实现map函数<br>        public void map(Object key,Text value,Context context)throws IOException, InterruptedException{<br>            String line = value.toString();<br>            data.set(Integer.parseInt(line));<br>            context.write(data, new IntWritable(1));<br>        }<br>    }</p>
+<p>//reduce将输入中的key复制到输出数据的key上<br>//然后根据输入的value-list中的元素的个数决定key的输出次数<br>//用全局linenum来代表key的位次<br>    public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {<br>        private static IntWritable linenum = new IntWritable(1);<br>        //实现reduce函数<br>        protected void reduce(IntWritable key, Iterable<intwritable> values,Context context) throws IOException, InterruptedException {<br>            for (IntWritable val : values) {<br>                context.write(linenum, key);<br>                linenum = new IntWritable(linenum.get()+1);<br>            }<br>        }<br>    }</intwritable></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjzb7ibtb000edwvgxfdul88y" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-解决eclipse中无法执行向hadoop上传文件问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" class="article-date">
-  <time datetime="2019-08-06T13:29:08.157Z" itemprop="datePublished">2019-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="解决eclipse中无法执行向hadoop上传文件问题"><a href="#解决eclipse中无法执行向hadoop上传文件问题" class="headerlink" title="解决eclipse中无法执行向hadoop上传文件问题"></a>解决eclipse中无法执行向hadoop上传文件问题</h2><p>main……的问题</p>
-<p>Permission denied: user=zhuy, access=WRITE, inode=”/user”:root:supergroup:drwxr-xr-x<br>从这句话我们可知道是权限问题</p>
-<p>所以要修改权限在  hdfs-site.xml加入如下代码   （每台都要修改）</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;dfs.permissions&lt;/name&gt;
-    &lt;value&gt;false&lt;/value&gt;
-    &lt;description&gt;
-      If &quot;true&quot;, enable permission checking in HDFS.
-      If &quot;false&quot;, permission checking is turned off,
-      but all other behavior is unchanged.
-      Switching from one parameter value to the other does not change the mode,
-      owner or group of files or directories.
-    &lt;/description&gt;
-&lt;/property&gt;</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzb7ibtp000mdwvgklof60mm" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjzch9hjr000i8svgzladgvtm" class="article-share-link">分享</a>
       
       
       
@@ -829,23 +955,23 @@ System.out.println(&quot;finished...&quot;);
       <ul>
         
           <li>
+            <a href="/2019/08/16/hive命令8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/16/hive命令7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/16/hive命令6/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/15/hive命令5/">(no title)</a>
           </li>
         
           <li>
             <a href="/2019/08/15/hive命令4/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/15/hive命令3/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/14/MapReduce_Join/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/14/求每个用户平均停留时长/">(no title)</a>
           </li>
         
       </ul>

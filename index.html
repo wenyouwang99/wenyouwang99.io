@@ -66,6 +66,141 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/16/hive命令8/" class="article-date">
+  <time datetime="2019-08-16T10:26:17.214Z" itemprop="datePublished">2019-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.将数据装载到表中<br>load data [local] inpath ‘filepath’ [overwrite] into table table_name;<br>(1)load data –向hive装载数据的关键字<br>(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据<br>          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件<br>(3)inpath ‘filrpath’ –如果使用local：file://user/hive/example (自己写的路径，随便写)<br>如果省略local：hdfs://namenode:9000/user/hive/example(这里举例区别不同)<br>(4)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(5)into table table_name  –tablename是hive中已经存在的表的名称<br>                使用create table tablename语句</p>
+<p>2.hive的建表语法<br>create [external] table <table_name>(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</table_name></p>
+<p>注意：还可以这样写<br>create [external] table <table_name>(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</table_name></p>
+<p>3.案例<br>创建一个新数据库<br>create database census;<br>使用该数据库<br>use census;<br>创建一个新表<br>create table person(<br>persid        int,<br>lastname    string,<br>firstname   string<br>)<br>row format delimited terminated by ‘,’;<br>将数据从csv(逗号文件，以逗号分隔，excel也能打开)文件装载到该新表<br>load data local inpath ‘file:///root/hive/example/person001’ overwrite into table person;<br>查看表中是否有数据<br>select persid,lastname,firstname from person limit 10;  //limit有助于观赏效果</p>
+<p>4.使用查询装载数据<br>insert [overwrite]<br>table tablename [if not exists]<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(4)if not exists  –如果在命令中包含if not exists，那么hive命令将在当前数据库中创建一个          表，如果省略，当该表不存在时将执行失败<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
+<p>5.使用已有表创建新表，案例<br>使用已有数据库<br>use census;<br>创建新表<br>create table personhub(<br>persid  int<br>);<br>将数据插入新表，覆盖表中已有数据<br>insert overwrite<br>table tablename<br>select Distinct personID from Person;<br>//SELECT DISTINCT 表示查询结果中，去掉了重复的行；Distinct表示去掉重复的行<br>检查数据是否已在表中(测试数据假设是80条)<br>select persid from personhub limit 10;</p>
+<p>现在再次上传数据并测试去除overwrite参数后的执行情况<br>use census;<br>insert overwrite table personhub select distinct persid from Person;<br>查看是否所有数据都已经加载，而且没有删除之前的数据<br>select persid from personhub;  //此时数据是80*2=160条</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzdyxl8j000234vga11xi11q" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive命令7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/16/hive命令7/" class="article-date">
+  <time datetime="2019-08-16T10:25:35.546Z" itemprop="datePublished">2019-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.重命名分区<br>alter table ids partition (datestamp=’2016-05-31’) rename to<br>partition (datestamp=’31-05-2016’);</p>
+<p>show partitions ids;</p>
+<p>datestamp=2016-05-30 (修改前)<br>datestamp=31-05-2016 (修改后)</p>
+<p>2.修改列–添加列<br>在schema-on-read架构上，有一个关键需求，就是要能够修改模式或表的元数据。<br>用户可以在表上定义各种类型的元数据，而且修改这些元数据时，不需要担心修改<br>底层数据（只对外部表）。<br>alter table retail.transactions add columns (loyalty_card boolean);<br>新列将被添加到当前列之后、分区列之前。分区列的值来自于分区定义，并不是<br>存放在数据文件本身之中，也不在create table命令中列的列表之中。<br>虽然实际上分区列并没有嵌入到数据本身之中，但是当你执行select * 语句时，分区列<br>总是会出现在列的列表的最后。</p>
+<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table <table_name>;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table <table_name> purge;</table_name></table_name></p>
+<p>4.删除分区,只有当表是受控表时，hive才能删除真实的分区数据，下面2种删除方式(一样)<br>alter table transactions drop partition (store=’oakdrive’);<br>dropped the partition store=oakdrive;<br>本例中，数据仍然存放在hdfs上（假设你使用了一个外部表），但是针对该事务处理表的<br>查询无法再读取该分区。因此查询结果集中没有含有store=oakdrive的行，因为这个表<br>中已经没有这个分区了</p>
+<p>5.保护表/分区<br>alter table enable no_drop防止用户删除hive中的表<br>案例：如何在hive更改一个表，以避免它被删除<br>alter table transactions enable no_drop;<br>drop table transactions ;     //这个命令会报错</p>
+<p>案例：使某个表处于离线状态，以防止该表的数据被用户查询到，同时这并不会对另一个<br>访问同一底层数据的表造成影响<br>alter table transactions enable offline;<br>select * from transactions ;   //这个命令会报错</p>
+<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table <table_name> partition <partition _spec> enable offline;</partition></table_name></p>
+<p>6.其他create table 命令选项<br>(1)使用 create table as select (ctas) 命令，利用其结果集和查询输出模式来创建一个内部表<br>create table retail.transactions _top100<br>as<br>select * from retail.transactions where custid&lt;101;</p>
+<p>你可以使用这一特性来抽取某个表的子集，并且以另一种格式将该子集存放在一个新表中。<br>下面给出例子，实现：它为目标表指定了一种新格式<br>create table retail.transactions _top100 stored as orcfile<br>as<br>select * from retail.transactions where custid&lt;101;<br>注意：在ctas命令中，hive对目标表的格式有一些限制。新的目标表不能是外部表、分区表或<br>分桶表。</p>
+<p>(2)create table like 命令<br>如果向复制某个已有表的模式而不复制它的数据，可以使用这个命令<br>create table transactions_test like transactions;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzdyxl8i000134vgc1zjavyu" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive命令6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/16/hive命令6/" class="article-date">
+  <time datetime="2019-08-16T10:24:45.414Z" itemprop="datePublished">2019-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.更改表分区<br>(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区<br>alter table add partition</p>
+<p>hadoop fs -mkdir /user/demo/ids<br>hadoop fs -mkdir /user/demo/ids/2016-05-31<br>hadoop fs -mkdir /user/demo/ids/2016-05-30</p>
+<p>将数据复制到这些目录下</p>
+<p>hadoop fs -put /tmp/2016-05-31.txt /user/demo/ids/2016-05-31/<br>hadoop fs -put /tmp/2016-05-30.txt /user/demo/ids/2016-05-30/</p>
+<p>创建外部表并且为其添加分区</p>
+<p>create external table ids(a int) partitioned by (datestamp string) location’/user/demo/ids’;</p>
+<p>为表添加分区<br>alter table ids add partition (datestamp=’2016-05-30’) location ‘/user/demo/ids/2016-05-30/‘;</p>
+<p>hive&gt;select * from ids;</p>
+<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30</p>
+<p>alter table ids add partition (datestamp=’2016-05-31’) location ‘/user/demo/ids/2016-05-31/‘;</p>
+<p>hive&gt;select * from ids;</p>
+<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30<br>1    2016-05-31<br>2    2016-05-31<br>3    2016-05-31<br>4    2016-05-31</p>
+<p>(2)为内部表添加分区<br>创建内部表<br>msck pepair table</p>
+<p>create table ids_internal (a int) partitioned by (datestamp string);</p>
+<p>为2个不同的分区插入几行数据</p>
+<p>insert into ids_internal partition (datestamp = ‘2016-05-30’) value (1);<br>insert into ids_internal partition (datestamp = ‘2016-05-3’) value (11);</p>
+<p>show partitions ids_internal;</p>
+<p>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
+<p>我们将在该表的目录下创建一个新的子目录并且为其添加一个文件</p>
+<p>hadoop fs -mkdir /apps/hive/warehouse/ids_internal/datestamp=2016-05-21 </p>
+<p>hadoop fs -put /tmp/2016-05-21.txt /apps/hive/warehouse/ids_internal/datestamp<br>=2016-05-21 </p>
+<p>现在运行msck pepair table命令来为该表添加新分区</p>
+<p>msck pepair table ids_internal;</p>
+<p>show partitions ids_internal;</p>
+<p>datestamp=2016-05-21<br>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
+<p>msck pepair 命令为ids_internal表检查/apps/hive/warehouse/ids_internal下的子目录，<br>而且因为它找到了一个名为datestamp=2016-05-21的新目录，所以它会将该子目录作为<br>一个新分区添加到ids_internal表。当你添加了很多新的分区目录，并且想要一次性全部更新<br>它们的表定义时，这种方法尤其有用。注意：这种方式仅对内部表有效。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzdyxl8e000034vg5kfeyys2" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令5" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/15/hive命令5/" class="article-date">
@@ -91,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzch8jup0002w8vgbh4eu9wj" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzch9hjj00088svgz7kqg7b1" class="article-share-link">分享</a>
       
       
       
@@ -129,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzch8juo0001w8vgt4edcdec" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzch9hjj00098svgtrmni4v1" class="article-share-link">分享</a>
       
       
       
@@ -170,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzch8jt70000w8vg3uug9sts" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzch9hji00078svgs5892hsi" class="article-share-link">分享</a>
       
       
       
@@ -314,7 +449,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzb7ibsx0001dwvgigefdo79" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzch9hj900018svg2ckmmz06" class="article-share-link">分享</a>
       
       
       
@@ -403,7 +538,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzb7ibtf000kdwvg9fe9dglq" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzch9hk4000o8svgjurq85si" class="article-share-link">分享</a>
       
       
       
@@ -438,7 +573,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzb7ibt00004dwvgf0k9cg3m" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzch9hja00028svg4ow4m6bi" class="article-share-link">分享</a>
       
       
       
@@ -481,301 +616,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzb7ibt20006dwvggyzk9eh4" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-求平均以及数据清洗 （自己写的案例）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/13/求平均以及数据清洗 （自己写的案例）/" class="article-date">
-  <time datetime="2019-08-13T09:03:52.805Z" itemprop="datePublished">2019-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="求平均数以及数据清洗-（自己写的案例）"><a href="#求平均数以及数据清洗-（自己写的案例）" class="headerlink" title="求平均数以及数据清洗 （自己写的案例）"></a>求平均数以及数据清洗 （自己写的案例）</h2><p>package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
-<ul>
-<li>数据样式：姓名，日期，金额，三个字段</li>
-<li>数据：</li>
-<li>张三，20198-1，30</li>
-<li>张三，20198-2，30</li>
-<li>李四，20198-1，30</li>
-<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
-<li>李四，20198-3，，      —日期位置是逗号</li>
-<li>李四，20198-4， ，     —日期位置是空格</li>
-<li>王五，20198-1</li>
-<li>王五，20198-1，30</li>
-<li>/</li>
-</ul>
-<p>  package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
-<ul>
-<li>数据样式：姓名，日期，金额，三个字段</li>
-<li>数据：</li>
-<li>张三，20198-1，30</li>
-<li>张三，20198-2，30</li>
-<li>李四，20198-1，30</li>
-<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
-<li>李四，20198-3，，      —日期位置是逗号</li>
-<li>李四，20198-4， ，     —日期位置是空格</li>
-<li>王五，20198-1</li>
-<li>王五，20198-1，30</li>
-<li>/<br>import java.io.IOException;</li>
-</ul>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class MapReduce_avgClean {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        //数据样式：姓名，日期，金额，三个字段
-        String line = value.toString();
-        String[] split = line.split(&quot;,&quot;);
-        //对数据进行过滤，将数组长度不为3的过滤出去
-        //首先将字段不满足数量的过滤掉
-        if(split.length == 3) {
-            //将关键字段不满足需求的进行清洗，回填
-            if(split[2].equals(null) || split[2].equals(&quot;&quot;) || split[2].equals(&quot; &quot;)) {
-                split[2] = &quot;0&quot;;
-            }
-
-            String name = split[0];
-            Long money = Long.parseLong(split[2]);
-            context.write(new Text(name), new LongWritable(money));
-
-        }
-
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
-            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        //在reduce算出消费总和，以及消费次数，因为在同一个reduce中是同一个人消费
-        //所以直接算出reduce的数据条数
-        long sum = 0l;
-        //定义次数
-        long count = 0l;
-        for (LongWritable value : v2s) {
-            count++;
-            sum += value.get();
-        }
-        context.write(k2, new LongWritable(sum/count));        
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, MapReduce_sumClean.class.getSimpleName());
-    job.setJarByClass(MapReduce_avgClean.class);    
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 （自己写的案例）/" data-id="cjzb7ibte000jdwvglhcx2xou" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-求和以及数据清洗 （自己写的案例）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/13/求和以及数据清洗 （自己写的案例）/" class="article-date">
-  <time datetime="2019-08-13T08:46:30.399Z" itemprop="datePublished">2019-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="求和以及数据清洗-（自己写的案例）"><a href="#求和以及数据清洗-（自己写的案例）" class="headerlink" title="求和以及数据清洗 （自己写的案例）"></a>求和以及数据清洗 （自己写的案例）</h2><p>package hadoop;<br>//每个人总共花多少钱<br>//并且对数据进行清洗<br>/**</p>
-<ul>
-<li>数据样式：姓名，日期，金额，三个字段</li>
-<li>数据：</li>
-<li>张三，20198-1，30</li>
-<li>张三，20198-2，30</li>
-<li>李四，20198-1，30</li>
-<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
-<li>李四，20198-3，，      —日期位置是逗号</li>
-<li>李四，20198-4， ，     —日期位置是空格</li>
-<li>王五，20198-1</li>
-<li>王五，20198-1，30</li>
-<li>/<br>import java.io.IOException;</li>
-</ul>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class MapReduce_sumClean {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        //数据样式：姓名，日期，金额，三个字段
-        String line = value.toString();
-        String[] split = line.split(&quot;,&quot;);
-        //对数据进行过滤，将数组长度不为3的过滤出去
-        //首先将字段不满足数量的过滤掉
-        if(split.length == 3) {
-            //将关键字段不满足需求的进行清洗，回填
-            if(split[2].equals(null) || split[2].equals(&quot;&quot;) || split[2].equals(&quot; &quot;)) {
-                split[2] = &quot;0&quot;;
-            }
-
-            String name = split[0];
-            Long money = Long.parseLong(split[2]);
-            context.write(new Text(name), new LongWritable(money));
-
-        }
-
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
-            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        long sum = 0l;
-        for (LongWritable value : v2s) {
-            sum += value.get();
-        }
-        context.write(k2, new LongWritable(sum));        
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, MapReduce_sumClean.class.getSimpleName());
-    job.setJarByClass(MapReduce_sumClean.class);    
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求和以及数据清洗 （自己写的案例）/" data-id="cjzb7ibtd000idwvgim5zh6xb" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-求和 （自己写的案例）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/13/求和 （自己写的案例）/" class="article-date">
-  <time datetime="2019-08-13T08:45:34.747Z" itemprop="datePublished">2019-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="求和-（自己写的案例）"><a href="#求和-（自己写的案例）" class="headerlink" title="求和 （自己写的案例）"></a>求和 （自己写的案例）</h2><p>package hadoop;<br>//每个人花多少钱<br>import java.io.IOException;</p>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class MapReduce_Sum {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        //数据样式：姓名，日期，金额，三个字段
-        String line = value.toString();
-        String[] split = line.split(&quot;,&quot;);
-        //对数据进行过滤，将数组长度为3的过滤出来
-        if(split.length==3) {
-        for (String string : split) {
-            String name = split[0];
-            Long money = Long.parseLong(split[2]);
-            context.write(new Text(name), new LongWritable(money));
-        }
-        }
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
-            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        long sum = 0l;
-        for (LongWritable value : v2s) {
-            sum += value.get();
-        }
-        context.write(k2, new LongWritable(sum));        
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, MapReduce_Sum.class.getSimpleName());
-    job.setJarByClass(MapReduce_Sum.class);    
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求和 （自己写的案例）/" data-id="cjzb7ibtd000hdwvgkda2zlto" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzch9hjf00068svg4n7wdzln" class="article-share-link">分享</a>
       
       
       
@@ -833,23 +674,23 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       <ul>
         
           <li>
+            <a href="/2019/08/16/hive命令8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/16/hive命令7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/16/hive命令6/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/15/hive命令5/">(no title)</a>
           </li>
         
           <li>
             <a href="/2019/08/15/hive命令4/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/15/hive命令3/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/14/MapReduce_Join/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/14/求每个用户平均停留时长/">(no title)</a>
           </li>
         
       </ul>
@@ -861,7 +702,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

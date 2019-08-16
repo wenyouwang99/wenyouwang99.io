@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据去重  public static class Map extends Mapper&amp;lt;Object, Text, Text, Text&amp;gt;{        private static Text line = new Text();     public void map(Object key,Text value,Context context)throws IOException">
+  <meta name="description" content="数据去重  public static class Map extends Mapper&amp;lt;Object, Text, Text, Text&amp;gt;{    //map将输入中的value复制到输出数据的key上,并直接输出        private static Text line = new Text();     public void map(Object key,Text val">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://wenyouwang99.io/2019/08/09/数据去重/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="数据去重  public static class Map extends Mapper&amp;lt;Object, Text, Text, Text&amp;gt;{        private static Text line = new Text();     public void map(Object key,Text value,Context context)throws IOException">
+<meta property="og:description" content="数据去重  public static class Map extends Mapper&amp;lt;Object, Text, Text, Text&amp;gt;{    //map将输入中的value复制到输出数据的key上,并直接输出        private static Text line = new Text();     public void map(Object key,Text val">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-09T10:56:25.743Z">
+<meta property="og:updated_time" content="2019-08-15T09:31:40.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="数据去重  public static class Map extends Mapper&amp;lt;Object, Text, Text, Text&amp;gt;{        private static Text line = new Text();     public void map(Object key,Text value,Context context)throws IOException">
+<meta name="twitter:description" content="数据去重  public static class Map extends Mapper&amp;lt;Object, Text, Text, Text&amp;gt;{    //map将输入中的value复制到输出数据的key上,并直接输出        private static Text line = new Text();     public void map(Object key,Text val">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -82,7 +82,7 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>        private static Text line = new Text();</p>
+        <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>    //map将输入中的value复制到输出数据的key上,并直接输出<br>        private static Text line = new Text();</p>
 <pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
         line = value;
         context.write(line, new Text(&quot;&quot;));
@@ -91,7 +91,10 @@
 
 
 
+//reduce将输入中的key复制到输出数据的key上，并直接输出
 public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
+
+    //实现reduce函数
     protected void reduce(Text key, Iterable&lt;Text&gt; values,Context context) throws IOException, InterruptedException {
         context.write(key, new Text(&quot;&quot;));
     }
@@ -99,7 +102,7 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzb7ibtc000gdwvgb3ni1n2k" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzch9hjs000k8svgpfqailj5" class="article-share-link">分享</a>
       
       
       

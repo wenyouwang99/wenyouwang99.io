@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.将数据装载到表中load data [local] inpath ‘filepath’ [overwrite] into table table_name;(1)load data –向hive装载数据的关键字(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件(3">
+  <meta name="description" content="1.将查询到的数据写入文件系统insert [overwrite]directory directorynameselect select_fileds from from_statement;语法解释：(1)insert  –将数据向hive装载数据的关键字(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据如果省略，支持用户将数据装载到一个早已建好的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/16/hive命令8/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/17/hive命令9/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.将数据装载到表中load data [local] inpath ‘filepath’ [overwrite] into table table_name;(1)load data –向hive装载数据的关键字(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件(3">
+<meta property="og:description" content="1.将查询到的数据写入文件系统insert [overwrite]directory directorynameselect select_fileds from from_statement;语法解释：(1)insert  –将数据向hive装载数据的关键字(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据如果省略，支持用户将数据装载到一个早已建好的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:29:19.026Z">
+<meta property="og:updated_time" content="2019-08-17T08:17:05.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.将数据装载到表中load data [local] inpath ‘filepath’ [overwrite] into table table_name;(1)load data –向hive装载数据的关键字(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件(3">
+<meta name="twitter:description" content="1.将查询到的数据写入文件系统insert [overwrite]directory directorynameselect select_fileds from from_statement;语法解释：(1)insert  –将数据向hive装载数据的关键字(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据如果省略，支持用户将数据装载到一个早已建好的">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令8" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令9" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/16/hive命令8/" class="article-date">
-  <time datetime="2019-08-16T10:26:17.214Z" itemprop="datePublished">2019-08-16</time>
+    <a href="/2019/08/17/hive命令9/" class="article-date">
+  <time datetime="2019-08-17T08:17:05.679Z" itemprop="datePublished">2019-08-17</time>
 </a>
     
   </div>
@@ -82,18 +82,38 @@
       
         <!-- Table of Contents -->
         
-        <p>1.将数据装载到表中<br>load data [local] inpath ‘filepath’ [overwrite] into table table_name;<br>(1)load data –向hive装载数据的关键字<br>(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据<br>          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件<br>(3)inpath ‘filrpath’ –如果使用local：file://user/hive/example (自己写的路径，随便写)<br>如果省略local：hdfs://namenode:9000/user/hive/example(这里举例区别不同)<br>(4)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(5)into table table_name  –tablename是hive中已经存在的表的名称<br>                使用create table tablename语句</p>
-<p>2.hive的建表语法<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下   </p>
-<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
-<p>3.案例<br>创建一个新数据库<br>create database census;<br>使用该数据库<br>use census;<br>创建一个新表<br>create table person(<br>persid        int,<br>lastname    string,<br>firstname   string<br>)<br>row format delimited terminated by ‘,’;<br>将数据从csv(逗号文件，以逗号分隔，excel也能打开)文件装载到该新表<br>load data local inpath ‘file:///root/hive/example/person001’ overwrite into table person;<br>查看表中是否有数据<br>select persid,lastname,firstname from person limit 10;  //limit有助于观赏效果</p>
-<p>4.使用查询装载数据<br>insert [overwrite]<br>table tablename [if not exists]<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(4)if not exists  –如果在命令中包含if not exists，那么hive命令将在当前数据库中创建一个          表，如果省略，当该表不存在时将执行失败<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
-<p>5.使用已有表创建新表，案例<br>使用已有数据库<br>use census;<br>创建新表<br>create table personhub(<br>persid  int<br>);<br>将数据插入新表，覆盖表中已有数据<br>insert overwrite<br>table tablename<br>select Distinct personID from Person;<br>//SELECT DISTINCT 表示查询结果中，去掉了重复的行；Distinct表示去掉重复的行<br>检查数据是否已在表中(测试数据假设是80条)<br>select persid from personhub limit 10;</p>
-<p>现在再次上传数据并测试去除overwrite参数后的执行情况<br>use census;<br>insert overwrite table personhub select distinct persid from Person;<br>查看是否所有数据都已经加载，而且没有删除之前的数据<br>select persid from personhub;  //此时数据是80*2=160条</p>
+        <p>1.将查询到的数据写入文件系统<br>insert [overwrite]<br>directory directoryname<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)directory directoryname  —-directoryname 是hadoop分布式文件系统中已有的目录<br>                                        名称，使用hadoop fs -mkdir directoryname 来创建一个目录<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
+<p>2.使用已有表创建输出目录<br>hadoop fs -mkdir ‘exampleoutput’</p>
+<p>hive</p>
+<p>use census;</p>
+<p>insert overwrite<br>directory ‘exampleoutput’<br>row format delimited fields terminated by ‘,’<br>select persid,firstname,lastname<br>from Person;</p>
+<p>exits;</p>
+<p>测试一下，是否所有的数据都已经装载<br>hadoop fs -cat ‘exampleoutput/000000_0’ </p>
+<p>3.直接向表插入值<br>hive支持用一系列静态值直接将数据装载到表中<br>insert into table tablename values (row_values1),(row_values2);<br>语法解释<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(3)values (row_values1),(row_values2)  –值(row_values1),(row_values2)是相同格式<br>                的单条记录，而不是表的记录</p>
+<p>4.案例<br>目标：可以将一条记录直接插入到一个名为 personhub 的表中<br>use census;</p>
+<p>insert into table personhub values (0);</p>
+<p>测试一下数据是否加载<br>select persid from personhub where persid = 0 ;</p>
+<p>5.直接更新表中的数据<br>update tablename set column = value [where expression] ;<br>语法解释<br>set column = value  –set 命令更新该列一个值<br>[where expression]  –where 可用于为不同的查询挑选特定列的值</p>
+<p>6.案例<br>目标：更新person20表的数据<br>use census;</p>
+<p>create table census.person20(<br>persid       int,<br>firstname  string,<br>lastname  string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table person20 values (0,’A’,’B’),(2,’x’,’y’);</p>
+<p>测试数据是否已经插入<br>select * from census.person20;       //结果是2行上面插入的结果的记录</p>
+<p>现在执行  更新  操作<br>use census;</p>
+<p>update census.person20 set lastname = ‘SS’ where persid = 0 ;</p>
+<p>select * from census.person20;   //结果是2行记录</p>
+<p>7.在表中直接删除数据<br>delete tablename [where experssion] ;</p>
+<p>8.案例<br>use census;</p>
+<p>create table census.person20(<br>persid       int,<br>firstname  string,<br>lastname  string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table person30 values (0,’A’,’B’),(2,’x’,’y’);</p>
+<p>测试数据是否已经插入<br>select * from census.person30;       //结果是2行上面插入的结果的记录</p>
+<p>删除一条记录<br>use census;</p>
+<p>delete from census.person30 where persid = 0 ;</p>
+<p>select * from census.person30;   //结果是1条记录</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzdz3diy000cd8vg0vw86nnq" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzf9t19l0003pcvgltkeyxw3" class="article-share-link">分享</a>
       
       
       
@@ -145,7 +165,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/17/hive命令9/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/17/hive命令10/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -155,7 +175,7 @@
     </a>
   
   
-    <a href="/2019/08/16/hive命令7/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/16/hive命令8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

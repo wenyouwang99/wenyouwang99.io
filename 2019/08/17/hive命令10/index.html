@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.将数据装载到表中load data [local] inpath ‘filepath’ [overwrite] into table table_name;(1)load data –向hive装载数据的关键字(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件(3">
+  <meta name="description" content="1.创建结构相同的表create table table_name like table_name1;语法解释table_name  –要创建表的名字table_name1  –hive中已有表的名字 2.案例目标：使用person表的结构创建一个名为person40的表use census; create table person40 like person; select * from per">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/16/hive命令8/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/17/hive命令10/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.将数据装载到表中load data [local] inpath ‘filepath’ [overwrite] into table table_name;(1)load data –向hive装载数据的关键字(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件(3">
+<meta property="og:description" content="1.创建结构相同的表create table table_name like table_name1;语法解释table_name  –要创建表的名字table_name1  –hive中已有表的名字 2.案例目标：使用person表的结构创建一个名为person40的表use census; create table person40 like person; select * from per">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:29:19.026Z">
+<meta property="og:updated_time" content="2019-08-17T08:17:34.774Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.将数据装载到表中load data [local] inpath ‘filepath’ [overwrite] into table table_name;(1)load data –向hive装载数据的关键字(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件(3">
+<meta name="twitter:description" content="1.创建结构相同的表create table table_name like table_name1;语法解释table_name  –要创建表的名字table_name1  –hive中已有表的名字 2.案例目标：使用person表的结构创建一个名为person40的表use census; create table person40 like person; select * from per">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令8" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/16/hive命令8/" class="article-date">
-  <time datetime="2019-08-16T10:26:17.214Z" itemprop="datePublished">2019-08-16</time>
+    <a href="/2019/08/17/hive命令10/" class="article-date">
+  <time datetime="2019-08-17T08:17:34.774Z" itemprop="datePublished">2019-08-17</time>
 </a>
     
   </div>
@@ -82,18 +82,34 @@
       
         <!-- Table of Contents -->
         
-        <p>1.将数据装载到表中<br>load data [local] inpath ‘filepath’ [overwrite] into table table_name;<br>(1)load data –向hive装载数据的关键字<br>(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据<br>          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件<br>(3)inpath ‘filrpath’ –如果使用local：file://user/hive/example (自己写的路径，随便写)<br>如果省略local：hdfs://namenode:9000/user/hive/example(这里举例区别不同)<br>(4)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(5)into table table_name  –tablename是hive中已经存在的表的名称<br>                使用create table tablename语句</p>
-<p>2.hive的建表语法<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下   </p>
-<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
-<p>3.案例<br>创建一个新数据库<br>create database census;<br>使用该数据库<br>use census;<br>创建一个新表<br>create table person(<br>persid        int,<br>lastname    string,<br>firstname   string<br>)<br>row format delimited terminated by ‘,’;<br>将数据从csv(逗号文件，以逗号分隔，excel也能打开)文件装载到该新表<br>load data local inpath ‘file:///root/hive/example/person001’ overwrite into table person;<br>查看表中是否有数据<br>select persid,lastname,firstname from person limit 10;  //limit有助于观赏效果</p>
-<p>4.使用查询装载数据<br>insert [overwrite]<br>table tablename [if not exists]<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(4)if not exists  –如果在命令中包含if not exists，那么hive命令将在当前数据库中创建一个          表，如果省略，当该表不存在时将执行失败<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
-<p>5.使用已有表创建新表，案例<br>使用已有数据库<br>use census;<br>创建新表<br>create table personhub(<br>persid  int<br>);<br>将数据插入新表，覆盖表中已有数据<br>insert overwrite<br>table tablename<br>select Distinct personID from Person;<br>//SELECT DISTINCT 表示查询结果中，去掉了重复的行；Distinct表示去掉重复的行<br>检查数据是否已在表中(测试数据假设是80条)<br>select persid from personhub limit 10;</p>
-<p>现在再次上传数据并测试去除overwrite参数后的执行情况<br>use census;<br>insert overwrite table personhub select distinct persid from Person;<br>查看是否所有数据都已经加载，而且没有删除之前的数据<br>select persid from personhub;  //此时数据是80*2=160条</p>
+        <p>1.创建结构相同的表<br>create table table_name like table_name1;<br>语法解释<br>table_name  –要创建表的名字<br>table_name1  –hive中已有表的名字</p>
+<p>2.案例<br>目标：使用person表的结构创建一个名为person40的表<br>use census;</p>
+<p>create table person40 like person;</p>
+<p>select * from person40;</p>
+<p>插入数据（能插入就成功）<br>insert into table person40 values (0,’Bob’,’Burger’),(1,’Charlie’,’clown’);<br>select * from person40;   //此时有2行数据</p>
+<p>3.连接<br>hive支持表之间的等值连接，使你能够整合来自两个表的数据<br>select table_fields<br>from table_one<br>join table_two<br>on (table_one.key_one = table_two.key_one<br>and table_one.key_two = table_two.key_two);<br>语法解释<br>(1)select table_fields   –用于从两个表中选取一系列字段的关键字<br>(2)from table_one join table_two   –罗列出两个为了检索table_fields而进行连接操作的表<br>(3)on (table_one.key_one = table_two.key_one  —列出连接两个表的等值规则<br>and table_one.key_two = table_two.key_two)</p>
+<p>4.案例<br>目标：在表census.personname和表census.address之间创建连接<br>use census;</p>
+<p>create table census.personname(<br>persid       int,<br>firstname  string,<br>lastname   string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table census.personname<br>values<br>(0,’Albert’,’ape’),<br>(1,’Bob’,’Burger’)<br>(2,’Charlie’,’Clown’),<br>(3,’Danny’,’Drywer’);</p>
+<p>create table census.address(<br>persid        int,<br>postname  string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table census.address<br>values<br>(1,’KA13’),<br>(2,’KA9’),<br>(10,’SW1’);</p>
+<p>现在执行连接操作<br>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>结果如下<br>Bob    Burger    KA13<br>Charlie    Clown    KA9</p>
+<p>5.使用外连接<br>hive支持采用left,right,full outer等连接方式实现表之间的等值连接，这其中无匹配的键<br>select table_fields<br>from table_one<br>[left,right,full outer]<br>join table_two<br>on (table_one.key_one = table_two.key_one<br>and table_one.key_two = table_two.key_two);<br>语法解释<br>(1)left –left 连接产生的结果包含表table_one中匹配where语句的字段值以及表<br>         table_two中匹配和不匹配where语句的字段值<br>(2)right –right 连接产生的结果包含表table_one中匹配where语句的字段值以及表<br>         table_one中匹配和不匹配where语句的字段值<br>(3)full outer –full outer 连接将返回表table_two和table_one中的字段值；当有不匹配<br>                      where语句的行时，其字段值为null<br>(4)on  –列出两个表的等值规则</p>
+<p>6.案例<br>左连接方式<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>left join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>此时结果是4条记录<br>Albert    Ape    null<br>Bob    Burger    KA13<br>Charlie    Clown    KA9<br>Danny    Drywer    null</p>
+<p>右连接方式<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>right join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>此时结果是3条记录<br>Bob    Burger    KA13<br>Charlie    Clown    KA9<br>Danny    Drywer    null</p>
+<p>使用完全外连接<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>full outer join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>此时结果是5条记录<br>Albert    Ape    null<br>Bob    Burger    KA13<br>Charlie    Clown    KA9<br>Danny    Drywer    null<br>null    null    SW1</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzdz3diy000cd8vg0vw86nnq" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzf9t19b0000pcvg5wajxrnc" class="article-share-link">分享</a>
       
       
       
@@ -145,7 +161,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/17/hive命令9/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/17/hive命令11/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -155,7 +171,7 @@
     </a>
   
   
-    <a href="/2019/08/16/hive命令7/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/17/hive命令9/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

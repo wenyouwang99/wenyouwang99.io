@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="hive命令1.登录到hivecd $HIVE_HOMEbin/hive或者环境变量没问题的话，直接hive&amp;gt; 2.show databases; 3.show tables; 4.查看表列的定义describe &amp;lt;表名&amp;gt;; 5.查看表具体的某一列describe &amp;lt;列名&amp;gt;; 6.查看10条列的信息select * from &amp;lt;列名&amp;gt; limit 10;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:31:08.567Z">
+<meta property="og:updated_time" content="2019-08-17T08:28:49.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
 <meta name="twitter:description" content="hive命令1.登录到hivecd $HIVE_HOMEbin/hive或者环境变量没问题的话，直接hive&amp;gt; 2.show databases; 3.show tables; 4.查看表列的定义describe &amp;lt;表名&amp;gt;; 5.查看表具体的某一列describe &amp;lt;列名&amp;gt;; 6.查看10条列的信息select * from &amp;lt;列名&amp;gt; limit 10;">
@@ -98,15 +98,15 @@
 <p>14.复杂数据类型<br>数组<br>map<br>结构体<br>联合体</p>
 <p>15.数组<br>有序，下标从0开始，和java不同的是，不能在hive数组中定义最大元素值<br>例如，声明一个items数组来保存字符串值<br>items array&lt;”bread”,”butter”,”happy”&gt;<br>字符串的复合集有一个预定义的排序，因此可以从0访问<br>items[0] returns “bread”<br>items[2] returns “happy”</p>
 <p>16.map<br>无序的键/值对集合，map的键可以用基本类型，map的值可以用基本和复杂数据类，map数据类型的元素需要使用键来访问，map数据类型的元素不能用下标访问<br>例如，声明一个包含商品项和数量的basket集合<br>basket map&lt;’string’,’int’&gt;<br>basket map&lt;”eggs”,’12’&gt;<br>通过在map函数中指定商品项，可以打印该商品项的数量<br>basket(“eggs”) returns 12</p>
-<p>17.结构体<br>是一个对象，其中含有多个字段，而这些字段可以是任何数据类型<br>例如，使用struct定义来声明客户的地址记录<br>addrss struct&lt;houseno:string,street:string,city:string,<br>zipcode:int,state:string,country:string&gt;</p>
+<p>17.结构体<br>是一个对象，其中含有多个字段，而这些字段可以是任何数据类型<br>例如，使用struct定义来声明客户的地址记录<br>addrss struct(houseno:string,street:string,city:string,<br>zipcode:int,state:string,country:string)     //这里用()代替&lt;&gt;,&lt;&gt;代码不显示</p>
 <p>address &lt;”17”,”main st”,”seattle”,98104,”wa”,”usa”&gt;<br>可以使用点号来访问某一字段，使用address.zipcode来访问各个地址的邮政编码</p>
 <p>18.联合体<br>联合体提供了一种方法，可以将不同数据类型的元素存储在同一字段的不同行中。<br>当字段的底层数据不同质的时候，这种方法很有用</p>
-<p>例如，如果数据文件中存放了客户的联系信息，但是每条联系信息中包含一个或多个<br>电话号码，或者包含一个或多个电子邮件地址，那么可以声明一个contact变量来存储<br>信息<br>contact uniontype &lt;int,array<int>,string,array<string>&gt;</string></int></p>
+<p>例如，如果数据文件中存放了客户的联系信息，但是每条联系信息中包含一个或多个<br>电话号码，或者包含一个或多个电子邮件地址，那么可以声明一个contact变量来存储<br>信息<br>    contact uniontype (int,array(int),string,array(string))  //这里用()代替&lt;&gt;,&lt;&gt;代码不显示</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjzdz3dis0006d8vgj9aeo8fs" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjzf9trf80005s0vghpq1okq1" class="article-share-link">分享</a>
       
       
       

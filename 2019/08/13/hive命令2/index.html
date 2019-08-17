@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct &amp;lt;houseno:string, street:string, city:string&amp;gt;,active boolean,create date,location ‘/opt/stud">
+  <meta name="description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct (houseno:string, street:string, city:string),  //这一行用()代替&amp;lt;&amp;gt;,&amp;lt;&amp;gt;代码不显示active boolean,cre">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="https://wenyouwang99.io/2019/08/13/hive命令2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct &amp;lt;houseno:string, street:string, city:string&amp;gt;,active boolean,create date,location ‘/opt/stud">
+<meta property="og:description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct (houseno:string, street:string, city:string),  //这一行用()代替&amp;lt;&amp;gt;,&amp;lt;&amp;gt;代码不显示active boolean,cre">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-17T08:16:20.013Z">
+<meta property="og:updated_time" content="2019-08-17T08:30:57.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct &amp;lt;houseno:string, street:string, city:string&amp;gt;,active boolean,create date,location ‘/opt/stud">
+<meta name="twitter:description" content="hive命令21.创建表–stud:表名    retail–数据库名create external table stud(fname string,lname string,address struct (houseno:string, street:string, city:string),  //这一行用()代替&amp;lt;&amp;gt;,&amp;lt;&amp;gt;代码不显示active boolean,cre">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -82,7 +82,7 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="hive命令2"><a href="#hive命令2" class="headerlink" title="hive命令2"></a>hive命令2</h2><p>1.创建表–stud:表名    retail–数据库名<br>create external table stud(<br>fname string,<br>lname string,<br>address struct &lt;houseno:string, street:string, city:string&gt;,<br>active boolean,<br>create date,<br>location ‘/opt/stud’);</p>
+        <h2 id="hive命令2"><a href="#hive命令2" class="headerlink" title="hive命令2"></a>hive命令2</h2><p>1.创建表–stud:表名    retail–数据库名<br>create external table stud(<br>fname string,<br>lname string,<br>address struct (houseno:string, street:string, city:string),  //这一行用()代替&lt;&gt;,&lt;&gt;代码不显示<br>active boolean,<br>create date,<br>location ‘/opt/stud’);</p>
 <p>2.可以在数据库中直接创建一个表<br>在表名前加上数据库名<br>create external table retail.stud(）</p>
 <p>3.列出表<br>show tables in retail</p>
 <p>4.如果数据库中有很多表，可以用通配符搜索特定的表</p>
@@ -99,7 +99,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzdz3dir0005d8vgxmtot79i" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzf9trfd000as0vgq8twrh9v" class="article-share-link">分享</a>
       
       
       

@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.更改表分区(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区alter table add partition hadoop fs -mkdir /user/demo/idshadoop fs -mkdir /user/demo/ids/2016-05-31hadoop fs -mkdir /user/demo/ids/2016-05-30 将数据复制到这些目录下">
+  <meta name="description" content="1.sqoop示例(1)将表导入hdfssqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的/user/(user)/test1/part-m-00000中      //这行用()来代替&amp;lt;&amp;gt;,&amp;lt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/16/hive命令6/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/18/hive命令13/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.更改表分区(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区alter table add partition hadoop fs -mkdir /user/demo/idshadoop fs -mkdir /user/demo/ids/2016-05-31hadoop fs -mkdir /user/demo/ids/2016-05-30 将数据复制到这些目录下">
+<meta property="og:description" content="1.sqoop示例(1)将表导入hdfssqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的/user/(user)/test1/part-m-00000中      //这行用()来代替&amp;lt;&amp;gt;,&amp;lt">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:24:45.414Z">
+<meta property="og:updated_time" content="2019-08-18T08:22:52.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.更改表分区(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区alter table add partition hadoop fs -mkdir /user/demo/idshadoop fs -mkdir /user/demo/ids/2016-05-31hadoop fs -mkdir /user/demo/ids/2016-05-30 将数据复制到这些目录下">
+<meta name="twitter:description" content="1.sqoop示例(1)将表导入hdfssqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的/user/(user)/test1/part-m-00000中      //这行用()来代替&amp;lt;&amp;gt;,&amp;lt">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令6" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive命令13" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/16/hive命令6/" class="article-date">
-  <time datetime="2019-08-16T10:24:45.414Z" itemprop="datePublished">2019-08-16</time>
+    <a href="/2019/08/18/hive命令13/" class="article-date">
+  <time datetime="2019-08-18T08:22:52.453Z" itemprop="datePublished">2019-08-18</time>
 </a>
     
   </div>
@@ -82,37 +82,19 @@
       
         <!-- Table of Contents -->
         
-        <p>1.更改表分区<br>(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区<br>alter table add partition</p>
-<p>hadoop fs -mkdir /user/demo/ids<br>hadoop fs -mkdir /user/demo/ids/2016-05-31<br>hadoop fs -mkdir /user/demo/ids/2016-05-30</p>
-<p>将数据复制到这些目录下</p>
-<p>hadoop fs -put /tmp/2016-05-31.txt /user/demo/ids/2016-05-31/<br>hadoop fs -put /tmp/2016-05-30.txt /user/demo/ids/2016-05-30/</p>
-<p>创建外部表并且为其添加分区</p>
-<p>create external table ids(a int) partitioned by (datestamp string) location’/user/demo/ids’;</p>
-<p>为表添加分区<br>alter table ids add partition (datestamp=’2016-05-30’) location ‘/user/demo/ids/2016-05-30/‘;</p>
-<p>hive&gt;select * from ids;</p>
-<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30</p>
-<p>alter table ids add partition (datestamp=’2016-05-31’) location ‘/user/demo/ids/2016-05-31/‘;</p>
-<p>hive&gt;select * from ids;</p>
-<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30<br>1    2016-05-31<br>2    2016-05-31<br>3    2016-05-31<br>4    2016-05-31</p>
-<p>(2)为内部表添加分区<br>创建内部表<br>msck pepair table</p>
-<p>create table ids_internal (a int) partitioned by (datestamp string);</p>
-<p>为2个不同的分区插入几行数据</p>
-<p>insert into ids_internal partition (datestamp = ‘2016-05-30’) value (1);<br>insert into ids_internal partition (datestamp = ‘2016-05-3’) value (11);</p>
-<p>show partitions ids_internal;</p>
-<p>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
-<p>我们将在该表的目录下创建一个新的子目录并且为其添加一个文件</p>
-<p>hadoop fs -mkdir /apps/hive/warehouse/ids_internal/datestamp=2016-05-21 </p>
-<p>hadoop fs -put /tmp/2016-05-21.txt /apps/hive/warehouse/ids_internal/datestamp<br>=2016-05-21 </p>
-<p>现在运行msck pepair table命令来为该表添加新分区</p>
-<p>msck pepair table ids_internal;</p>
-<p>show partitions ids_internal;</p>
-<p>datestamp=2016-05-21<br>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
-<p>msck pepair 命令为ids_internal表检查/apps/hive/warehouse/ids_internal下的子目录，<br>而且因为它找到了一个名为datestamp=2016-05-21的新目录，所以它会将该子目录作为<br>一个新分区添加到ids_internal表。当你添加了很多新的分区目录，并且想要一次性全部更新<br>它们的表定义时，这种方法尤其有用。注意：这种方式仅对内部表有效。</p>
+        <p>1.sqoop示例<br>(1)将表导入hdfs<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的<br>/user/(user)/test1/part-m-00000中      //这行用()来代替&lt;&gt;,&lt;&gt;里代码不显示</p>
+<p>(2)将表导入hdfs的特定目录下<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–target-dir /hive/tables/test1/<br>在本例中，表test1的内容将存放在hdfs的/hive/tables/test1目录下</p>
+<p>(3)将数据库中的表全部导入hdfs<br>sqoop import-all-tables –connect jdbc:mysql://localhost/test –username root<br>该命令将test数据库中的所有表导入到hdfs中。sqoop导入作业在/user/root目录下为每个表<br>都创建了一个目录，如下<br>hadoop fs -ls /user/root</p>
+<p>(4)将表导入hive<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–hive-import<br>该命令将把表test1导入到hdfs中，同时也会将其元数据添加到hive中。如下验证数据<br>use default;</p>
+<p>select count(*) from test1;</p>
+<p>(5)将表导入hive并且将表存储为orc表<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–hcatalog-database default –hcatalog-table test10_orc –create-hcatalog-table –hcatalog-<br>storage-stanza “stored as orcfile”<br>该命令将在默认数据库中创建一个名为test_orc的新表，并且以orc文件格式存储数据。<br>将hive表数据存储为orc，有理由 矢量化。验证如下<br>hive&gt;<br>describe extended test10_orc;</p>
+<p>(6)导入所选择的数据<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–where “a&gt;1”<br>通过该命令，可以导入表test1中列a的所有值大于1的数据。<br>该选项提供了一种方法，可以导入任何表的一个子集</p>
+<p>(7)导入增量数据<br>incremental  –sqoop使用它来判断哪一行是新的<br>check-column  –提供需要检查确定候选行的列<br>last-value  –执行上一次导入操作的最大值<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–incremental  append –check-column id -last-value 1000</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzfaanuw000d3kvg0ctoff83" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzgphhrk0000lwvgzkaudw3f" class="article-share-link">分享</a>
       
       
       
@@ -164,7 +146,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/16/hive命令7/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/18/hive随笔/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -174,7 +156,7 @@
     </a>
   
   
-    <a href="/2019/08/15/hive命令5/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/17/hive命令12/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

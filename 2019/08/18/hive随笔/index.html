@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.更改表分区(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区alter table add partition hadoop fs -mkdir /user/demo/idshadoop fs -mkdir /user/demo/ids/2016-05-31hadoop fs -mkdir /user/demo/ids/2016-05-30 将数据复制到这些目录下">
+  <meta name="description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/16/hive命令6/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/18/hive随笔/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.更改表分区(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区alter table add partition hadoop fs -mkdir /user/demo/idshadoop fs -mkdir /user/demo/ids/2016-05-31hadoop fs -mkdir /user/demo/ids/2016-05-30 将数据复制到这些目录下">
+<meta property="og:description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:24:45.414Z">
+<meta property="og:updated_time" content="2019-08-18T08:25:20.690Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.更改表分区(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区alter table add partition hadoop fs -mkdir /user/demo/idshadoop fs -mkdir /user/demo/ids/2016-05-31hadoop fs -mkdir /user/demo/ids/2016-05-30 将数据复制到这些目录下">
+<meta name="twitter:description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令6" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive随笔" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/16/hive命令6/" class="article-date">
-  <time datetime="2019-08-16T10:24:45.414Z" itemprop="datePublished">2019-08-16</time>
+    <a href="/2019/08/18/hive随笔/" class="article-date">
+  <time datetime="2019-08-18T08:23:41.156Z" itemprop="datePublished">2019-08-18</time>
 </a>
     
   </div>
@@ -82,37 +82,22 @@
       
         <!-- Table of Contents -->
         
-        <p>1.更改表分区<br>(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区<br>alter table add partition</p>
-<p>hadoop fs -mkdir /user/demo/ids<br>hadoop fs -mkdir /user/demo/ids/2016-05-31<br>hadoop fs -mkdir /user/demo/ids/2016-05-30</p>
-<p>将数据复制到这些目录下</p>
-<p>hadoop fs -put /tmp/2016-05-31.txt /user/demo/ids/2016-05-31/<br>hadoop fs -put /tmp/2016-05-30.txt /user/demo/ids/2016-05-30/</p>
-<p>创建外部表并且为其添加分区</p>
-<p>create external table ids(a int) partitioned by (datestamp string) location’/user/demo/ids’;</p>
-<p>为表添加分区<br>alter table ids add partition (datestamp=’2016-05-30’) location ‘/user/demo/ids/2016-05-30/‘;</p>
-<p>hive&gt;select * from ids;</p>
-<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30</p>
-<p>alter table ids add partition (datestamp=’2016-05-31’) location ‘/user/demo/ids/2016-05-31/‘;</p>
-<p>hive&gt;select * from ids;</p>
-<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30<br>1    2016-05-31<br>2    2016-05-31<br>3    2016-05-31<br>4    2016-05-31</p>
-<p>(2)为内部表添加分区<br>创建内部表<br>msck pepair table</p>
-<p>create table ids_internal (a int) partitioned by (datestamp string);</p>
-<p>为2个不同的分区插入几行数据</p>
-<p>insert into ids_internal partition (datestamp = ‘2016-05-30’) value (1);<br>insert into ids_internal partition (datestamp = ‘2016-05-3’) value (11);</p>
-<p>show partitions ids_internal;</p>
-<p>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
-<p>我们将在该表的目录下创建一个新的子目录并且为其添加一个文件</p>
-<p>hadoop fs -mkdir /apps/hive/warehouse/ids_internal/datestamp=2016-05-21 </p>
-<p>hadoop fs -put /tmp/2016-05-21.txt /apps/hive/warehouse/ids_internal/datestamp<br>=2016-05-21 </p>
-<p>现在运行msck pepair table命令来为该表添加新分区</p>
-<p>msck pepair table ids_internal;</p>
-<p>show partitions ids_internal;</p>
-<p>datestamp=2016-05-21<br>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
-<p>msck pepair 命令为ids_internal表检查/apps/hive/warehouse/ids_internal下的子目录，<br>而且因为它找到了一个名为datestamp=2016-05-21的新目录，所以它会将该子目录作为<br>一个新分区添加到ids_internal表。当你添加了很多新的分区目录，并且想要一次性全部更新<br>它们的表定义时，这种方法尤其有用。注意：这种方式仅对内部表有效。</p>
+        <p>1.查看一个有很多内容的1.txt文件，可以先看一点内容<br>head 1.txt</p>
+<p>2.hive基本语法-建表<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</p>
+<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
+<p>4.mysql登录<br>mysql -uroot -proot</p>
+<p>5.查看hive中的表<br>mysql&gt;<br>use hive;<br>show tables;<br>select * from &lt;&gt;;</p>
+<p>6.2种建表方式<br>create table table_name1 as select * from table_name2 limit 10;<br>create external table if not exists table_name3 like table_name4;</p>
+<p>7.hive中加载数据<br>(1)使用load data命令<br>从hdfs导入数据，路径可以是目录，会将目录下所有文件导入，但是文件格式必须一致<br>load data inpath ‘/test/‘ [overwrite] into table table_name;<br>(2)从本地文件系统导入<br>load data local inpath ‘/test/‘ into table table_name;<br>(3)表对表加载<br>create table if not exists table_name2 as select * from table_name1;<br>insert [overwrite] into table table_name2 select * from table_name1;<br>注意：<br>1.如果建表语句没有指定存储路径，不管是外部表还是内部表，存储路径都是会默认在<br>hive/warehouse/xx.db/表名的目录下<br>加载的数据也会移动到该表的存储目录下。注意是–移动，不是–复制。<br>2.删除外部表。文件不会删除，对应目录也不会删除。</p>
+<p>8.<br>hadoop fs -ls /opt/test | wc -l</p>
+<p>hadoop fs -ls /opt/test | head -10</p>
+<p>9.建表时，集合之间的分隔符<br>collection items terminated by ‘,’ ;<br>create table stud(<br>name      string,<br>chengji   array(int)     //这行用()代替&lt;&gt;<br>)<br>collection items terminated by ‘,’ ;        //集合之间以，分割</p>
+<p>张三     [10,20,30]</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzfaanuw000d3kvg0ctoff83" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔/" data-id="cjzgphhv90001lwvgwujn5dmz" class="article-share-link">分享</a>
       
       
       
@@ -164,17 +149,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/16/hive命令7/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/15/hive命令5/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/18/hive命令13/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

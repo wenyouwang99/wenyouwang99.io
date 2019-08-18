@@ -66,6 +66,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hdfs文件的读取" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/hdfs文件的读取/" class="article-date">
+  <time datetime="2019-08-06T12:14:14.636Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hdfs文件的读取-在eclipse中console输出"><a href="#hdfs文件的读取-在eclipse中console输出" class="headerlink" title="hdfs文件的读取  (在eclipse中console输出)"></a>hdfs文件的读取  (在eclipse中console输出)</h2><p>package com.qf.a.b;</p>
+<p>import java.io.IOException;</p>
+<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.FSDataInputStream;<br>import org.apache.hadoop.fs.FileSystem;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.IOUtils;</p>
+<p>public class hdfs {<br>    public static void main(String[] args) throws IOException {<br>        readFileToConsole(“/input/a.txt”);<br>    }</p>
+<pre><code>public static void readFileToConsole(String pat) throws IOException {
+    Configuration conf = new Configuration();
+    conf.set(&quot;fs.defaultFS&quot;,&quot;hdfs://192.168.8.10:9000&quot;);
+    FileSystem fs = FileSystem.get(conf);
+    //String path = null;
+    //FSDataInputStream fis = fs.open(new Path(path));
+    FSDataInputStream fis = fs.open(new Path(&quot;/input/a.txt&quot;));
+    IOUtils.copyBytes(fis, System.out, 4096, true);
+
+
+}</code></pre><p>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzfaanun00033kvgcg3bd1t3" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-maven安装1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/maven安装1/" class="article-date">
+  <time datetime="2019-08-06T12:04:00.639Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="在windows下安装maven"><a href="#在windows下安装maven" class="headerlink" title="在windows下安装maven"></a>在windows下安装maven</h2><h2 id="1-先在官网下载maven-并解压在自定义路径"><a href="#1-先在官网下载maven-并解压在自定义路径" class="headerlink" title="1.先在官网下载maven,并解压在自定义路径"></a>1.先在官网下载maven,并解压在自定义路径</h2><p>我的路径 D:\java\maven\apache-maven-3.6.1</p>
+<h2 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h2><p>D:\java\maven\apache-maven-3.6.1\conf\settings</p>
+<!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+<p>  <localrepository>D:\java\mavenrepository</localrepository><br>  自定义maven仓库路径，里面是存放jar包的</p>
+<h2 id="3-修改环境变量"><a href="#3-修改环境变量" class="headerlink" title="3.修改环境变量"></a>3.修改环境变量</h2><p>在系统变量中添加<br>MAVEN_HOME<br>D:\java\maven\apache-maven-3.6.1</p>
+<p>Path<br>D:\java\maven\apache-maven-3.6.1\bin</p>
+<h2 id="4-测试是否安装成功"><a href="#4-测试是否安装成功" class="headerlink" title="4.测试是否安装成功"></a>4.测试是否安装成功</h2><p>win+r<br>mvn -v</p>
+<h2 id="5-打开eclipse-配置maven"><a href="#5-打开eclipse-配置maven" class="headerlink" title="5.打开eclipse,配置maven"></a>5.打开eclipse,配置maven</h2><p>window–&gt;preference–&gt;maven–&gt;installations–&gt;add–&gt;<br>D:\java\maven\apache-maven-3.6.1–&gt;apply</p>
+<p>window–&gt;preference–&gt;maven–&gt;user settings–&gt;update<br>如果更新后仓库路径和 2.修改配置文件 路径一样，则apply后退出即可</p>
+<h2 id="6-创建maven工程，配置pom-xml-这个镜像可用"><a href="#6-创建maven工程，配置pom-xml-这个镜像可用" class="headerlink" title="6.创建maven工程，配置pom.xml    (这个镜像可用)"></a>6.创建maven工程，配置pom.xml    (这个镜像可用)</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzfaanv1000l3kvgqrv2fsrb" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-maven安装2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/06/maven安装2/" class="article-date">
@@ -148,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzf9trfk000is0vg4vhfzy1a" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzfaanuz000i3kvgrsw1j8nx" class="article-share-link">分享</a>
       
       
       
@@ -181,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzf9trfl000ks0vgfs9fry3c" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzfaanv0000k3kvg44q4j6q4" class="article-share-link">分享</a>
       
       
       
@@ -218,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzf9trfm000ls0vgdt7ggwhf" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzfaanv0000j3kvgjraxggm5" class="article-share-link">分享</a>
       
       
       
@@ -253,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzf9trey0000s0vgw2kyugql" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzfaanud00003kvg39hgnyq8" class="article-share-link">分享</a>
       
       
       
@@ -291,6 +380,14 @@
       <ul>
         
           <li>
+            <a href="/2019/08/18/hive随笔/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/18/hive命令13/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/17/hive命令12/">(no title)</a>
           </li>
         
@@ -300,14 +397,6 @@
         
           <li>
             <a href="/2019/08/17/hive命令10/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/17/hive命令9/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/16/hive命令8/">(no title)</a>
           </li>
         
       </ul>

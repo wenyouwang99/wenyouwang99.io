@@ -66,6 +66,85 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive随笔" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/hive随笔/" class="article-date">
+  <time datetime="2019-08-18T08:23:41.156Z" itemprop="datePublished">2019-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.查看一个有很多内容的1.txt文件，可以先看一点内容<br>head 1.txt</p>
+<p>2.hive基本语法-建表<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</p>
+<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
+<p>4.mysql登录<br>mysql -uroot -proot</p>
+<p>5.查看hive中的表<br>mysql&gt;<br>use hive;<br>show tables;<br>select * from &lt;&gt;;</p>
+<p>6.2种建表方式<br>create table table_name1 as select * from table_name2 limit 10;<br>create external table if not exists table_name3 like table_name4;</p>
+<p>7.hive中加载数据<br>(1)使用load data命令<br>从hdfs导入数据，路径可以是目录，会将目录下所有文件导入，但是文件格式必须一致<br>load data inpath ‘/test/‘ [overwrite] into table table_name;<br>(2)从本地文件系统导入<br>load data local inpath ‘/test/‘ into table table_name;<br>(3)表对表加载<br>create table if not exists table_name2 as select * from table_name1;<br>insert [overwrite] into table table_name2 select * from table_name1;<br>注意：<br>1.如果建表语句没有指定存储路径，不管是外部表还是内部表，存储路径都是会默认在<br>hive/warehouse/xx.db/表名的目录下<br>加载的数据也会移动到该表的存储目录下。注意是–移动，不是–复制。<br>2.删除外部表。文件不会删除，对应目录也不会删除。</p>
+<p>8.<br>hadoop fs -ls /opt/test | wc -l</p>
+<p>hadoop fs -ls /opt/test | head -10</p>
+<p>9.建表时，集合之间的分隔符<br>collection items terminated by ‘,’ ;<br>create table stud(<br>name      string,<br>chengji   array(int)     //这行用()代替&lt;&gt;<br>)<br>collection items terminated by ‘,’ ;        //集合之间以，分割</p>
+<p>张三     [10,20,30]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔/" data-id="cjzgphhv90001lwvgwujn5dmz" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive命令13" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/hive命令13/" class="article-date">
+  <time datetime="2019-08-18T08:22:52.453Z" itemprop="datePublished">2019-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.sqoop示例<br>(1)将表导入hdfs<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的<br>/user/(user)/test1/part-m-00000中      //这行用()来代替&lt;&gt;,&lt;&gt;里代码不显示</p>
+<p>(2)将表导入hdfs的特定目录下<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–target-dir /hive/tables/test1/<br>在本例中，表test1的内容将存放在hdfs的/hive/tables/test1目录下</p>
+<p>(3)将数据库中的表全部导入hdfs<br>sqoop import-all-tables –connect jdbc:mysql://localhost/test –username root<br>该命令将test数据库中的所有表导入到hdfs中。sqoop导入作业在/user/root目录下为每个表<br>都创建了一个目录，如下<br>hadoop fs -ls /user/root</p>
+<p>(4)将表导入hive<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–hive-import<br>该命令将把表test1导入到hdfs中，同时也会将其元数据添加到hive中。如下验证数据<br>use default;</p>
+<p>select count(*) from test1;</p>
+<p>(5)将表导入hive并且将表存储为orc表<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–hcatalog-database default –hcatalog-table test10_orc –create-hcatalog-table –hcatalog-<br>storage-stanza “stored as orcfile”<br>该命令将在默认数据库中创建一个名为test_orc的新表，并且以orc文件格式存储数据。<br>将hive表数据存储为orc，有理由 矢量化。验证如下<br>hive&gt;<br>describe extended test10_orc;</p>
+<p>(6)导入所选择的数据<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–where “a&gt;1”<br>通过该命令，可以导入表test1中列a的所有值大于1的数据。<br>该选项提供了一种方法，可以导入任何表的一个子集</p>
+<p>(7)导入增量数据<br>incremental  –sqoop使用它来判断哪一行是新的<br>check-column  –提供需要检查确定候选行的列<br>last-value  –执行上一次导入操作的最大值<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–incremental  append –check-column id -last-value 1000</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzgphhrk0000lwvgzkaudw3f" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令12" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/17/hive命令12/" class="article-date">
@@ -87,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzf9trfa0008s0vgta7ioafi" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzfaanur00083kvgfynodczw" class="article-share-link">分享</a>
       
       
       
@@ -129,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzf9trf90006s0vgv35rym0z" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzfaanur00073kvg1qmdczbp" class="article-share-link">分享</a>
       
       
       
@@ -182,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzf9trfa0007s0vgzk4yezcv" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzfaanup00063kvgize94adj" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzf9trfi000gs0vgfl9yzaeb" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzfaanuy000f3kvgao3vb03q" class="article-share-link">分享</a>
       
       
       
@@ -276,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzf9trfh000es0vg0tw1tt0y" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzfaanuy000g3kvgsn2qk1ui" class="article-share-link">分享</a>
       
       
       
@@ -318,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzf9trfi000fs0vgxe8t4cgv" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzfaanux000e3kvgonqfckul" class="article-share-link">分享</a>
       
       
       
@@ -374,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzf9trfg000ds0vgfdz5vlic" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzfaanuw000d3kvg0ctoff83" class="article-share-link">分享</a>
       
       
       
@@ -411,86 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzf9trff000cs0vgi4tt9k1p" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/15/hive命令4/" class="article-date">
-  <time datetime="2019-08-15T09:22:36.897Z" itemprop="datePublished">2019-08-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hive命令4"><a href="#hive命令4" class="headerlink" title="hive命令4"></a>hive命令4</h2><p>1.分区注意事项<br>(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间<br>(2)避免分区小于1GB（越大越好）<br>(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存<br>(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的<br>嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小<br>(5)当使用hive流处理插入数据时，如果多个会话向相同的分区写入数据，那么就会导致锁闭<br>(6)可以修改某一分区表的模式，但是，一旦结构发生变化，就无法在已有分区中修改数据了<br>(7)如果要将数据并行插入到多个分区，应该将<br>hive.optimize.sort.dynamic.partition设置为true</p>
-<p>2.对日期列进行高效分区<br>如：日期中按照”YYYY-MM-DD”格式比按照 年月日各自的值进行多深度分区在某些时候<br>更加高效。<br>使用单个字符串的优势：它允许使用更多的SQL运算符，例如：LIKE,IN,BETWEEN，<br>但是如果采用嵌套分区，就不太容易使用这些运算符了</p>
-<p>3.案例<br>假设有表A，通过DataStamp字符串按照”YYYY-MM-DD”格式进行分区，SQL查询如下</p>
-<p>查询选择特定日期：<br>select * from table A where DataStamp IN (‘2015-01-01’,’2016-02-02’,’2017-03-03’);</p>
-<p>查询一年中所有的日期<br>select * from table A where DataStamp LIKE ‘2018-%’;</p>
-<p>查询一年中特定月的所有日期<br>select * from table A where DataStamp LIKE ‘2019-02-%’;</p>
-<p>查询所有以5开始/结束的日子<br>select * from table A where DataStamp LIKE ‘%-%-%5’;</p>
-<p>查询2015年1月1日到2015年3月1日的所有日子<br>select * from table A where DataStamp BETWEEN ‘2015-01-01’ AND ‘2015-03-01’;</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzf9trfe000bs0vgadhvrzvc" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/15/hive命令3/" class="article-date">
-  <time datetime="2019-08-15T09:21:51.256Z" itemprop="datePublished">2019-08-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hive命令3"><a href="#hive命令3" class="headerlink" title="hive命令3"></a>hive命令3</h2><p>1.重命名表   –stud:表名<br>create external table stud (state string) location ‘/opt/stud’;</p>
-<p>alter table stud rename to stud_old; </p>
-<p>2.修改表的存储属性<br>(1)alter table<br>(2)删除该表，然后重新创建表，修改create table中的存储属性</p>
-<p>3.orc文件格式<br>将states表转换成orc文件格式并且查看其属性<br>create table states_orc stored as orc tblproperties(“orc.compress”=”snappy”)<br>as select * from states;</p>
-<p>4.hadoop中处理小文件将会大量耗费大量的namenode元数据记录，所以通常合并小文件<br>hdfs的namenode进程维护了hdfs上所有文件的元数据<br>对于以rcfile或orcfile格式存储的hive表，可以做下面的操作，将多个数据文件合并成一个<br>alter table states concatenate;</p>
-<p>5.避免小文件的方式之一（推荐），在数据进入hadoop之前，将它们合并成集群数据块<br>数倍大小的文件，通常为好几GB或者更大。在数据进入hadoop之后，有很多的方式整合，<br>但hadoop处理小文件并不在行，因此这样合并速度会比较慢。</p>
-<p>6.hive表分区<br>hive中的分区表有一个或多个分区键，基于这些键，数据被分割成若干逻辑块并存放在单独<br>的路径中。每个分区键都为表的存储添加了一个目录层结构。</p>
-<p>7.hive表分区代码案例<br>create external table retail.transactions(<br>transdate  date,<br>transid       int,<br>custid        int,<br>fname       string     //注意：最后一个属性不要打逗号<br>)<br>partitioned by (store string);<br>本例中的表基于一个名为store(存放商店的名称)的字符串列进行分区。<br>注意：在分区中用到的列实际上在create table 结构中并不存在。</p>
-<p>8.当你查询一个分区表时，分区的值会作为该分区中所有行在这一列的值，例<br>select * from retail.transactions 将返回store列的值，即使数据库中兵没有<br>存储这样的数据。</p>
-<p>9.创建分区表需要你预先为底层分区创建目录结构。对于内部表的情形，当你使用insert<br>命令将数据插入新分区时，分区目录是自动创建的。</p>
-<p>10.注意：不能在实际的表定义中加入分区键列，否则报错<br>failed:error in semantic analysis:column repeated in patitioning columns错误</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzf9trfb0009s0vgcdkr0l73" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzfaanuv000c3kvg35lqvzw6" class="article-share-link">分享</a>
       
       
       
@@ -548,6 +548,14 @@
       <ul>
         
           <li>
+            <a href="/2019/08/18/hive随笔/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/18/hive命令13/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/17/hive命令12/">(no title)</a>
           </li>
         
@@ -559,14 +567,6 @@
             <a href="/2019/08/17/hive命令10/">(no title)</a>
           </li>
         
-          <li>
-            <a href="/2019/08/17/hive命令9/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/16/hive命令8/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -576,7 +576,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

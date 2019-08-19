@@ -66,9 +66,111 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hive随笔" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hive随笔3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/18/hive随笔/" class="article-date">
+    <a href="/2019/08/19/hive随笔3/" class="article-date">
+  <time datetime="2019-08-19T09:30:47.246Z" itemprop="datePublished">2019-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.hive函数使用</p>
+<p>if函数     if( , , )<br>if(条件表达式，如果条件成立返回值，如果条件不成立返回值)<br>select age,if(person_age=’0’,null,person_age) from student;</p>
+<p>case when 函数    case when … end<br>case a when b then c [when d then e]* [else] end<br>说明：<br>如果a=b，那么返回c；<br>如果a=d，那么返回e;<br>否则返回f<br>举例：hive&gt;<br>select case 100 when 50 then ‘tom’ when 100 then ‘mary’ else ‘tim’ end from lxw1234;<br>mary</p>
+<p>hive&gt;<br>select case 200 when 50 then ‘tom’ when 100 then ‘mary’ else ‘tim’ end from lxw1234;<br>tim</p>
+<p>条件判断函数：case<br>case when a then b [when c then d]* [else e] end<br>返回值：T<br>说明：<br>如果a为true，则返回b；<br>如果c为true，则返回d；<br>否则返回e<br>举例：hive&gt;<br>select case when 1=2 then ‘tom’ when 2=2 then ‘mary’ else ‘tim’ end from lxw1234;<br>mary</p>
+<p>hive&gt;<br>select case when 1=1 then ‘tom’ when 2=2 then ‘mary’ else ‘tim’ end from lxw1234;<br>tom</p>
+<p>select age,case when person_age=’20’ then ‘20’ when person_age=’30’ then ‘30’ else ‘40’;</p>
+<p>select age,case when person_age=’20’ then null else person_age end from student;</p>
+<p>日期函数    to_date….<br>字符串函数   concat,concat_ws<br>聚合函数     sum,count….<br>null值判断    is null , is not null</p>
+<p>2.实现–if函数<br>数据样式：<br>number       dt<br>AS125689  12<br>DA252133  36<br>WSA31233 52<br>处理成：手机号码，qq号码(666666)，微信号码(888888)（第一个字段变成其中一个），平均时长<br>//这种写死的，不对应就会报错，不建议这么写<br>select if(number=’AS125689’,’666666’,’888888’) as num,avg(dt) from data group by number ;<br>//正常应该这么写<br>select if(number=’AS125689’,’666666’,’888888’) as num,avg(dt) from data group by<br>if(number=’AS125689’,’666666’,’888888’);<br>//还可以转化成别的字段返回<br>select if(number=’AS125689’,’666666’,city_id) as num,avg(dt) from data group by<br>if(number=’AS125689’,’666666’,city_id);</p>
+<p>3.实现–concat_ws函数   //第一个参数数分隔符<br>select concat_ws(“hello”,’–’,”world”);<br>输出：–helloworld<br>select concat_ws(‘–’,”hello”,”world”);<br>输出：hello–world     //连起来</p>
+<p>将数组拼接成字符串<br>create table test(<br>id        int,<br>name  array<string><br>)</string></p>
+<p>数据：<br>1    [“zhangsan”,”lisi”]<br>1    [“wangwu”,”zhaoliu”]<br>2    [“aa”,”bb”]</p>
+<p>开始拼接语句：<br>select concat_ws(第一个字段是分隔符,第二个字段是数组字段)<br>select concat_ws(‘–’,name) from test;<br>输出为：<br>zhangsan–li<br>wangwu-zhaoliu<br>aa–bb</p>
+<p>4.split</p>
+<p>create table test(<br>name  string<br>)</p>
+<p>数据为：<br>hello world<br>hi tom</p>
+<p>select split(name,’ ‘) from test;    //这里参数是空格，第一个参数为字段，第二个为参数符号</p>
+<p>[“hello”,”world”]<br>[“hi”,”tom”]</p>
+<p>5.explode<br>select explode(split(name,’ ‘)) from test;<br>hello<br>world<br>hi<br>tom</p>
+<p>6.单词统计sql<br>select w.word,count(*) from<br>(select explode(split(name,’ ‘)) as word from test) w<br>group by w.word; </p>
+<p>输出为：<br>hello    1<br>world    1<br>hi        1<br>tom        1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzi7b7ck00027svgev7bqpic" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive随笔2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/19/hive随笔2/" class="article-date">
+  <time datetime="2019-08-19T09:29:28.401Z" itemprop="datePublished">2019-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.查看建表语句<br>show create table table_name;</p>
+<p>2.查看表的元信息<br>desc table_name;<br>desc extended table_name;<br>desc formatted table_name;</p>
+<p>3.重命名表<br>alter table table_name to rename to new_table;</p>
+<p>4.创建数据库<br>cretae database database_name;</p>
+<p>5.查看数据库<br>show databases;</p>
+<p>6.删除数据库<br>drop database tmp;</p>
+<p>7.强制删除数据库<br>drop database tmp cascade;</p>
+<p>8.修改数据类型<br>alter table lv_test change column colxx string;</p>
+<p>9.增加分区<br>alter table test_table add patition (pt=xxx)</p>
+<p>10.删除分区<br>alter table test_table drop if exists partition(…);</p>
+<p>11.select后可用语法<br>where  –用于过滤，分区裁剪，指定条件<br>join  –用于两表关联,left outer join,join,mapjoin<br>group by  –用于分组聚合<br>order by  –用于全局排列，要尽量避免排序，是针对全局排序的，即对所有的reduce输出是有序的<br>sort by  –sort by : 当有多个reduce时，只能保证单个reduce输出有序，不能保证全局有序<br>    cluster by = distribute by + sort by<br>distinct  –去重</p>
+<p>12.mapjoin<br>将小表广播分发到各个计算节点的内存里<br>用于大表关联小表，注意，关联的时候，左表需要是大表<br>select /<em>+mapjoin</em>/ uid,name from bigtable b left outer join small s on biuid=s.uid<br>select /<em>+mapjoin</em>/ * from bigtable b left outer join small s on biuid=s.uid<br>select /<em>+mapjoin</em>/ * from bigtable b left outer join small s on biuid=s.uid where …</p>
+<p>13.join<br>左连接会按照左表匹配关联，不管是否能关联上，左边全部输出，没有匹配的右边表，为null。<br>select a from A a left join B b on a.id=b.id where b.id is not null</p>
+<p>//先join后过滤<br>select * from city_data d left outer join city_id c on d.city_id=c.city_id where pt=’join’;<br>优化写法：<br>select * from (select * from city_data where pt=’join’) d left outer join city_id c on d.city_id=c.city_id ;<br>//这种写法是 先过滤（导致数据量变小）后join</p>
+<p>去重：<br>select distinct city_id from country_info_table limit 100;</p>
+<p>排序：<br>select * from city_data distribute by city_id sort by duration;</p>
+<p>14.外部表和普通表    //内部表也叫普通表<br>create table city_data_as_S as select * from city_data_503 limit 10;<br>注意：新建表不允许是外部表<br>select 后面表需要是已经存在的表，建表同时会加载数据。<br>会启动mapreduce任务去读取源表数据写入新表</p>
+<p>create external table if not exists city_data_like like data_503;</p>
+<p>注意：<br>外部表和普通表的区别：<br>1.外部表的路径可以自定义，内部表的路径需要在 hive/warehouse/目录下<br>2.删除表后，普通表数据文件和表信息都删除，外部表仅删除表信息<br>//外部表：删除表，数据不会删除<br>//内部表：删除表，数据会删除</p>
+<p>外部表其他功能：可以映射外部数据源。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzi7b7cj00017svgzfgxrrqc" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive随笔1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/hive随笔1/" class="article-date">
   <time datetime="2019-08-18T08:23:41.156Z" itemprop="datePublished">2019-08-18</time>
 </a>
     
@@ -95,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔/" data-id="cjzgphhv90001lwvgwujn5dmz" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzi7b79u00007svg25spmoha" class="article-share-link">分享</a>
       
       
       
@@ -133,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzgphhrk0000lwvgzkaudw3f" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzgpja8l00094gvg7k0yiti3" class="article-share-link">分享</a>
       
       
       
@@ -166,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzfaanur00083kvgfynodczw" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzgpja8j00074gvg7jcjuid5" class="article-share-link">分享</a>
       
       
       
@@ -208,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzfaanur00073kvg1qmdczbp" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzgpja8k00084gvg7xyiqvba" class="article-share-link">分享</a>
       
       
       
@@ -261,7 +363,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzfaanup00063kvgize94adj" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzgpja8i00054gvgee5l6ksw" class="article-share-link">分享</a>
       
       
       
@@ -318,7 +420,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzfaanuy000f3kvgao3vb03q" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzgpja8t000h4gvgmnlmt59f" class="article-share-link">分享</a>
       
       
       
@@ -355,7 +457,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzfaanuy000g3kvgsn2qk1ui" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzgpja8t000g4gvgd1aq3h4f" class="article-share-link">分享</a>
       
       
       
@@ -397,100 +499,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzfaanux000e3kvgonqfckul" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令6" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/16/hive命令6/" class="article-date">
-  <time datetime="2019-08-16T10:24:45.414Z" itemprop="datePublished">2019-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>1.更改表分区<br>(1)为已有表添加分区，首先为外部表创建一个目录，并且在hdfs上创建2个分区<br>alter table add partition</p>
-<p>hadoop fs -mkdir /user/demo/ids<br>hadoop fs -mkdir /user/demo/ids/2016-05-31<br>hadoop fs -mkdir /user/demo/ids/2016-05-30</p>
-<p>将数据复制到这些目录下</p>
-<p>hadoop fs -put /tmp/2016-05-31.txt /user/demo/ids/2016-05-31/<br>hadoop fs -put /tmp/2016-05-30.txt /user/demo/ids/2016-05-30/</p>
-<p>创建外部表并且为其添加分区</p>
-<p>create external table ids(a int) partitioned by (datestamp string) location’/user/demo/ids’;</p>
-<p>为表添加分区<br>alter table ids add partition (datestamp=’2016-05-30’) location ‘/user/demo/ids/2016-05-30/‘;</p>
-<p>hive&gt;select * from ids;</p>
-<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30</p>
-<p>alter table ids add partition (datestamp=’2016-05-31’) location ‘/user/demo/ids/2016-05-31/‘;</p>
-<p>hive&gt;select * from ids;</p>
-<p>11    2016-05-30<br>12    2016-05-30<br>13    2016-05-30<br>14    2016-05-30<br>1    2016-05-31<br>2    2016-05-31<br>3    2016-05-31<br>4    2016-05-31</p>
-<p>(2)为内部表添加分区<br>创建内部表<br>msck pepair table</p>
-<p>create table ids_internal (a int) partitioned by (datestamp string);</p>
-<p>为2个不同的分区插入几行数据</p>
-<p>insert into ids_internal partition (datestamp = ‘2016-05-30’) value (1);<br>insert into ids_internal partition (datestamp = ‘2016-05-3’) value (11);</p>
-<p>show partitions ids_internal;</p>
-<p>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
-<p>我们将在该表的目录下创建一个新的子目录并且为其添加一个文件</p>
-<p>hadoop fs -mkdir /apps/hive/warehouse/ids_internal/datestamp=2016-05-21 </p>
-<p>hadoop fs -put /tmp/2016-05-21.txt /apps/hive/warehouse/ids_internal/datestamp<br>=2016-05-21 </p>
-<p>现在运行msck pepair table命令来为该表添加新分区</p>
-<p>msck pepair table ids_internal;</p>
-<p>show partitions ids_internal;</p>
-<p>datestamp=2016-05-21<br>datestamp=2016-05-30<br>datestamp=2016-05-31</p>
-<p>msck pepair 命令为ids_internal表检查/apps/hive/warehouse/ids_internal下的子目录，<br>而且因为它找到了一个名为datestamp=2016-05-21的新目录，所以它会将该子目录作为<br>一个新分区添加到ids_internal表。当你添加了很多新的分区目录，并且想要一次性全部更新<br>它们的表定义时，这种方法尤其有用。注意：这种方式仅对内部表有效。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzfaanuw000d3kvg0ctoff83" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令5" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/15/hive命令5/" class="article-date">
-  <time datetime="2019-08-15T09:23:13.126Z" itemprop="datePublished">2019-08-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hive命令5"><a href="#hive命令5" class="headerlink" title="hive命令5"></a>hive命令5</h2><p>1.分桶<br>hive中的分桶是另一种将数据切分为更小片段的方式，<br>然而，高效的分区要求采用分区键，并不会导致出现大量的非常小的分区<br>因此，对于你的分区键有很多的值，但是分区键的每个值都没有多少行时，那么分区<br>并不是最佳选择，此时分桶很适合这种情形</p>
-<p>2.分桶可以让你为每个表的分桶列定义桶的最大数目，hive中的一个分区就是一个目录，<br>分区键的值存放在实际的分区目录名中，而分区键是表中的一个虚拟列。<br>然而，在分桶中，每个桶都是一个保存实际数据的文件，这些数据基于一种散列算法进行<br>分割。分桶并不会为当前表添加一个虚拟列。</p>
-<p>3.分桶的优势，最主要的一点就是能够提升多种查询的性能，如果分桶所用的键是非倾斜的，<br>那么对你的数据将会均衡分布，这一点可以用于实现高效的数据抽样。</p>
-<p>4.分桶代码案例<br>创建customers表，并且将创建的custid列作为一个分桶列，将其分割成11个桶。<br>create external table customers(<br>custid     int,<br>fname    string,<br>lname    string<br>)<br>clustered by (custid) into 11 buckets<br>location ‘/opt/customers’;</p>
-<p>现在，当你向该表插入数据时，Hive将custid用于散列函数，将数据分发到11个桶当中。<br>对于有些数据类型来说，就意味着哪写含有相同custid值的行将被存放在相同的桶中。</p>
-<p>注意：要设置<br>hive.enforce.bucketing=true<br>没有这个参数，就需要为表定义与桶的数量相同的映射器。</p>
-<p>5.分桶的注意事项<br>(1)选择唯一值的个数较多的桶键，这样会减小出现倾斜的可能性<br>(2)采用质数作为桶的编号<br>(3)如果桶键中的数据时倾斜的，为倾斜的值单独创建桶，这可以通过列表分桶来实现<br>(4)分桶对于通常连接在一起的事实表来说非常有用<br>(5)需要连接在一起的表，其桶的数目必须相同，或者一个表的桶数是另一个表的桶数的因子<br>(6)要仔细选择桶的数目，一个cpu核只会对一个桶进行写入操作，因此对于一个大型集群而言，如果桶的数目很小，则集群的利用严重不足<br>(7)一旦表建好，桶的数目就不能改变了<br>(8)仔细选择进行分桶的列，因为散列函数会引发倾斜，字符串散列更有这种倾向，因为通常使用的字符串子集很小。例如，如果桶键含有abc789,abc567,abc123三个值，但是散列算法在计算候选桶时仅仅用到了前3个字符(abc),那么最后这3个值都会在同一个桶中<br>(9)桶文件的大小至少是1GB<br>(10)通过设置hive.enforce.bucketing=true实现强制分桶<br>(11)对于Map端连接，分桶表要比非分桶表的速度更快。在Map端连接中，映射器处理左侧表的某个桶时，知道右侧表中相匹配的行在其对应的桶中，因此只需要检索该桶即可，这只是右侧表中存储的全部数据中的一小部分<br>(12)分桶也允许你按照一列或多列对每个桶中的数据进行排序，这样就可以把Map端连接转换成排序-合并连接，使速度更快</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzfaanuv000c3kvg35lqvzw6" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzgpja8s000f4gvglpqgqiz2" class="article-share-link">分享</a>
       
       
       
@@ -548,7 +557,15 @@
       <ul>
         
           <li>
-            <a href="/2019/08/18/hive随笔/">(no title)</a>
+            <a href="/2019/08/19/hive随笔3/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/19/hive随笔2/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/18/hive随笔1/">(no title)</a>
           </li>
         
           <li>
@@ -557,14 +574,6 @@
         
           <li>
             <a href="/2019/08/17/hive命令12/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/17/hive命令11/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/17/hive命令10/">(no title)</a>
           </li>
         
       </ul>
@@ -576,7 +585,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">33</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">35</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

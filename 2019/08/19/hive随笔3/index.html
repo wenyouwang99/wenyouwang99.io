@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
+  <meta name="description" content="1.hive函数使用 if函数     if( , , )if(条件表达式，如果条件成立返回值，如果条件不成立返回值)select age,if(person_age=’0’,null,person_age) from student; case when 函数    case when … endcase a when b then c [when d then e]* [else] end说明">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/16/hive命令7/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/19/hive随笔3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
+<meta property="og:description" content="1.hive函数使用 if函数     if( , , )if(条件表达式，如果条件成立返回值，如果条件不成立返回值)select age,if(person_age=’0’,null,person_age) from student; case when 函数    case when … endcase a when b then c [when d then e]* [else] end说明">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:29:55.034Z">
+<meta property="og:updated_time" content="2019-08-19T09:30:47.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
+<meta name="twitter:description" content="1.hive函数使用 if函数     if( , , )if(条件表达式，如果条件成立返回值，如果条件不成立返回值)select age,if(person_age=’0’,null,person_age) from student; case when 函数    case when … endcase a when b then c [when d then e]* [else] end说明">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令7" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive随笔3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/16/hive命令7/" class="article-date">
-  <time datetime="2019-08-16T10:25:35.546Z" itemprop="datePublished">2019-08-16</time>
+    <a href="/2019/08/19/hive随笔3/" class="article-date">
+  <time datetime="2019-08-19T09:30:47.246Z" itemprop="datePublished">2019-08-19</time>
 </a>
     
   </div>
@@ -82,23 +82,33 @@
       
         <!-- Table of Contents -->
         
-        <p>1.重命名分区<br>alter table ids partition (datestamp=’2016-05-31’) rename to<br>partition (datestamp=’31-05-2016’);</p>
-<p>show partitions ids;</p>
-<p>datestamp=2016-05-30 (修改前)<br>datestamp=31-05-2016 (修改后)</p>
-<p>2.修改列–添加列<br>在schema-on-read架构上，有一个关键需求，就是要能够修改模式或表的元数据。<br>用户可以在表上定义各种类型的元数据，而且修改这些元数据时，不需要担心修改<br>底层数据（只对外部表）。<br>alter table retail.transactions add columns (loyalty_card boolean);<br>新列将被添加到当前列之后、分区列之前。分区列的值来自于分区定义，并不是<br>存放在数据文件本身之中，也不在create table命令中列的列表之中。<br>虽然实际上分区列并没有嵌入到数据本身之中，但是当你执行select * 语句时，分区列<br>总是会出现在列的列表的最后。</p>
-<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table table_name;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table table_name purge;</p>
-<p>4.删除分区,只有当表是受控表时，hive才能删除真实的分区数据，下面2种删除方式(一样)<br>alter table transactions drop partition (store=’oakdrive’);<br>dropped the partition store=oakdrive;<br>本例中，数据仍然存放在hdfs上（假设你使用了一个外部表），但是针对该事务处理表的<br>查询无法再读取该分区。因此查询结果集中没有含有store=oakdrive的行，因为这个表<br>中已经没有这个分区了</p>
-<p>5.保护表/分区<br>alter table enable no_drop防止用户删除hive中的表<br>案例：如何在hive更改一个表，以避免它被删除<br>alter table transactions enable no_drop;<br>drop table transactions ;     //这个命令会报错</p>
-<p>案例：使某个表处于离线状态，以防止该表的数据被用户查询到，同时这并不会对另一个<br>访问同一底层数据的表造成影响<br>alter table transactions enable offline;<br>select * from transactions ;   //这个命令会报错</p>
-<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table table_name partition partition _spec enable offline;</p>
-<p>6.其他create table 命令选项<br>(1)使用 create table as select (ctas) 命令，利用其结果集和查询输出模式来创建一个内部表<br>create table retail.transactions _top100<br>as<br>select * from retail.transactions where custid&lt;101;</p>
-<p>你可以使用这一特性来抽取某个表的子集，并且以另一种格式将该子集存放在一个新表中。<br>下面给出例子，实现：它为目标表指定了一种新格式<br>create table retail.transactions _top100 stored as orcfile<br>as<br>select * from retail.transactions where custid&lt;101;<br>注意：在ctas命令中，hive对目标表的格式有一些限制。新的目标表不能是外部表、分区表或<br>分桶表。</p>
-<p>(2)create table like 命令<br>如果向复制某个已有表的模式而不复制它的数据，可以使用这个命令<br>create table transactions_test like transactions;</p>
+        <p>1.hive函数使用</p>
+<p>if函数     if( , , )<br>if(条件表达式，如果条件成立返回值，如果条件不成立返回值)<br>select age,if(person_age=’0’,null,person_age) from student;</p>
+<p>case when 函数    case when … end<br>case a when b then c [when d then e]* [else] end<br>说明：<br>如果a=b，那么返回c；<br>如果a=d，那么返回e;<br>否则返回f<br>举例：hive&gt;<br>select case 100 when 50 then ‘tom’ when 100 then ‘mary’ else ‘tim’ end from lxw1234;<br>mary</p>
+<p>hive&gt;<br>select case 200 when 50 then ‘tom’ when 100 then ‘mary’ else ‘tim’ end from lxw1234;<br>tim</p>
+<p>条件判断函数：case<br>case when a then b [when c then d]* [else e] end<br>返回值：T<br>说明：<br>如果a为true，则返回b；<br>如果c为true，则返回d；<br>否则返回e<br>举例：hive&gt;<br>select case when 1=2 then ‘tom’ when 2=2 then ‘mary’ else ‘tim’ end from lxw1234;<br>mary</p>
+<p>hive&gt;<br>select case when 1=1 then ‘tom’ when 2=2 then ‘mary’ else ‘tim’ end from lxw1234;<br>tom</p>
+<p>select age,case when person_age=’20’ then ‘20’ when person_age=’30’ then ‘30’ else ‘40’;</p>
+<p>select age,case when person_age=’20’ then null else person_age end from student;</p>
+<p>日期函数    to_date….<br>字符串函数   concat,concat_ws<br>聚合函数     sum,count….<br>null值判断    is null , is not null</p>
+<p>2.实现–if函数<br>数据样式：<br>number       dt<br>AS125689  12<br>DA252133  36<br>WSA31233 52<br>处理成：手机号码，qq号码(666666)，微信号码(888888)（第一个字段变成其中一个），平均时长<br>//这种写死的，不对应就会报错，不建议这么写<br>select if(number=’AS125689’,’666666’,’888888’) as num,avg(dt) from data group by number ;<br>//正常应该这么写<br>select if(number=’AS125689’,’666666’,’888888’) as num,avg(dt) from data group by<br>if(number=’AS125689’,’666666’,’888888’);<br>//还可以转化成别的字段返回<br>select if(number=’AS125689’,’666666’,city_id) as num,avg(dt) from data group by<br>if(number=’AS125689’,’666666’,city_id);</p>
+<p>3.实现–concat_ws函数   //第一个参数数分隔符<br>select concat_ws(“hello”,’–’,”world”);<br>输出：–helloworld<br>select concat_ws(‘–’,”hello”,”world”);<br>输出：hello–world     //连起来</p>
+<p>将数组拼接成字符串<br>create table test(<br>id        int,<br>name  array<string><br>)</string></p>
+<p>数据：<br>1    [“zhangsan”,”lisi”]<br>1    [“wangwu”,”zhaoliu”]<br>2    [“aa”,”bb”]</p>
+<p>开始拼接语句：<br>select concat_ws(第一个字段是分隔符,第二个字段是数组字段)<br>select concat_ws(‘–’,name) from test;<br>输出为：<br>zhangsan–li<br>wangwu-zhaoliu<br>aa–bb</p>
+<p>4.split</p>
+<p>create table test(<br>name  string<br>)</p>
+<p>数据为：<br>hello world<br>hi tom</p>
+<p>select split(name,’ ‘) from test;    //这里参数是空格，第一个参数为字段，第二个为参数符号</p>
+<p>[“hello”,”world”]<br>[“hi”,”tom”]</p>
+<p>5.explode<br>select explode(split(name,’ ‘)) from test;<br>hello<br>world<br>hi<br>tom</p>
+<p>6.单词统计sql<br>select w.word,count(*) from<br>(select explode(split(name,’ ‘)) as word from test) w<br>group by w.word; </p>
+<p>输出为：<br>hello    1<br>world    1<br>hi        1<br>tom        1</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzgpja8s000f4gvglpqgqiz2" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzi7b7ck00027svgev7bqpic" class="article-share-link">分享</a>
       
       
       
@@ -150,17 +160,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/16/hive命令8/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/16/hive命令6/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/19/hive随笔2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

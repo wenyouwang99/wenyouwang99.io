@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
+  <meta name="description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/16/hive命令7/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/18/hive随笔1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
+<meta property="og:description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-16T10:29:55.034Z">
+<meta property="og:updated_time" content="2019-08-18T08:25:20.690Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.重命名分区alter table ids partition (datestamp=’2016-05-31’) rename topartition (datestamp=’31-05-2016’); show partitions ids; datestamp=2016-05-30 (修改前)datestamp=31-05-2016 (修改后) 2.修改列–添加列在schema-on-rea">
+<meta name="twitter:description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令7" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive随笔1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/16/hive命令7/" class="article-date">
-  <time datetime="2019-08-16T10:25:35.546Z" itemprop="datePublished">2019-08-16</time>
+    <a href="/2019/08/18/hive随笔1/" class="article-date">
+  <time datetime="2019-08-18T08:23:41.156Z" itemprop="datePublished">2019-08-18</time>
 </a>
     
   </div>
@@ -82,23 +82,22 @@
       
         <!-- Table of Contents -->
         
-        <p>1.重命名分区<br>alter table ids partition (datestamp=’2016-05-31’) rename to<br>partition (datestamp=’31-05-2016’);</p>
-<p>show partitions ids;</p>
-<p>datestamp=2016-05-30 (修改前)<br>datestamp=31-05-2016 (修改后)</p>
-<p>2.修改列–添加列<br>在schema-on-read架构上，有一个关键需求，就是要能够修改模式或表的元数据。<br>用户可以在表上定义各种类型的元数据，而且修改这些元数据时，不需要担心修改<br>底层数据（只对外部表）。<br>alter table retail.transactions add columns (loyalty_card boolean);<br>新列将被添加到当前列之后、分区列之前。分区列的值来自于分区定义，并不是<br>存放在数据文件本身之中，也不在create table命令中列的列表之中。<br>虽然实际上分区列并没有嵌入到数据本身之中，但是当你执行select * 语句时，分区列<br>总是会出现在列的列表的最后。</p>
-<p>3.删除表<br>drop table 删除 hive 表时，表的元数据也会被删除<br>然而，hive 中的删除：我们只需要删除 受控表 中的数据<br>如果配置/etc/hadoop/conf/core-site.xml中的fs.trash.interval参数<br>那么在用drop table 删除 hive 表时,该表的数据就会被移动到/user/$USER/.trash文件夹下<br>drop table table_name;<br>如果你还想从trash中删除它，那么可以加入关键字purge<br>drop table table_name purge;</p>
-<p>4.删除分区,只有当表是受控表时，hive才能删除真实的分区数据，下面2种删除方式(一样)<br>alter table transactions drop partition (store=’oakdrive’);<br>dropped the partition store=oakdrive;<br>本例中，数据仍然存放在hdfs上（假设你使用了一个外部表），但是针对该事务处理表的<br>查询无法再读取该分区。因此查询结果集中没有含有store=oakdrive的行，因为这个表<br>中已经没有这个分区了</p>
-<p>5.保护表/分区<br>alter table enable no_drop防止用户删除hive中的表<br>案例：如何在hive更改一个表，以避免它被删除<br>alter table transactions enable no_drop;<br>drop table transactions ;     //这个命令会报错</p>
-<p>案例：使某个表处于离线状态，以防止该表的数据被用户查询到，同时这并不会对另一个<br>访问同一底层数据的表造成影响<br>alter table transactions enable offline;<br>select * from transactions ;   //这个命令会报错</p>
-<p>案例：你可以运行2个分区层命令，按照以下方式指定分区名称<br>alter table table_name partition partition _spec enable offline;</p>
-<p>6.其他create table 命令选项<br>(1)使用 create table as select (ctas) 命令，利用其结果集和查询输出模式来创建一个内部表<br>create table retail.transactions _top100<br>as<br>select * from retail.transactions where custid&lt;101;</p>
-<p>你可以使用这一特性来抽取某个表的子集，并且以另一种格式将该子集存放在一个新表中。<br>下面给出例子，实现：它为目标表指定了一种新格式<br>create table retail.transactions _top100 stored as orcfile<br>as<br>select * from retail.transactions where custid&lt;101;<br>注意：在ctas命令中，hive对目标表的格式有一些限制。新的目标表不能是外部表、分区表或<br>分桶表。</p>
-<p>(2)create table like 命令<br>如果向复制某个已有表的模式而不复制它的数据，可以使用这个命令<br>create table transactions_test like transactions;</p>
+        <p>1.查看一个有很多内容的1.txt文件，可以先看一点内容<br>head 1.txt</p>
+<p>2.hive基本语法-建表<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</p>
+<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
+<p>4.mysql登录<br>mysql -uroot -proot</p>
+<p>5.查看hive中的表<br>mysql&gt;<br>use hive;<br>show tables;<br>select * from &lt;&gt;;</p>
+<p>6.2种建表方式<br>create table table_name1 as select * from table_name2 limit 10;<br>create external table if not exists table_name3 like table_name4;</p>
+<p>7.hive中加载数据<br>(1)使用load data命令<br>从hdfs导入数据，路径可以是目录，会将目录下所有文件导入，但是文件格式必须一致<br>load data inpath ‘/test/‘ [overwrite] into table table_name;<br>(2)从本地文件系统导入<br>load data local inpath ‘/test/‘ into table table_name;<br>(3)表对表加载<br>create table if not exists table_name2 as select * from table_name1;<br>insert [overwrite] into table table_name2 select * from table_name1;<br>注意：<br>1.如果建表语句没有指定存储路径，不管是外部表还是内部表，存储路径都是会默认在<br>hive/warehouse/xx.db/表名的目录下<br>加载的数据也会移动到该表的存储目录下。注意是–移动，不是–复制。<br>2.删除外部表。文件不会删除，对应目录也不会删除。</p>
+<p>8.<br>hadoop fs -ls /opt/test | wc -l</p>
+<p>hadoop fs -ls /opt/test | head -10</p>
+<p>9.建表时，集合之间的分隔符<br>collection items terminated by ‘,’ ;<br>create table stud(<br>name      string,<br>chengji   array(int)     //这行用()代替&lt;&gt;<br>)<br>collection items terminated by ‘,’ ;        //集合之间以，分割</p>
+<p>张三     [10,20,30]</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzgpja8s000f4gvglpqgqiz2" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzi7b79u00007svg25spmoha" class="article-share-link">分享</a>
       
       
       
@@ -150,7 +149,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/16/hive命令8/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/19/hive随笔2/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -160,7 +159,7 @@
     </a>
   
   
-    <a href="/2019/08/16/hive命令6/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/18/hive命令13/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

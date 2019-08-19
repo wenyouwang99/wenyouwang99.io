@@ -66,6 +66,102 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-解决eclipse中无法执行向hadoop上传文件问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" class="article-date">
+  <time datetime="2019-08-06T13:29:08.157Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="解决eclipse中无法执行向hadoop上传文件问题"><a href="#解决eclipse中无法执行向hadoop上传文件问题" class="headerlink" title="解决eclipse中无法执行向hadoop上传文件问题"></a>解决eclipse中无法执行向hadoop上传文件问题</h2><p>main……的问题</p>
+<p>Permission denied: user=zhuy, access=WRITE, inode=”/user”:root:supergroup:drwxr-xr-x<br>从这句话我们可知道是权限问题</p>
+<p>所以要修改权限在  hdfs-site.xml加入如下代码   （每台都要修改）</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;dfs.permissions&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+    &lt;description&gt;
+      If &quot;true&quot;, enable permission checking in HDFS.
+      If &quot;false&quot;, permission checking is turned off,
+      but all other behavior is unchanged.
+      Switching from one parameter value to the other does not change the mode,
+      owner or group of files or directories.
+    &lt;/description&gt;
+&lt;/property&gt;</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzgpja93000y4gvgi4jz1sf7" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hdfs文件读取2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/06/hdfs文件读取2/" class="article-date">
+  <time datetime="2019-08-06T12:45:49.641Z" itemprop="datePublished">2019-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成"><a href="#hdfs文件的读取-在eclipse中D-text-text-txt01输出-其中text01-txt不必创建，自动生成" class="headerlink" title="hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )"></a>hdfs文件的读取  (在eclipse中D:\text\text.txt01输出   其中text01.txt不必创建，自动生成 )</h2><p>package com.qf.a.b;</p>
+<p>import java.io.File;<br>import java.io.FileOutputStream;<br>import java.io.IOException;<br>import java.io.OutputStream;<br>import java.net.URI;</p>
+<p>public static void readFileToLocal(String path) throws IOException {</p>
+<pre><code>FSDataInputStream fis = null;
+OutputStream out = null;
+
+try{
+
+Configuration conf = new Configuration();
+
+FileSystem fs = FileSystem.get(new URI(&quot;hdfs://192.168.8.10:9000&quot;),conf,path);
+fis = fs.open(new Path(path));
+out = new FileOutputStream(new File(&quot;D:\\text\\text.txt01&quot;));
+IOUtils.copyBytes(fis, System.out, 4096, true);
+
+}catch(Exception e){
+
+}finally{
+    fis.close();
+    out.close();
+
+}
+
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjzgpja8f00024gvgfbd46rl9" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hdfs文件的读取" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/06/hdfs文件的读取/" class="article-date">
@@ -99,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzfaanun00033kvgcg3bd1t3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzgpja8h00044gvgokte1yno" class="article-share-link">分享</a>
       
       
       
@@ -143,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzfaanv1000l3kvgqrv2fsrb" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzgpja8u000j4gvgy5v6h84n" class="article-share-link">分享</a>
       
       
       
@@ -237,7 +333,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzfaanuz000i3kvgrsw1j8nx" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzgpja8v000k4gvg0eheu40s" class="article-share-link">分享</a>
       
       
       
@@ -270,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzfaanv0000k3kvg44q4j6q4" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzgpja8w000m4gvg4z2zzs7r" class="article-share-link">分享</a>
       
       
       
@@ -307,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzfaanv0000j3kvgjraxggm5" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzgpja8w000l4gvgl1b6xawa" class="article-share-link">分享</a>
       
       
       
@@ -342,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzfaanud00003kvg39hgnyq8" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzgpja8700004gvg60leflba" class="article-share-link">分享</a>
       
       
       
@@ -380,7 +476,15 @@
       <ul>
         
           <li>
-            <a href="/2019/08/18/hive随笔/">(no title)</a>
+            <a href="/2019/08/19/hive随笔3/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/19/hive随笔2/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/18/hive随笔1/">(no title)</a>
           </li>
         
           <li>
@@ -389,14 +493,6 @@
         
           <li>
             <a href="/2019/08/17/hive命令12/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/17/hive命令11/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/17/hive命令10/">(no title)</a>
           </li>
         
       </ul>

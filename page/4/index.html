@@ -66,6 +66,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-平均成绩" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/09/平均成绩/" class="article-date">
+  <time datetime="2019-08-09T10:53:39.751Z" itemprop="datePublished">2019-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="平均成绩"><a href="#平均成绩" class="headerlink" title="平均成绩"></a>平均成绩</h2><p>mapreduce 计算平均成绩</p>
+<p>  public static class Map extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
+<pre><code>    public void map(LongWritable key,Text value,Context context)throws IOException, InterruptedException{
+        String line = value.toString();
+        String [] ss = line.split(&quot; &quot;);        
+        String strName = ss[0];
+        String strScore = ss[1];        
+        Text name = new Text(strName);
+        int scoreInt =     Integer.parseInt(strScore);
+        context.write(name, new IntWritable(scoreInt));
+    }        
+}
+
+
+
+
+public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
+    protected void reduce(Text key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
+        int sum = 0;
+        int count = 0;
+        Iterator&lt;IntWritable&gt; iterator = values.iterator();
+        while(iterator.hasNext()) {
+            sum += iterator.next().get();
+            count++;
+        }
+        int average = (int)sum/count;
+        context.write(key, new IntWritable(average));
+    }
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzkzaqqs000rr4vgsu4fetpc" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-在eclipse中向hdfs上传文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/06/在eclipse中向hdfs上传文件/" class="article-date">
@@ -107,7 +165,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjzkz2mg0000r6cvgroshk20l" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjzkzaqqt000ur4vgp9ad7ggd" class="article-share-link">分享</a>
       
       
       
@@ -150,7 +208,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzkz2mgg00106cvg0kw7u1nr" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzkzaqr80012r4vgv9s0tqdw" class="article-share-link">分享</a>
       
       
       
@@ -203,7 +261,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjzkz2mfl00056cvgln6mz031" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjzkzaqqa0004r4vgtr88yu5c" class="article-share-link">分享</a>
       
       
       
@@ -248,7 +306,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzkz2mfj00036cvgbex0r25d" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzkzaqqc0006r4vgbttgi8ws" class="article-share-link">分享</a>
       
       
       
@@ -292,7 +350,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzkz2mfx000l6cvg4xh2rv91" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzkzaqqq000nr4vg2yih74q8" class="article-share-link">分享</a>
       
       
       
@@ -386,7 +444,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzkz2mfx000m6cvgw6or5os3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzkzaqqo000kr4vgcsxjphw0" class="article-share-link">分享</a>
       
       
       
@@ -419,7 +477,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzkz2mfz000p6cvgf2c2c7w6" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzkzaqqr000qr4vgjy1dklff" class="article-share-link">分享</a>
       
       
       
@@ -456,7 +514,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzkz2mfz000o6cvgbhevuvds" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzkzaqqr000pr4vgur0gb4ru" class="article-share-link">分享</a>
       
       
       
@@ -491,7 +549,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzkz2mfc00006cvglxiusbn7" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzkzaqq10000r4vg77nkd3of" class="article-share-link">分享</a>
       
       
       
@@ -529,6 +587,10 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       <ul>
         
           <li>
+            <a href="/2019/08/21/hive随笔5/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/21/hive随笔4/">(no title)</a>
           </li>
         
@@ -542,10 +604,6 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
         
           <li>
             <a href="/2019/08/18/hive随笔1/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/18/hive命令13/">(no title)</a>
           </li>
         
       </ul>

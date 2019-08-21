@@ -66,6 +66,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/16/hive命令8/" class="article-date">
+  <time datetime="2019-08-16T10:26:17.214Z" itemprop="datePublished">2019-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.将数据装载到表中<br>load data [local] inpath ‘filepath’ [overwrite] into table table_name;<br>(1)load data –向hive装载数据的关键字<br>(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据<br>          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件<br>(3)inpath ‘filrpath’ –如果使用local：file://user/hive/example (自己写的路径，随便写)<br>如果省略local：hdfs://namenode:9000/user/hive/example(这里举例区别不同)<br>(4)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(5)into table table_name  –tablename是hive中已经存在的表的名称<br>                使用create table tablename语句</p>
+<p>2.hive的建表语法<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下   </p>
+<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
+<p>3.案例<br>创建一个新数据库<br>create database census;<br>使用该数据库<br>use census;<br>创建一个新表<br>create table person(<br>persid        int,<br>lastname    string,<br>firstname   string<br>)<br>row format delimited terminated by ‘,’;<br>将数据从csv(逗号文件，以逗号分隔，excel也能打开)文件装载到该新表<br>load data local inpath ‘file:///root/hive/example/person001’ overwrite into table person;<br>查看表中是否有数据<br>select persid,lastname,firstname from person limit 10;  //limit有助于观赏效果</p>
+<p>4.使用查询装载数据<br>insert [overwrite]<br>table tablename [if not exists]<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(4)if not exists  –如果在命令中包含if not exists，那么hive命令将在当前数据库中创建一个          表，如果省略，当该表不存在时将执行失败<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
+<p>5.使用已有表创建新表，案例<br>使用已有数据库<br>use census;<br>创建新表<br>create table personhub(<br>persid  int<br>);<br>将数据插入新表，覆盖表中已有数据<br>insert overwrite<br>table tablename<br>select Distinct personID from Person;<br>//SELECT DISTINCT 表示查询结果中，去掉了重复的行；Distinct表示去掉重复的行<br>检查数据是否已在表中(测试数据假设是80条)<br>select persid from personhub limit 10;</p>
+<p>现在再次上传数据并测试去除overwrite参数后的执行情况<br>use census;<br>insert overwrite table personhub select distinct persid from Person;<br>查看是否所有数据都已经加载，而且没有删除之前的数据<br>select persid from personhub;  //此时数据是80*2=160条</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzkzaqqm000hr4vgfson3zmt" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令7" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/16/hive命令7/" class="article-date">
@@ -96,7 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzkz2mft000f6cvgzzyhymy9" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzkzaqqi000er4vgot29aef3" class="article-share-link">分享</a>
       
       
       
@@ -152,7 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzkz2mft000e6cvgwu43axi0" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzkzaqql000fr4vgv2qy648g" class="article-share-link">分享</a>
       
       
       
@@ -189,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzkz2mfr000c6cvgnhfgg3jz" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzkzaqqh000cr4vg4m2leqmi" class="article-share-link">分享</a>
       
       
       
@@ -227,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzkz2mfq000a6cvgulwuk2so" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzkzaqqi000dr4vg893jqu0m" class="article-share-link">分享</a>
       
       
       
@@ -268,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzkz2mfs000d6cvg8f7y574z" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzkzaqqg000br4vgfniumqy7" class="article-share-link">分享</a>
       
       
       
@@ -412,7 +449,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzkz2mfh00016cvgncdeuwt3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzkzaqq70001r4vgumlpbv75" class="article-share-link">分享</a>
       
       
       
@@ -501,7 +538,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzkz2mgf000z6cvgi0l74wvh" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzkzaqr60010r4vgadikc4td" class="article-share-link">分享</a>
       
       
       
@@ -536,7 +573,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzkz2mfj00026cvgf041r36a" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzkzaqq80002r4vggcvi0e76" class="article-share-link">分享</a>
       
       
       
@@ -579,124 +616,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzkz2mfo00096cvgb4nvn9qw" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-求平均以及数据清洗 " class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/13/求平均以及数据清洗 /" class="article-date">
-  <time datetime="2019-08-13T09:03:52.805Z" itemprop="datePublished">2019-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="求平均数以及数据清洗"><a href="#求平均数以及数据清洗" class="headerlink" title="求平均数以及数据清洗"></a>求平均数以及数据清洗</h2><p>package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
-<ul>
-<li>数据样式：姓名，日期，金额，三个字段</li>
-<li>数据：</li>
-<li>张三，20198-1，30</li>
-<li>张三，20198-2，30</li>
-<li>李四，20198-1，30</li>
-<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
-<li>李四，20198-3，，      —日期位置是逗号</li>
-<li>李四，20198-4， ，     —日期位置是空格</li>
-<li>王五，20198-1</li>
-<li>王五，20198-1，30</li>
-<li>/</li>
-</ul>
-<p>  package hadoop;<br>//每个人平均花多少钱<br>//并且对数据进行清洗<br>/**</p>
-<ul>
-<li>数据样式：姓名，日期，金额，三个字段</li>
-<li>数据：</li>
-<li>张三，20198-1，30</li>
-<li>张三，20198-2，30</li>
-<li>李四，20198-1，30</li>
-<li>李四，20198-2，          —日期位置是空格   –在空格位置填0，不会影响数据</li>
-<li>李四，20198-3，，      —日期位置是逗号</li>
-<li>李四，20198-4， ，     —日期位置是空格</li>
-<li>王五，20198-1</li>
-<li>王五，20198-1，30</li>
-<li>/<br>import java.io.IOException;</li>
-</ul>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class MapReduce_avgClean {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        //数据样式：姓名，日期，金额，三个字段
-        String line = value.toString();
-        String[] split = line.split(&quot;,&quot;);
-        //对数据进行过滤，将数组长度不为3的过滤出去
-        //首先将字段不满足数量的过滤掉
-        if(split.length == 3) {
-            //将关键字段不满足需求的进行清洗，回填
-            if(split[2].equals(null) || split[2].equals(&quot;&quot;) || split[2].equals(&quot; &quot;)) {
-                split[2] = &quot;0&quot;;
-            }
-
-            String name = split[0];
-            Long money = Long.parseLong(split[2]);
-            context.write(new Text(name), new LongWritable(money));
-
-        }
-
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
-            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        //在reduce算出消费总和，以及消费次数，因为在同一个reduce中是同一个人消费
-        //所以直接算出reduce的数据条数
-        long sum = 0l;
-        //定义次数
-        long count = 0l;
-        for (LongWritable value : v2s) {
-            count++;
-            sum += value.get();
-        }
-        context.write(k2, new LongWritable(sum/count));        
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, MapReduce_sumClean.class.getSimpleName());
-    job.setJarByClass(MapReduce_avgClean.class);    
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 /" data-id="cjzkz2mgf000y6cvgdzd91juf" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzkzaqqe0009r4vg71vlm76r" class="article-share-link">分享</a>
       
       
       
@@ -734,6 +654,10 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       <ul>
         
           <li>
+            <a href="/2019/08/21/hive随笔5/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/21/hive随笔4/">(no title)</a>
           </li>
         
@@ -747,10 +671,6 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
         
           <li>
             <a href="/2019/08/18/hive随笔1/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/18/hive命令13/">(no title)</a>
           </li>
         
       </ul>

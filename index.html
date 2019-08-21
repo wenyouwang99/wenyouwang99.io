@@ -66,6 +66,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive随笔5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/21/hive随笔5/" class="article-date">
+  <time datetime="2019-08-21T08:12:50.837Z" itemprop="datePublished">2019-08-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.udf函数可以直接应用于select语句，对查询结构做格式化处理后，再输出内容<br>2.编写udf函数的时候需要注意以下几点<br>  (1)自定义udf需要继承org.apache.hadoop.hive.ql.exec.UDF<br>  (2)需要evaluate函数<br>3.步骤<br>  (1)把程序打包放到目标机器上去<br>  (2)进入hive客服端，添加jar包：add jar /usr/local/testdata/hive/hive_UP.jar<br>  (3)创建临时函数：hive&gt;create temporary function f_up as ‘hive_demo.hive_udf’<br>f_up  –》函数名        ‘hive_demo.hive_udf’   –》函数主类名<br>4.查询sql语句<br>select f_up(line) from wc_test;<br>销毁临时函数：hive&gt;drop temporary function f_up;<br>注意：UDF只能实现一进一出的操作，如果需要实现多进一出，则需要实现UDAF</p>
+<p>pom.xml依赖<br><dependency><br><groupid>org.apache.hive</groupid><br><artifactid>hive-exec</artifactid><br><version>1.2.1</version><br></dependency></p>
+<p>public class hive_udf extends UDF{<br>  public String evaluate (String word){<br>    String upperCase = word.toUpperCase();<br>    return upperCase;<br>  }<br>}</p>
+<p>5.hive的jdbc连接<br>(1)首先开启metastore<br>hive –service metastore &amp;</p>
+<p>(2)先开启hiveservice2<br>hive –service hiveserver2 &amp;</p>
+<p>添加maven依赖<br><dependency><br><groupid>org.apache.hive</groupid><br><artifactid>hive-jdbc</artifactid><br><version>1.2.1</version><br></dependency></p>
+<p>其次在eclipse中编写代码,java中的jdbc</p>
+<p>package 包名;</p>
+<p>import java.sql.Connection;<br>import java.sql.DriverManager;<br>import java.sql.ResultSet;<br>import java.sql.Statement;</p>
+<p>public class 类名{<br>  public static void main(){<br>    Class.forName(“org.apache.hive.jdbc.HiveDriver”);<br>    Connection con = DriverManager.getConnection(“jdbc:hive2://192.168.8.10:10000/数据库名”);<br>    Statement cs = con.createStatement();<br>    //查询sql,query<br>    ResultSet rs = cs.executeQuery(“select * from 数据库名.表名”);<br>    //通常用于DDL操作<br>    //cs.exectte(“create table test”);<br>    while(rs.next()){<br>      String word = rs.getString(1);<br>      String count = rs.getString(2);<br>      System.out.println(word + “,” + count);<br>    }<br>    rs.close();<br>    cs.close();<br>    con.close();<br>  }</p>
+<p>}</p>
+<p>6.定时功能–       hive -e 写在shell脚本里<br>hive -e “select * from shujuku.tablename limit 5”<br>可以直接在没有启动hive的集群下执行执行sql语句</p>
+<p>可以写一个shell脚本：    //shell脚本什么都可以写<br>cd /opt<br>vi test.sh   –&gt;<br>内容如下</p>
+<p> #!/bin/bash<br>hive -e “select * from shujuku.tablename limit 5”</p>
+<p>保存，退出</p>
+<p>启动脚本：<br>sh test.sh</p>
+<p>//    #!/bin/bash    这里面还可以写语法</p>
+<p> #!/bin/bash<br>date_time=$(date ‘+%Y%m%d’)<br>echo $date_time<br>hive -e “select * from shujuku.tablename where pt=$date_time limit 5”<br>保存，退出</p>
+<p>启动脚本：<br>sh test.sh</p>
+<p>7.定时功能–       hive -f 写在shell脚本里<br>hive -f /opt/test.hql</p>
+<p>hive -f 的shell脚本如下：<br>cd /opt<br>vi test.hql   –&gt;<br>内容如下</p>
+<p>//直接写sql<br>select * from shujuku.tablename limit 5</p>
+<p>启动脚本：<br>hive -f test.hql</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjzkzc10h0013r4vgd6i1kw03" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive随笔4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/21/hive随笔4/" class="article-date">
@@ -103,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzkz9r5f0000e4vg55qr1sre" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzkzaqqo000lr4vg7jzhdnki" class="article-share-link">分享</a>
       
       
       
@@ -155,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzkz2mfw000k6cvg4vzawipv" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzkzaqqp000mr4vgc8dg29eu" class="article-share-link">分享</a>
       
       
       
@@ -205,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzkz2mfw000j6cvgqtt86rwm" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzkzaqqn000jr4vg11v1qeal" class="article-share-link">分享</a>
       
       
       
@@ -246,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzkz2mfv000i6cvggdrsb9i6" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzkzaqqm000ir4vgyec7r6z7" class="article-share-link">分享</a>
       
       
       
@@ -284,7 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzkz2mfn00086cvg7b8qsvqg" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzkzaqqg000ar4vgk61iktkj" class="article-share-link">分享</a>
       
       
       
@@ -317,7 +370,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzkz2mfq000b6cvg7o3l7238" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzkzaqqd0008r4vgvsw7p28a" class="article-share-link">分享</a>
       
       
       
@@ -359,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzkz2mfn00076cvgefeqxu0u" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzkzaqqd0007r4vge3665zj6" class="article-share-link">分享</a>
       
       
       
@@ -412,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzkz2mfm00066cvgzadb0bks" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzkzaqq90003r4vgytra98zy" class="article-share-link">分享</a>
       
       
       
@@ -469,44 +522,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzkz2mfv000h6cvgkfv7dao9" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令8" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/16/hive命令8/" class="article-date">
-  <time datetime="2019-08-16T10:26:17.214Z" itemprop="datePublished">2019-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>1.将数据装载到表中<br>load data [local] inpath ‘filepath’ [overwrite] into table table_name;<br>(1)load data –向hive装载数据的关键字<br>(2)local  –如果包含该关键字，则支持用户从其本地文件装载数据<br>          如果省略该关键字，则从hadoop配置变量fs.default.name中设定的路径加载文件<br>(3)inpath ‘filrpath’ –如果使用local：file://user/hive/example (自己写的路径，随便写)<br>如果省略local：hdfs://namenode:9000/user/hive/example(这里举例区别不同)<br>(4)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(5)into table table_name  –tablename是hive中已经存在的表的名称<br>                使用create table tablename语句</p>
-<p>2.hive的建表语法<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下   </p>
-<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
-<p>3.案例<br>创建一个新数据库<br>create database census;<br>使用该数据库<br>use census;<br>创建一个新表<br>create table person(<br>persid        int,<br>lastname    string,<br>firstname   string<br>)<br>row format delimited terminated by ‘,’;<br>将数据从csv(逗号文件，以逗号分隔，excel也能打开)文件装载到该新表<br>load data local inpath ‘file:///root/hive/example/person001’ overwrite into table person;<br>查看表中是否有数据<br>select persid,lastname,firstname from person limit 10;  //limit有助于观赏效果</p>
-<p>4.使用查询装载数据<br>insert [overwrite]<br>table tablename [if not exists]<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(4)if not exists  –如果在命令中包含if not exists，那么hive命令将在当前数据库中创建一个          表，如果省略，当该表不存在时将执行失败<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
-<p>5.使用已有表创建新表，案例<br>使用已有数据库<br>use census;<br>创建新表<br>create table personhub(<br>persid  int<br>);<br>将数据插入新表，覆盖表中已有数据<br>insert overwrite<br>table tablename<br>select Distinct personID from Person;<br>//SELECT DISTINCT 表示查询结果中，去掉了重复的行；Distinct表示去掉重复的行<br>检查数据是否已在表中(测试数据假设是80条)<br>select persid from personhub limit 10;</p>
-<p>现在再次上传数据并测试去除overwrite参数后的执行情况<br>use census;<br>insert overwrite table personhub select distinct persid from Person;<br>查看是否所有数据都已经加载，而且没有删除之前的数据<br>select persid from personhub;  //此时数据是80*2=160条</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzkz2mfu000g6cvg4x6mcl40" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzkzaqql000gr4vgkgpoyfd2" class="article-share-link">分享</a>
       
       
       
@@ -564,6 +580,10 @@
       <ul>
         
           <li>
+            <a href="/2019/08/21/hive随笔5/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/21/hive随笔4/">(no title)</a>
           </li>
         
@@ -579,10 +599,6 @@
             <a href="/2019/08/18/hive随笔1/">(no title)</a>
           </li>
         
-          <li>
-            <a href="/2019/08/18/hive命令13/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -592,7 +608,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">36</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">37</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

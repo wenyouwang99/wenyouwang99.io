@@ -94,7 +94,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔7/" data-id="cjzmf51vs00010ovgjsy2tkbo" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔7/" data-id="cjzmf6pm9000o70vgrrhd44bi" class="article-share-link">分享</a>
       
       
       
@@ -121,13 +121,13 @@
         <!-- Table of Contents -->
         
         <p>1.udf函数可以直接应用于select语句，对查询结构做格式化处理后，再输出内容<br>2.编写udf函数的时候需要注意以下几点<br>  (1)自定义udf需要继承org.apache.hadoop.hive.ql.exec.UDF<br>  (2)需要evaluate函数<br>3.步骤<br>  (1)把程序打包放到目标机器上去<br>  (2)进入hive客服端，添加jar包：add jar /usr/local/testdata/hive/hive_UP.jar<br>  (3)创建临时函数：hive&gt;create temporary function f_up as ‘hive_demo.hive_udf’<br>f_up  –》函数名        ‘hive_demo.hive_udf’   –》函数主类名<br>4.查询sql语句<br>select f_up(line) from wc_test;<br>销毁临时函数：hive&gt;drop temporary function f_up;<br>注意：UDF只能实现一进一出的操作，如果需要实现多进一出，则需要实现UDAF</p>
-<p>pom.xml依赖</p>
-<h1 id><a href="#" class="headerlink" title></a><dependency></dependency></h1><h1 id="org-apache-hive"><a href="#org-apache-hive" class="headerlink" title="org.apache.hive"></a><groupid>org.apache.hive</groupid></h1><h1 id="hive-exec"><a href="#hive-exec" class="headerlink" title="hive-exec"></a><artifactid>hive-exec</artifactid></h1><h1 id="1-2-1"><a href="#1-2-1" class="headerlink" title="1.2.1"></a><version>1.2.1</version></h1><h1 id="-1"><a href="#-1" class="headerlink" title></a></h1><p>public class hive_udf extends UDF{<br>  public String evaluate (String word){<br>    String upperCase = word.toUpperCase();<br>    return upperCase;<br>  }<br>}</p>
+<p>pom.xml依赖<br>  (dependency)       //这里依赖中的所有&lt;&gt;用()代替<br>  (groupId)org.apache.hive(/groupId)<br>  (artifactId)hive-exec(/artifactId)<br>  (version)1.2.1(/version)<br>  (/dependency)</p>
+<p>public class hive_udf extends UDF{<br>  public String evaluate (String word){<br>    String upperCase = word.toUpperCase();<br>    return upperCase;<br>  }<br>}</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjzmf39do00000ovg80fa6sus" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjzmf6pm9000n70vg0xn9oog5" class="article-share-link">分享</a>
       
       
       
@@ -180,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjzkzemxg000mmsvgosanse4w" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjzmf6pm8000m70vgpmragnah" class="article-share-link">分享</a>
       
       
       
@@ -229,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzkzemxe000jmsvgeb0r0bk6" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzmf6pm7000k70vg90fsa91z" class="article-share-link">分享</a>
       
       
       
@@ -281,7 +281,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzkzemxf000kmsvgmutzbcla" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzmf6pm8000l70vgcsdjvhpa" class="article-share-link">分享</a>
       
       
       
@@ -331,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzkzemxf000lmsvgaw5dto5h" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzmf6pm7000j70vg99jnwlk3" class="article-share-link">分享</a>
       
       
       
@@ -372,7 +372,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzkzemxe000imsvgx7giao9y" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzmf6pm6000i70vgckmidejj" class="article-share-link">分享</a>
       
       
       
@@ -410,7 +410,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzkzemx30008msvgz9lul79y" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzmf6plv000870vg5a42efc3" class="article-share-link">分享</a>
       
       
       
@@ -443,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzkzemx10005msvgnol4mo5d" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzmf6plv000770vg8hs0w26h" class="article-share-link">分享</a>
       
       
       
@@ -485,7 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzkzemx40009msvgjl0urux2" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzmf6plw000970vgkxok014x" class="article-share-link">分享</a>
       
       
       

@@ -66,6 +66,84 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-数据去重" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/09/数据去重/" class="article-date">
+  <time datetime="2019-08-09T10:56:25.743Z" itemprop="datePublished">2019-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>    //map将输入中的value复制到输出数据的key上,并直接输出<br>        private static Text line = new Text();</p>
+<pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
+        line = value;
+        context.write(line, new Text(&quot;&quot;));
+    }        
+}
+
+
+
+//reduce将输入中的key复制到输出数据的key上，并直接输出
+public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
+
+    //实现reduce函数
+    protected void reduce(Text key, Iterable&lt;Text&gt; values,Context context) throws IOException, InterruptedException {
+        context.write(key, new Text(&quot;&quot;));
+    }
+}</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzkzemxu000tmsvgrhvlgmn6" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-数据排序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/09/数据排序/" class="article-date">
+  <time datetime="2019-08-09T10:55:12.862Z" itemprop="datePublished">2019-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>  //map将输入中的value转化成IntWritable类型，作为输出的key<br>        private static IntWritable data = new IntWritable();<br>        //实现map函数<br>        public void map(Object key,Text value,Context context)throws IOException, InterruptedException{<br>            String line = value.toString();<br>            data.set(Integer.parseInt(line));<br>            context.write(data, new IntWritable(1));<br>        }<br>    }</p>
+<p>//reduce将输入中的key复制到输出数据的key上<br>//然后根据输入的value-list中的元素的个数决定key的输出次数<br>//用全局linenum来代表key的位次<br>    public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {<br>        private static IntWritable linenum = new IntWritable(1);<br>        //实现reduce函数<br>        protected void reduce(IntWritable key, Iterable<intwritable> values,Context context) throws IOException, InterruptedException {<br>            for (IntWritable val : values) {<br>                context.write(linenum, key);<br>                linenum = new IntWritable(linenum.get()+1);<br>            }<br>        }<br>    }</intwritable></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjzkzemxw000wmsvgymw5w0im" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-平均成绩" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/09/平均成绩/" class="article-date">
@@ -112,7 +190,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzkzaqqs000rr4vgsu4fetpc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzkzemxw000vmsvghs3fum8n" class="article-share-link">分享</a>
       
       
       
@@ -165,7 +243,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjzkzaqqt000ur4vgp9ad7ggd" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/在eclipse中向hdfs上传文件/" data-id="cjzkzemxt000smsvg2by16rrd" class="article-share-link">分享</a>
       
       
       
@@ -208,7 +286,7 @@ System.out.println(&quot;finished...&quot;);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzkzaqr80012r4vgv9s0tqdw" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/解决eclipse中无法执行向hadoop上传文件问题/" data-id="cjzkzemxz000zmsvg93u1s2cp" class="article-share-link">分享</a>
       
       
       
@@ -261,7 +339,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjzkzaqqa0004r4vgtr88yu5c" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件读取2/" data-id="cjzkzemx20007msvge1x01vni" class="article-share-link">分享</a>
       
       
       
@@ -306,7 +384,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzkzaqqc0006r4vgbttgi8ws" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/hdfs文件的读取/" data-id="cjzkzemwx0001msvgvonk1i5c" class="article-share-link">分享</a>
       
       
       
@@ -350,7 +428,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzkzaqqq000nr4vg2yih74q8" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装1/" data-id="cjzkzemxh000nmsvg1rob2udh" class="article-share-link">分享</a>
       
       
       
@@ -444,7 +522,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzkzaqqo000kr4vgcsxjphw0" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/06/maven安装2/" data-id="cjzkzemxi000pmsvgfcxnbbce" class="article-share-link">分享</a>
       
       
       
@@ -477,79 +555,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzkzaqqr000qr4vgjy1dklff" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-wordcount" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/07/31/wordcount/" class="article-date">
-  <time datetime="2019-07-31T11:50:11.181Z" itemprop="datePublished">2019-07-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hadoop2-x运行自带的Wordcount"><a href="#hadoop2-x运行自带的Wordcount" class="headerlink" title="hadoop2.x运行自带的Wordcount"></a>hadoop2.x运行自带的Wordcount</h2><p>①首先在master虚拟机本地某一个目录下创建一个文件夹file，用来存储将要上传到HDFS的文件<br>我是在/opt/hadoop路径下创建的文件夹file<br>cd /opt/hadoop<br>mkdir file</p>
-<p>②接着进入file文件夹，然后创建两个文本文件file1.txt和file2.txt，并输入内容<br>cd file<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop</p>
-<p>③用hadoop dfs命令在HDFS上创建用来接收本地文件的文件夹input<br>hadoop dfs -mkdir /input<br>hadoop dfs -ls /<br>hadoop dfs -ls /input</p>
-<p>④将刚才在本地创建的两个文件上传到HDFS的input中（此前要关闭所有节点的防火墙，不然会出错）<br>vi file1.txt           #hello world<br>vi file2.txt           #hello hadoop<br>hadoop dfs -put /opt/hadoop/file/file*.txt /input<br>hadoop dfs -ls /</p>
-<p>⑤现在已经将文件上传到HDFS上了，接下来就要用hadoop自带的Wordcount程序对其进行统计<br>首先进入到Wordcount程序所在目录（找自己的hadoop的安装目录）<br>cd /opt/hadoop/share/hadoop//mapreduce/<br>ll<br>hadoop-mapreduce-examples-2.7.2.jar<br>hadoop jar hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output</p>
-<p>执行命令运行Wordcount程序，并将结果输出到/output目录下（输出目录自动生成，不可提前创建）<br>hadoop dfs -ls /output      （output作为输入结果的文件，不能提前存在，必须是临时生成的）</p>
-<p>⑥接下来看输出结果，一共生成2个文件，我们的统计结果在part-r-00000文件中。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount/" data-id="cjzkzaqqr000pr4vgur0gb4ru" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-DataNode无法启动" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/07/31/DataNode无法启动/" class="article-date">
-  <time datetime="2019-07-31T10:33:07.440Z" itemprop="datePublished">2019-07-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>##关于hadoop集群中第二次启动时，DataNode没有启动的解决办法</p>
-<p>##第一次启动时没有问题<br>第二次启动时会有文件残留<br>产生一个新的namenode文件（id），就不认识以前的namenode了<br>导致集群不能正常启动<br>解决办法：在格式化之前，删除datanode里面的信息（默认在/tmp，如果配置该目录，就要去配置的目录下删除（hadoop-2.6.5/data/tmp/））</p>
-<p>##rm -rf /tmp    (从节点都要执行)</p>
-<p>##hdfs namenode -format (主节点执行)</p>
-<p>##主从节点都   jps    然后就成功启动了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/07/31/DataNode无法启动/" data-id="cjzkzaqq10000r4vg77nkd3of" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/07/31/wordcount2/" data-id="cjzkzemxi000qmsvgitxccixd" class="article-share-link">分享</a>
       
       
       
@@ -564,7 +570,7 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -587,6 +593,14 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
       <ul>
         
           <li>
+            <a href="/2019/08/22/hive随笔7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/22/hive随笔6/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/21/hive随笔5/">(no title)</a>
           </li>
         
@@ -596,14 +610,6 @@ IOUtils.copyBytes(fis, System.out, 4096, true);
         
           <li>
             <a href="/2019/08/19/hive随笔3/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/19/hive随笔2/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/18/hive随笔1/">(no title)</a>
           </li>
         
       </ul>

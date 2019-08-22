@@ -66,6 +66,84 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hadoop中combine优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/14/hadoop中combine优化/" class="article-date">
+  <time datetime="2019-08-14T03:31:19.531Z" itemprop="datePublished">2019-08-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hadoop中combine优化"><a href="#hadoop中combine优化" class="headerlink" title="hadoop中combine优化"></a>hadoop中combine优化</h2><p>1.写法<br>  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名<br>  改为MapReduce_Combine(名字自己随便写)</p>
+<p>  (2)在main中加入<br>  job.setCombinerClass(MapReduce_Combine.class);</p>
+<p>2.优点<br>  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少在map和reduce节点<br>  之间的数据传输量，以提高io性能</p>
+<p>3.缺点<br>  增加了reduce的进程</p>
+<p>4.杀死进程<br>  如果进程卡住了，或者时间太长而不想继续执行了，可以杀死进程<br>  加入进程编号为：  job_135525622353<br>  hadoop job -kill job_135525622353</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzkzemwz0003msvg4qn4ve8m" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive命令2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/13/hive命令2/" class="article-date">
+  <time datetime="2019-08-13T09:04:52.056Z" itemprop="datePublished">2019-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hive命令2"><a href="#hive命令2" class="headerlink" title="hive命令2"></a>hive命令2</h2><p>1.创建表–stud:表名    retail–数据库名<br>create external table stud(<br>fname string,<br>lname string,<br>address struct (houseno:string, street:string, city:string),  //这一行用()代替&lt;&gt;,&lt;&gt;代码不显示<br>active boolean,<br>create date,<br>location ‘/opt/stud’);</p>
+<p>2.可以在数据库中直接创建一个表<br>在表名前加上数据库名<br>create external table retail.stud(）</p>
+<p>3.列出表<br>show tables in retail</p>
+<p>4.如果数据库中有很多表，可以用通配符搜索特定的表</p>
+<p>5.外部表，其在被删除时，数据保留，在create table 中使用<br>external关键字来创建外部表<br>create external table retail.stud(）</p>
+<p>6.内部表,其在被删除时，数据不保留<br>create table retail.stud(）</p>
+<p>7.查看表内容<br>select * from stud;</p>
+<p>8.查看表的模式，其中在table type中指明表是否是内部表（外部表）<br>describe formatted stud;</p>
+<p>9.表的属性<br>(1)last_modified_user<br>(2)last_modified_time<br>(3)immutable<br>(4)orc.compress<br>(5)skip.header.line.count</p>
+<p>(1)(2)属性可控，由hive自动增加，hive通过它们<br>将上次修改的用户和时间信息存放在metastore中</p>
+<p>(3)当immutable属性设置为true,此时一个表里已经有一些数据了，则无法<br>在向其插入新行，强行插入，会报错<br>insert into text1 values (‘bacon’);<br>failed: SemanticException……..immutable table is not allowed text1</p>
+<p>(4)orc.compress属性用于指定基于orc的存储所采用的算法</p>
+<p>(5)skip.header.line.count<br>使用该属性，可以跳过底层数据文件的标题行<br>例子，如果一个文件中有2个标题行，那么跳过标题行写法如下<br>create external table stud (states string) location ‘/opt/stud’<br>tblproperties(“skip.header.line.count” = “2”);<br>此时创建的新表，再次查询时就会跳过2个标题行来显示文件内容</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzkzemx6000amsvgrfl0wxvk" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-求平均以及数据清洗 " class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/13/求平均以及数据清洗 /" class="article-date">
@@ -171,7 +249,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 /" data-id="cjzkzaqr5000yr4vgj3gdla48" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 /" data-id="cjzkzemy20012msvgmaq7y2r3" class="article-share-link">分享</a>
       
       
       
@@ -269,7 +347,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求和以及数据清洗 /" data-id="cjzkzaqqv000xr4vgeoqh7g1i" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求和以及数据清洗 /" data-id="cjzkzemxy000ymsvglu1516tm" class="article-share-link">分享</a>
       
       
       
@@ -348,7 +426,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求和/" data-id="cjzkzaqqu000wr4vgoifsewig" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求和/" data-id="cjzkzemxx000xmsvgk7z0y4g9" class="article-share-link">分享</a>
       
       
       
@@ -421,7 +499,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数/" data-id="cjzkzaqqs000sr4vg55ugft72" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数/" data-id="cjzkzemxv000umsvghdbxq947" class="article-share-link">分享</a>
       
       
       
@@ -495,7 +573,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/12/wordcount 完整案例/" data-id="cjzkzaqqq000or4vgbn9l9uiu" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/12/wordcount 完整案例/" data-id="cjzkzemxh000omsvgqktg2hya" class="article-share-link">分享</a>
       
       
       
@@ -545,7 +623,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjzkzaqqb0005r4vg2nexm9u1" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/12/hive命令1/" data-id="cjzkzemx20006msvg8uwncf61" class="article-share-link">分享</a>
       
       
       
@@ -625,7 +703,7 @@ public static class CountReduce extends Reducer&lt;Text, LongWritable, Text, Dou
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjzkzaqr70011r4vg2wc0i7yc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/11/统计乘用车辆，商用车辆的数量销售和销售额分布/" data-id="cjzkzemy10011msvgd4epbo2o" class="article-share-link">分享</a>
       
       
       
@@ -839,85 +917,7 @@ public int run(String[] args) throws Exception {
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjzkzaqr5000zr4vgnlk2aoj9" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-数据去重" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/09/数据去重/" class="article-date">
-  <time datetime="2019-08-09T10:56:25.743Z" itemprop="datePublished">2019-08-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="数据去重"><a href="#数据去重" class="headerlink" title="数据去重"></a>数据去重</h2><p>  public static class Map extends Mapper&lt;Object, Text, Text, Text&gt;{<br>    //map将输入中的value复制到输出数据的key上,并直接输出<br>        private static Text line = new Text();</p>
-<pre><code>    public void map(Object key,Text value,Context context)throws IOException, InterruptedException{
-        line = value;
-        context.write(line, new Text(&quot;&quot;));
-    }        
-}
-
-
-
-//reduce将输入中的key复制到输出数据的key上，并直接输出
-public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
-
-    //实现reduce函数
-    protected void reduce(Text key, Iterable&lt;Text&gt; values,Context context) throws IOException, InterruptedException {
-        context.write(key, new Text(&quot;&quot;));
-    }
-}</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据去重/" data-id="cjzkzaqqt000tr4vgrlyr1xko" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-数据排序" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/09/数据排序/" class="article-date">
-  <time datetime="2019-08-09T10:55:12.862Z" itemprop="datePublished">2019-08-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><p>  public static class Map extends Mapper&lt;Object, Text, IntWritable, IntWritable&gt;{<br>  //map将输入中的value转化成IntWritable类型，作为输出的key<br>        private static IntWritable data = new IntWritable();<br>        //实现map函数<br>        public void map(Object key,Text value,Context context)throws IOException, InterruptedException{<br>            String line = value.toString();<br>            data.set(Integer.parseInt(line));<br>            context.write(data, new IntWritable(1));<br>        }<br>    }</p>
-<p>//reduce将输入中的key复制到输出数据的key上<br>//然后根据输入的value-list中的元素的个数决定key的输出次数<br>//用全局linenum来代表key的位次<br>    public static class Reduce extends Reducer&lt;IntWritable, IntWritable, IntWritable, IntWritable&gt; {<br>        private static IntWritable linenum = new IntWritable(1);<br>        //实现reduce函数<br>        protected void reduce(IntWritable key, Iterable<intwritable> values,Context context) throws IOException, InterruptedException {<br>            for (IntWritable val : values) {<br>                context.write(linenum, key);<br>                linenum = new IntWritable(linenum.get()+1);<br>            }<br>        }<br>    }</intwritable></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/数据排序/" data-id="cjzkzaqqu000vr4vgvob3iljj" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/10/二次排序/" data-id="cjzkzemy90013msvgc85l1c39" class="article-share-link">分享</a>
       
       
       
@@ -932,7 +932,7 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -955,6 +955,14 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
       <ul>
         
           <li>
+            <a href="/2019/08/22/hive随笔7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/22/hive随笔6/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/21/hive随笔5/">(no title)</a>
           </li>
         
@@ -964,14 +972,6 @@ public static class Reduce extends Reducer&lt;Text, Text, Text, Text&gt; {
         
           <li>
             <a href="/2019/08/19/hive随笔3/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/19/hive随笔2/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/18/hive随笔1/">(no title)</a>
           </li>
         
       </ul>

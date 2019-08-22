@@ -66,6 +66,116 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/hive命令10/" class="article-date">
+  <time datetime="2019-08-17T08:17:34.774Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.创建结构相同的表<br>create table table_name like table_name1;<br>语法解释<br>table_name  –要创建表的名字<br>table_name1  –hive中已有表的名字</p>
+<p>2.案例<br>目标：使用person表的结构创建一个名为person40的表<br>use census;</p>
+<p>create table person40 like person;</p>
+<p>select * from person40;</p>
+<p>插入数据（能插入就成功）<br>insert into table person40 values (0,’Bob’,’Burger’),(1,’Charlie’,’clown’);<br>select * from person40;   //此时有2行数据</p>
+<p>3.连接<br>hive支持表之间的等值连接，使你能够整合来自两个表的数据<br>select table_fields<br>from table_one<br>join table_two<br>on (table_one.key_one = table_two.key_one<br>and table_one.key_two = table_two.key_two);<br>语法解释<br>(1)select table_fields   –用于从两个表中选取一系列字段的关键字<br>(2)from table_one join table_two   –罗列出两个为了检索table_fields而进行连接操作的表<br>(3)on (table_one.key_one = table_two.key_one  —列出连接两个表的等值规则<br>and table_one.key_two = table_two.key_two)</p>
+<p>4.案例<br>目标：在表census.personname和表census.address之间创建连接<br>use census;</p>
+<p>create table census.personname(<br>persid       int,<br>firstname  string,<br>lastname   string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table census.personname<br>values<br>(0,’Albert’,’ape’),<br>(1,’Bob’,’Burger’)<br>(2,’Charlie’,’Clown’),<br>(3,’Danny’,’Drywer’);</p>
+<p>create table census.address(<br>persid        int,<br>postname  string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table census.address<br>values<br>(1,’KA13’),<br>(2,’KA9’),<br>(10,’SW1’);</p>
+<p>现在执行连接操作<br>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>结果如下<br>Bob    Burger    KA13<br>Charlie    Clown    KA9</p>
+<p>5.使用外连接<br>hive支持采用left,right,full outer等连接方式实现表之间的等值连接，这其中无匹配的键<br>select table_fields<br>from table_one<br>[left,right,full outer]<br>join table_two<br>on (table_one.key_one = table_two.key_one<br>and table_one.key_two = table_two.key_two);<br>语法解释<br>(1)left –left 连接产生的结果包含表table_one中匹配where语句的字段值以及表<br>         table_two中匹配和不匹配where语句的字段值<br>(2)right –right 连接产生的结果包含表table_one中匹配where语句的字段值以及表<br>         table_one中匹配和不匹配where语句的字段值<br>(3)full outer –full outer 连接将返回表table_two和table_one中的字段值；当有不匹配<br>                      where语句的行时，其字段值为null<br>(4)on  –列出两个表的等值规则</p>
+<p>6.案例<br>左连接方式<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>left join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>此时结果是4条记录<br>Albert    Ape    null<br>Bob    Burger    KA13<br>Charlie    Clown    KA9<br>Danny    Drywer    null</p>
+<p>右连接方式<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>right join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>此时结果是3条记录<br>Bob    Burger    KA13<br>Charlie    Clown    KA9<br>Danny    Drywer    null</p>
+<p>使用完全外连接<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname<br>from<br>    census.personname<br>full outer join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>此时结果是5条记录<br>Albert    Ape    null<br>Bob    Burger    KA13<br>Charlie    Clown    KA9<br>Danny    Drywer    null<br>null    null    SW1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzkzemx00004msvglg59wyl6" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive命令9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/hive命令9/" class="article-date">
+  <time datetime="2019-08-17T08:17:05.679Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.将查询到的数据写入文件系统<br>insert [overwrite]<br>directory directoryname<br>select select_fileds from from_statement;<br>语法解释：<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)overwrite  –如果包含，支持用户将数据装载到一个早已建好的表中并且替换原来的数据<br>如果省略，支持用户将数据装载到一个早已建好的表中并且将新数据追加到原来的数据后面<br>(3)directory directoryname  —-directoryname 是hadoop分布式文件系统中已有的目录<br>                                        名称，使用hadoop fs -mkdir directoryname 来创建一个目录<br>(5)select  –可以是针对hive生态系统的任何select命令</p>
+<p>2.使用已有表创建输出目录<br>hadoop fs -mkdir ‘exampleoutput’</p>
+<p>hive</p>
+<p>use census;</p>
+<p>insert overwrite<br>directory ‘exampleoutput’<br>row format delimited fields terminated by ‘,’<br>select persid,firstname,lastname<br>from Person;</p>
+<p>exits;</p>
+<p>测试一下，是否所有的数据都已经装载<br>hadoop fs -cat ‘exampleoutput/000000_0’ </p>
+<p>3.直接向表插入值<br>hive支持用一系列静态值直接将数据装载到表中<br>insert into table tablename values (row_values1),(row_values2);<br>语法解释<br>(1)insert  –将数据向hive装载数据的关键字<br>(2)table tablename  —-tablename是hive中已经存在的表的名称<br>           使用create table tablename语句<br>(3)values (row_values1),(row_values2)  –值(row_values1),(row_values2)是相同格式<br>                的单条记录，而不是表的记录</p>
+<p>4.案例<br>目标：可以将一条记录直接插入到一个名为 personhub 的表中<br>use census;</p>
+<p>insert into table personhub values (0);</p>
+<p>测试一下数据是否加载<br>select persid from personhub where persid = 0 ;</p>
+<p>5.直接更新表中的数据<br>update tablename set column = value [where expression] ;<br>语法解释<br>set column = value  –set 命令更新该列一个值<br>[where expression]  –where 可用于为不同的查询挑选特定列的值</p>
+<p>6.案例<br>目标：更新person20表的数据<br>use census;</p>
+<p>create table census.person20(<br>persid       int,<br>firstname  string,<br>lastname  string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table person20 values (0,’A’,’B’),(2,’x’,’y’);</p>
+<p>测试数据是否已经插入<br>select * from census.person20;       //结果是2行上面插入的结果的记录</p>
+<p>现在执行  更新  操作<br>use census;</p>
+<p>update census.person20 set lastname = ‘SS’ where persid = 0 ;</p>
+<p>select * from census.person20;   //结果是2行记录</p>
+<p>7.在表中直接删除数据<br>delete tablename [where experssion] ;</p>
+<p>8.案例<br>use census;</p>
+<p>create table census.person20(<br>persid       int,<br>firstname  string,<br>lastname  string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table person30 values (0,’A’,’B’),(2,’x’,’y’);</p>
+<p>测试数据是否已经插入<br>select * from census.person30;       //结果是2行上面插入的结果的记录</p>
+<p>删除一条记录<br>use census;</p>
+<p>delete from census.person30 where persid = 0 ;</p>
+<p>select * from census.person30;   //结果是1条记录</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzkzemxd000hmsvgowoziy4u" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令8" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/16/hive命令8/" class="article-date">
@@ -91,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzkzaqqm000hr4vgfson3zmt" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzkzemxc000fmsvg2ctxmar6" class="article-share-link">分享</a>
       
       
       
@@ -133,7 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzkzaqqi000er4vgot29aef3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzkzemxb000emsvgaobsjw4a" class="article-share-link">分享</a>
       
       
       
@@ -189,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzkzaqql000fr4vgv2qy648g" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzkzemxd000gmsvgpuq455as" class="article-share-link">分享</a>
       
       
       
@@ -226,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzkzaqqh000cr4vg4m2leqmi" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzkzemx9000bmsvgg8skkeld" class="article-share-link">分享</a>
       
       
       
@@ -264,7 +374,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzkzaqqi000dr4vg893jqu0m" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzkzemxa000cmsvgdtadelee" class="article-share-link">分享</a>
       
       
       
@@ -305,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzkzaqqg000br4vgfniumqy7" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzkzemxa000dmsvgu33z06h9" class="article-share-link">分享</a>
       
       
       
@@ -449,7 +559,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzkzaqq70001r4vgumlpbv75" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzkzemws0000msvgsz5c42f4" class="article-share-link">分享</a>
       
       
       
@@ -538,85 +648,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzkzaqr60010r4vgadikc4td" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hadoop中combine优化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/14/hadoop中combine优化/" class="article-date">
-  <time datetime="2019-08-14T03:31:19.531Z" itemprop="datePublished">2019-08-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hadoop中combine优化"><a href="#hadoop中combine优化" class="headerlink" title="hadoop中combine优化"></a>hadoop中combine优化</h2><p>1.写法<br>  (1)把reduce函数的代码块复制放在map和reduce代码块中间，把复制的代码块类名<br>  改为MapReduce_Combine(名字自己随便写)</p>
-<p>  (2)在main中加入<br>  job.setCombinerClass(MapReduce_Combine.class);</p>
-<p>2.优点<br>  把数据在map阶段结束后，直接执行combine函数，进行聚合，减少在map和reduce节点<br>  之间的数据传输量，以提高io性能</p>
-<p>3.缺点<br>  增加了reduce的进程</p>
-<p>4.杀死进程<br>  如果进程卡住了，或者时间太长而不想继续执行了，可以杀死进程<br>  加入进程编号为：  job_135525622353<br>  hadoop job -kill job_135525622353</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzkzaqq80002r4vggcvi0e76" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/13/hive命令2/" class="article-date">
-  <time datetime="2019-08-13T09:04:52.056Z" itemprop="datePublished">2019-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hive命令2"><a href="#hive命令2" class="headerlink" title="hive命令2"></a>hive命令2</h2><p>1.创建表–stud:表名    retail–数据库名<br>create external table stud(<br>fname string,<br>lname string,<br>address struct (houseno:string, street:string, city:string),  //这一行用()代替&lt;&gt;,&lt;&gt;代码不显示<br>active boolean,<br>create date,<br>location ‘/opt/stud’);</p>
-<p>2.可以在数据库中直接创建一个表<br>在表名前加上数据库名<br>create external table retail.stud(）</p>
-<p>3.列出表<br>show tables in retail</p>
-<p>4.如果数据库中有很多表，可以用通配符搜索特定的表</p>
-<p>5.外部表，其在被删除时，数据保留，在create table 中使用<br>external关键字来创建外部表<br>create external table retail.stud(）</p>
-<p>6.内部表,其在被删除时，数据不保留<br>create table retail.stud(）</p>
-<p>7.查看表内容<br>select * from stud;</p>
-<p>8.查看表的模式，其中在table type中指明表是否是内部表（外部表）<br>describe formatted stud;</p>
-<p>9.表的属性<br>(1)last_modified_user<br>(2)last_modified_time<br>(3)immutable<br>(4)orc.compress<br>(5)skip.header.line.count</p>
-<p>(1)(2)属性可控，由hive自动增加，hive通过它们<br>将上次修改的用户和时间信息存放在metastore中</p>
-<p>(3)当immutable属性设置为true,此时一个表里已经有一些数据了，则无法<br>在向其插入新行，强行插入，会报错<br>insert into text1 values (‘bacon’);<br>failed: SemanticException……..immutable table is not allowed text1</p>
-<p>(4)orc.compress属性用于指定基于orc的存储所采用的算法</p>
-<p>(5)skip.header.line.count<br>使用该属性，可以跳过底层数据文件的标题行<br>例子，如果一个文件中有2个标题行，那么跳过标题行写法如下<br>create external table stud (states string) location ‘/opt/stud’<br>tblproperties(“skip.header.line.count” = “2”);<br>此时创建的新表，再次查询时就会跳过2个标题行来显示文件内容</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzkzaqqe0009r4vg71vlm76r" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzkzemy00010msvghcgsff4t" class="article-share-link">分享</a>
       
       
       
@@ -631,7 +663,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -654,6 +686,14 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       <ul>
         
           <li>
+            <a href="/2019/08/22/hive随笔7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/22/hive随笔6/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/21/hive随笔5/">(no title)</a>
           </li>
         
@@ -663,14 +703,6 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
         
           <li>
             <a href="/2019/08/19/hive随笔3/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/19/hive随笔2/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/18/hive随笔1/">(no title)</a>
           </li>
         
       </ul>

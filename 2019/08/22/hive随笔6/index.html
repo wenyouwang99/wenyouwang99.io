@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="平均成绩mapreduce 计算平均成绩   public static class Map extends Mapper&amp;lt;LongWritable, Text, Text, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(LongWritable">
+  <meta name="description" content="1.udf函数可以直接应用于select语句，对查询结构做格式化处理后，再输出内容2.编写udf函数的时候需要注意以下几点  (1)自定义udf需要继承org.apache.hadoop.hive.ql.exec.UDF  (2)需要evaluate函数3.步骤  (1)把程序打包放到目标机器上去  (2)进入hive客服端，添加jar包：add jar /usr/local/testdata/h">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/09/平均成绩/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/22/hive随笔6/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="平均成绩mapreduce 计算平均成绩   public static class Map extends Mapper&amp;lt;LongWritable, Text, Text, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(LongWritable">
+<meta property="og:description" content="1.udf函数可以直接应用于select语句，对查询结构做格式化处理后，再输出内容2.编写udf函数的时候需要注意以下几点  (1)自定义udf需要继承org.apache.hadoop.hive.ql.exec.UDF  (2)需要evaluate函数3.步骤  (1)把程序打包放到目标机器上去  (2)进入hive客服端，添加jar包：add jar /usr/local/testdata/h">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-09T10:53:39.751Z">
+<meta property="og:updated_time" content="2019-08-22T08:22:43.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="平均成绩mapreduce 计算平均成绩   public static class Map extends Mapper&amp;lt;LongWritable, Text, Text, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(LongWritable">
+<meta name="twitter:description" content="1.udf函数可以直接应用于select语句，对查询结构做格式化处理后，再输出内容2.编写udf函数的时候需要注意以下几点  (1)自定义udf需要继承org.apache.hadoop.hive.ql.exec.UDF  (2)需要evaluate函数3.步骤  (1)把程序打包放到目标机器上去  (2)进入hive客服端，添加jar包：add jar /usr/local/testdata/h">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-平均成绩" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hive随笔6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/09/平均成绩/" class="article-date">
-  <time datetime="2019-08-09T10:53:39.751Z" itemprop="datePublished">2019-08-09</time>
+    <a href="/2019/08/22/hive随笔6/" class="article-date">
+  <time datetime="2019-08-22T08:21:41.808Z" itemprop="datePublished">2019-08-22</time>
 </a>
     
   </div>
@@ -82,39 +82,14 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="平均成绩"><a href="#平均成绩" class="headerlink" title="平均成绩"></a>平均成绩</h2><p>mapreduce 计算平均成绩</p>
-<p>  public static class Map extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
-<pre><code>    public void map(LongWritable key,Text value,Context context)throws IOException, InterruptedException{
-        String line = value.toString();
-        String [] ss = line.split(&quot; &quot;);        
-        String strName = ss[0];
-        String strScore = ss[1];        
-        Text name = new Text(strName);
-        int scoreInt =     Integer.parseInt(strScore);
-        context.write(name, new IntWritable(scoreInt));
-    }        
-}
+        <p>1.udf函数可以直接应用于select语句，对查询结构做格式化处理后，再输出内容<br>2.编写udf函数的时候需要注意以下几点<br>  (1)自定义udf需要继承org.apache.hadoop.hive.ql.exec.UDF<br>  (2)需要evaluate函数<br>3.步骤<br>  (1)把程序打包放到目标机器上去<br>  (2)进入hive客服端，添加jar包：add jar /usr/local/testdata/hive/hive_UP.jar<br>  (3)创建临时函数：hive&gt;create temporary function f_up as ‘hive_demo.hive_udf’<br>f_up  –》函数名        ‘hive_demo.hive_udf’   –》函数主类名<br>4.查询sql语句<br>select f_up(line) from wc_test;<br>销毁临时函数：hive&gt;drop temporary function f_up;<br>注意：UDF只能实现一进一出的操作，如果需要实现多进一出，则需要实现UDAF</p>
+<p>pom.xml依赖</p>
+<h1 id><a href="#" class="headerlink" title></a><dependency></dependency></h1><h1 id="org-apache-hive"><a href="#org-apache-hive" class="headerlink" title="org.apache.hive"></a><groupid>org.apache.hive</groupid></h1><h1 id="hive-exec"><a href="#hive-exec" class="headerlink" title="hive-exec"></a><artifactid>hive-exec</artifactid></h1><h1 id="1-2-1"><a href="#1-2-1" class="headerlink" title="1.2.1"></a><version>1.2.1</version></h1><h1 id="-1"><a href="#-1" class="headerlink" title></a></h1><p>public class hive_udf extends UDF{<br>  public String evaluate (String word){<br>    String upperCase = word.toUpperCase();<br>    return upperCase;<br>  }<br>}</p>
 
-
-
-
-public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
-    protected void reduce(Text key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
-        int sum = 0;
-        int count = 0;
-        Iterator&lt;IntWritable&gt; iterator = values.iterator();
-        while(iterator.hasNext()) {
-            sum += iterator.next().get();
-            count++;
-        }
-        int average = (int)sum/count;
-        context.write(key, new IntWritable(average));
-    }
-}</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzkzemxw000vmsvghs3fum8n" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjzmf39do00000ovg80fa6sus" class="article-share-link">分享</a>
       
       
       
@@ -166,7 +141,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
     
 <nav id="article-nav">
   
-    <a href="/2019/08/09/数据排序/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/22/hive随笔7/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -176,7 +151,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
     </a>
   
   
-    <a href="/2019/08/06/在eclipse中向hdfs上传文件/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/21/hive随笔5/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -214,7 +189,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平均成绩"><span class="toc-number">1.</span> <span class="toc-text">平均成绩</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#null"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#org-apache-hive"><span class="toc-number">2.</span> <span class="toc-text">org.apache.hive</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hive-exec"><span class="toc-number">3.</span> <span class="toc-text">hive-exec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-2-1"><span class="toc-number">4.</span> <span class="toc-text">1.2.1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-1"><span class="toc-number">5.</span> <span class="toc-text"></span></a></li></ol>
           </div>
       </div>
     </div>

@@ -66,6 +66,97 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sqoop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/23/sqoop/" class="article-date">
+  <time datetime="2019-08-23T08:43:55.615Z" itemprop="datePublished">2019-08-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.官网：<br><a href="http://sqoop.apache.org/" target="_blank" rel="noopener">http://sqoop.apache.org/</a></p>
+<p>2.sqoop,datax:同类产品</p>
+<p>3.版本：两个版本完全不兼容，sqoop1用的最多<br>sqoop1:1.4x<br>sqoop2:1.99x</p>
+<p>4.安装步骤<br>(1)解压<br>(2)配置环境变量<br>export SQOOP_HOME=/xx/sqoop.xx<br>source /etc/profile<br>(3)添加数据库驱动包<br>cp mysql-connect-…..jar /sqoop-install-path/lib<br>(4)重命名配置文件<br>mv sqoop-evn-template.sh sqoop-env.sh<br>(5)修改配置<br>../bin/configure-sqoop<br>vi configure-sqoop<br>去掉未安装的服务<br>(HCatalog,Accumulo)<br>就是编辑文件，#HCatalog…  (注释掉这两个服务，它们在文件的最后几行，每个服务都只有4行)</p>
+<p>接下来，把环境配置一下</p>
+<p>vi sqoop-site.xml<br>环境变量加5个<br>EXPORT HADOOP_COMMON_HOME=/opt/hadoop-2.6.0<br>EXPORT HADOOP_MAPRED_HOME=/opt/hadoop-2.6.0<br>hive 安装目录<br>hbase 安装目录<br>ZOOKEEPER(zookeeper的安装目录)</p>
+<p>(6)测试<br>sqoop version<br>sqoop list-database -connect jdbc:mysql://node3(可以用安装节点的ip地址):3306/ -username root -password 123456</p>
+<p>mysql数据导入到hive的代码<br>//下面能直接运行</p>
+<p>sqoop import <br>–connect <br>jdbc:mysql://192.168.8.10:3306/student \                    //student(数据库名)<br>–username <br>root <br>–password <br>123456 <br>–table <br>student <br>–m <br>1 \             //一个map,生成的文件只有2个,一个success,一个part-0-00000<br>–target-dir <br>/sqoop/employee \                 //数据导过来放在hdfs的哪个目录下<br>–fields-terminated-by <br>‘\t’ </p>
+<p>sqoop import <br>–connect <br>jdbc:mysql://192.168.8.10:3306/student \                    //student(数据库名)<br>–username <br>root <br>–password <br>123456 <br>–table <br>student <br>–m <br>2 \             //如果为2，就要添加分隔字段,尽量使用int类型,数据分布均匀<br>–split-by <br>id <br>–target-dir <br>/sqoop/employee \                 //数据导过来放在hdfs的哪个目录下<br>–fields-terminated-by <br>‘\t’ </p>
+<p>select * from student where id&gt; and id&lt;</p>
+<p>hive数据导入到hdfs的代码<br>sqoop import <br>–connect <br>jdbc:mysql://192.168.8.10:3306/student \        //如果报错jdbc拒绝连接，那么ip地址可能错了<br>–username <br>root <br>–password <br>123456 <br>–table \      //这一行可以写：–query ‘select id,age from student where $CONDITINS LIMIT 99’ <br>score <br>–fields-terminated-by <br>“\t” <br>–lines-terminated-by <br>“\n” <br>–hive-import <br>–target-dir <br>/user/hive/warehouse/employee <br>–hive-table <br>employee</p>
+<p>可以写成配置文件</p>
+<p>import<br>–connect <br>jdbc:mysql://192.168.8.10:3306/student       //如果报错jdbc拒绝连接，那么ip地址可能错了<br>–username<br>root<br>–password<br>123456<br>–table     //这一行可以写：–query ‘select id,age from student where $CONDITINS LIMIT 99’ <br>score<br>–fields-terminated-by<br>“\t”<br>–lines-terminated-by<br>“\n”<br>–hive-import<br>–target-dir<br>/user/hive/warehouse/employee           //写成配置文件时，这个文件必须不能存在<br>–hive-table<br>employee</p>
+<p>找一个文件夹<br>vi mysqlToHdfs.conf    //自己命名<br>把上面代码放进去，退出，保存</p>
+<p>//执行上面的命令，必须启动yarn,端口为：<br>node1:8088        或者    192.168.8.20(node1的ip地址)</p>
+<p>sqoop –options-file sqoop1      //sqoop1:sqoop写的配置文件名<br>sqoop –options-file mysqlToHdfs.conf</p>
+<p>mysql导入hbase    //如果报错，zookeeper可能没有启动    zkServer.sh start,start-hbase.sh</p>
+<p>import<br>–connect<br>jdbc:mysql://192.168.8.10:3306/student<br>–username<br>root<br>–password<br>123456<br>–table<br>student<br>–hbase-table<br>student<br>–hbase-create-table<br>–hbase-row-key<br>id<br>//–split-by         //这里为-m为1，不用指定<br>//date<br>-m<br>1<br>–column-family<br>info</p>
+<p>start-hbase.sh<br>starting…,logging to /usr/local/…/habse-0.98-hadoop2/bin../logs/hbase-root-master-node1.out</p>
+<p>tail -f /usr/local/…/habse-0.98-hadoop2/bin../logs/hbase-root-master-node1.log  //看日志<br>出现：Master has completed initialization 就说明成功了<br>也可以去：node1:60010看网页<br>加入此时，上面导入命令中的student表存在了，现在要删除它<br>hbase shell<br>disable ‘student’<br>drop ‘student’<br>现在就可以了，重新执行导入命令</p>
+<p>hdfs导入mysql   </p>
+<p>export<br>–connect<br>jdbc:mysql://192.168.8.10:3306/student<br>–username<br>root<br>–password<br>123456<br>-m<br>1<br>–columns<br>id,name                          //数据和字段必须匹配<br>–export-dir<br>/user/hive/warehouse/employee<br>–fields-terminated-by<br>‘\t’<br>–table<br>employee  //如果表存在，且其中有数据，则不成功，如果表存在，但进行了数据清空，则成功，                              //或者提前认为在mysql中把表创建好</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/23/sqoop/" data-id="cjznvcjvq0000ysvg2ji05380" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-数据仓库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/23/数据仓库/" class="article-date">
+  <time datetime="2019-08-23T08:43:12.344Z" itemprop="datePublished">2019-08-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>DB–&gt;ETL–&gt;ODS–&gt;Data warehouse–&gt;DataMart</p>
+<p>DB：传统关系型数据库<br>1.数据来源<br>  1).传统关系型数据库：mysql，oracl，等<br>  2).文本文件类的日志<br>  3).实时数据来源<br>2.其它来源</p>
+<p>ETL：抽取，转换，加载（这是一个过程）<br>工具：sqoop,kettle,datax</p>
+<p>ODS：<br>Data warehouse：<br>DataMart：</p>
+<p>数据仓库建模方式：<br>(1)分库分表，命名规范，库名以所在数据层开头命名，如：ods_test<br>(2)星型和雪花型建模</p>
+<p>范式<br>1NF:<br>1NF简单点就是原子性，列不可在分，没有重复的列，也没有重复的行<br>基本上主要有主键的表都满足第一范式</p>
+<p>2NF:<br>2NF首先要满足1NF<br>非主属性必须依赖于键的全部，如果只依赖于主键的一部分，则需要移出，并创建新表</p>
+<p>1.事实表：事实表是用来存储主题的主干内容，一些外键指向维度表。事实表一般是没有主键的，<br>基本都是外键。数据的质量完全由业务系统来把握。一般单表字段较多，数据量比较大。<br>2.维度表：事实表中某个方向分支，必须有主键，用于关联事实表。一般数据量较小，变化缓慢。<br>3.宽表：字段和数据量比较巨大，很多维度杂糅在一起。好处：方便查询分析。缺点：没有规范。<br>4.拉链表：记录一个事务从开始，一直到当前状态的所有变化的信息。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/23/数据仓库/" data-id="cjznvcjw20001ysvg3mro5pzd" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive随笔7" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/22/hive随笔7/" class="article-date">
@@ -94,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔7/" data-id="cjzmf6pm9000o70vgrrhd44bi" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔7/" data-id="cjzmfbs2t000ns0vg1axuanlx" class="article-share-link">分享</a>
       
       
       
@@ -127,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjzmf6pm9000n70vg0xn9oog5" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjzmfbs2u000os0vgwbrl915n" class="article-share-link">分享</a>
       
       
       
@@ -180,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjzmf6pm8000m70vgpmragnah" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjzmfbs2t000ms0vgm0db11sc" class="article-share-link">分享</a>
       
       
       
@@ -229,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzmf6pm7000k70vg90fsa91z" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzmfbs2s000ls0vgg72xzshv" class="article-share-link">分享</a>
       
       
       
@@ -281,7 +372,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzmf6pm8000l70vgcsdjvhpa" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzmfbs2s000ks0vg58mcdvtn" class="article-share-link">分享</a>
       
       
       
@@ -331,7 +422,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzmf6pm7000j70vg99jnwlk3" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzmfbs2r000js0vglritoslw" class="article-share-link">分享</a>
       
       
       
@@ -372,7 +463,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzmf6pm6000i70vgckmidejj" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzmfbs2r000is0vgpnpeseov" class="article-share-link">分享</a>
       
       
       
@@ -410,82 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzmf6plv000870vg5a42efc3" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令12" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/17/hive命令12/" class="article-date">
-  <time datetime="2019-08-17T08:18:32.361Z" itemprop="datePublished">2019-08-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>1.ACID<br>(1)原子性(A)<br>(2)一致性(C)<br>(3)隔离性(I)<br>(4)持久性(D)</p>
-<p>2.HIVE的配置<br>hive.support.concurrency—true<br>hive.enforce.bucketing——true<br>hive.exec.dynamic.partition.mode—–true<br>hive.txn.manager—org.apache.hadoop.hive.ql.lockmgr.DbTxnManager<br>hive.compactor.initiator.on—在Thrift元存储服务的一个实例上为true<br>hive.compactor.worker.threads—在Thrift元存储服务的一个实例上为10</p>
-<p>3.请使用如下建表格式  //这里字段作为举例<br>create table census.personname(<br>persid       int,<br>firstname  string,<br>lastname   string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzmf6plv000770vg8hs0w26h" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令11" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/17/hive命令11/" class="article-date">
-  <time datetime="2019-08-17T08:18:00.806Z" itemprop="datePublished">2019-08-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>1.使用左半连接<br>hive支持表之间的嵌套连接，假设有这样的嵌套连接（如下）<br>select a.key,a.value<br>from a<br>where a.key in (select b.key from B);<br>由于采用分布式处理，该查询在hive中会失败<br>hive处理使用semi join命令<br>select table_fields<br>from table_one<br>left semi join table_two<br>on (table_one.key_one = table_two.key_one);<br>语法解释<br>from table_one left semi join table_two  –罗列检索table_fields而进行半连接操作的2个表<br>on (table_one.key_one = table_two.key_one)  –罗列2个表所需的等值规则</p>
-<p>2.案例<br>目标：使用半连接操作，对两个表中的数据进行整合<br>use census;</p>
-<p>select<br>    personname.firstname,<br>    personname.lastname<br>from<br>    census.personname<br>left semi join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
-<p>结果如下<br>Bob    Burger    KA13<br>Charlie    Clown    KA9</p>
-<p>3.用单次mapreduce实现连接<br>select table_one.key_one,table_two.key_one,table_three.key_one<br>from table_one join table_two<br>on (table_one.key_one = table_two.key_one)<br>join table_three<br>on (table_three.key_one = table_two.key_one);<br>语法解释<br>(1)select table_one.key_one,table_two.key_one,table_three.key_one<br>    –选关键字<br>(2)from table_one join table_two<br>    –列出为检索table_fields所需连接的第一个表和第二个表<br>(3)on (table_one.key_one = table_two.key_one)<br>    –列出连接第一个表和第二个表的等值规则<br>(4)join table_three<br>    –列出检索table_fields所需连接的第三个表<br>(5)on (table_three.key_one = table_two.key_one)<br>    –列出连接第三个表的等值规则</p>
-<p>4.案例，在一次mapreduce中连接3个表<br>use census;</p>
-<p>create table census.account (<br>persid       int,<br>bamount  int<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
-<p>insert into table census.personname<br>values<br>(1,12),<br>(2,9);</p>
-<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname,<br>    account.bamount<br>from<br>    census.personname<br>join<br>    census.address<br>on<br>    (personname.persid = address.persid)<br>join<br>    census.account<br>on<br>    (personname.persid = address.persid);</p>
-<p>结果如下<br>Bob    Burger    KA13    12<br>Charlie    Clown    KA9    9</p>
-<p>5.最后使用最大的表<br>hive在实施连接时可以先缓存前几个要连接的表，然后在针对它们映射最后一个表。<br>总是将最大的表放在后面时一种比较好的实践方法，因为这样做会加速处理过程。<br>(1)hive语法1：<br>select table_one.key_one,table_two.key_one,table_three.key_one<br>from table_one join table_two<br>on (table_one.key_one = table_two.key_one)<br>join table_three<br>on (table_three.key_one = table_two.key_one);<br>语法解释<br>(1)table_one,table_two<br>    –在内存中缓存<br>(2)table_three<br>    –直接从硬盘映射</p>
-<p>(1)hive语法2：<br>select table_one.key_one,table_two.key_one,table_three.key_one<br>from table_one join table_three<br>on (table_one.key_one = table_three.key_one)<br>join table_two<br>on (table_two.key_one = table_three.key_one);<br>语法解释<br>(1)table_one,table_three<br>    –在内存中缓存<br>(2)table_two<br>    –直接从硬盘映射</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzmf6plw000970vgkxok014x" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzmfbs2j0009s0vgr5xvklet" class="article-share-link">分享</a>
       
       
       
@@ -543,6 +559,14 @@
       <ul>
         
           <li>
+            <a href="/2019/08/23/sqoop/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/23/数据仓库/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/22/hive随笔7/">(no title)</a>
           </li>
         
@@ -554,14 +578,6 @@
             <a href="/2019/08/21/hive随笔5/">(no title)</a>
           </li>
         
-          <li>
-            <a href="/2019/08/21/hive随笔4/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/19/hive随笔3/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -571,7 +587,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">39</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">41</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

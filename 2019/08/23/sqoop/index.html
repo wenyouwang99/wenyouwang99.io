@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.sqoop示例(1)将表导入hdfssqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的/user/(user)/test1/part-m-00000中      //这行用()来代替&amp;lt;&amp;gt;,&amp;lt">
+  <meta name="description" content="1.官网：http://sqoop.apache.org/ 2.sqoop,datax:同类产品 3.版本：两个版本完全不兼容，sqoop1用的最多sqoop1:1.4xsqoop2:1.99x 4.安装步骤(1)解压(2)配置环境变量export SQOOP_HOME=/xx/sqoop.xxsource /etc/profile(3)添加数据库驱动包cp mysql-connect-…..ja">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/18/hive命令13/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/23/sqoop/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.sqoop示例(1)将表导入hdfssqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的/user/(user)/test1/part-m-00000中      //这行用()来代替&amp;lt;&amp;gt;,&amp;lt">
+<meta property="og:description" content="1.官网：http://sqoop.apache.org/ 2.sqoop,datax:同类产品 3.版本：两个版本完全不兼容，sqoop1用的最多sqoop1:1.4xsqoop2:1.99x 4.安装步骤(1)解压(2)配置环境变量export SQOOP_HOME=/xx/sqoop.xxsource /etc/profile(3)添加数据库驱动包cp mysql-connect-…..ja">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-18T08:22:52.453Z">
+<meta property="og:updated_time" content="2019-08-23T08:43:55.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.sqoop示例(1)将表导入hdfssqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的/user/(user)/test1/part-m-00000中      //这行用()来代替&amp;lt;&amp;gt;,&amp;lt">
+<meta name="twitter:description" content="1.官网：http://sqoop.apache.org/ 2.sqoop,datax:同类产品 3.版本：两个版本完全不兼容，sqoop1用的最多sqoop1:1.4xsqoop2:1.99x 4.安装步骤(1)解压(2)配置环境变量export SQOOP_HOME=/xx/sqoop.xxsource /etc/profile(3)添加数据库驱动包cp mysql-connect-…..ja">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive命令13" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sqoop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/18/hive命令13/" class="article-date">
-  <time datetime="2019-08-18T08:22:52.453Z" itemprop="datePublished">2019-08-18</time>
+    <a href="/2019/08/23/sqoop/" class="article-date">
+  <time datetime="2019-08-23T08:43:55.615Z" itemprop="datePublished">2019-08-23</time>
 </a>
     
   </div>
@@ -82,19 +82,34 @@
       
         <!-- Table of Contents -->
         
-        <p>1.sqoop示例<br>(1)将表导入hdfs<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的<br>/user/(user)/test1/part-m-00000中      //这行用()来代替&lt;&gt;,&lt;&gt;里代码不显示</p>
-<p>(2)将表导入hdfs的特定目录下<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–target-dir /hive/tables/test1/<br>在本例中，表test1的内容将存放在hdfs的/hive/tables/test1目录下</p>
-<p>(3)将数据库中的表全部导入hdfs<br>sqoop import-all-tables –connect jdbc:mysql://localhost/test –username root<br>该命令将test数据库中的所有表导入到hdfs中。sqoop导入作业在/user/root目录下为每个表<br>都创建了一个目录，如下<br>hadoop fs -ls /user/root</p>
-<p>(4)将表导入hive<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–hive-import<br>该命令将把表test1导入到hdfs中，同时也会将其元数据添加到hive中。如下验证数据<br>use default;</p>
-<p>select count(*) from test1;</p>
-<p>(5)将表导入hive并且将表存储为orc表<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–hcatalog-database default –hcatalog-table test10_orc –create-hcatalog-table –hcatalog-<br>storage-stanza “stored as orcfile”<br>该命令将在默认数据库中创建一个名为test_orc的新表，并且以orc文件格式存储数据。<br>将hive表数据存储为orc，有理由 矢量化。验证如下<br>hive&gt;<br>describe extended test10_orc;</p>
-<p>(6)导入所选择的数据<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–where “a&gt;1”<br>通过该命令，可以导入表test1中列a的所有值大于1的数据。<br>该选项提供了一种方法，可以导入任何表的一个子集</p>
-<p>(7)导入增量数据<br>incremental  –sqoop使用它来判断哪一行是新的<br>check-column  –提供需要检查确定候选行的列<br>last-value  –执行上一次导入操作的最大值<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–incremental  append –check-column id -last-value 1000</p>
+        <p>1.官网：<br><a href="http://sqoop.apache.org/" target="_blank" rel="noopener">http://sqoop.apache.org/</a></p>
+<p>2.sqoop,datax:同类产品</p>
+<p>3.版本：两个版本完全不兼容，sqoop1用的最多<br>sqoop1:1.4x<br>sqoop2:1.99x</p>
+<p>4.安装步骤<br>(1)解压<br>(2)配置环境变量<br>export SQOOP_HOME=/xx/sqoop.xx<br>source /etc/profile<br>(3)添加数据库驱动包<br>cp mysql-connect-…..jar /sqoop-install-path/lib<br>(4)重命名配置文件<br>mv sqoop-evn-template.sh sqoop-env.sh<br>(5)修改配置<br>../bin/configure-sqoop<br>vi configure-sqoop<br>去掉未安装的服务<br>(HCatalog,Accumulo)<br>就是编辑文件，#HCatalog…  (注释掉这两个服务，它们在文件的最后几行，每个服务都只有4行)</p>
+<p>接下来，把环境配置一下</p>
+<p>vi sqoop-site.xml<br>环境变量加5个<br>EXPORT HADOOP_COMMON_HOME=/opt/hadoop-2.6.0<br>EXPORT HADOOP_MAPRED_HOME=/opt/hadoop-2.6.0<br>hive 安装目录<br>hbase 安装目录<br>ZOOKEEPER(zookeeper的安装目录)</p>
+<p>(6)测试<br>sqoop version<br>sqoop list-database -connect jdbc:mysql://node3(可以用安装节点的ip地址):3306/ -username root -password 123456</p>
+<p>mysql数据导入到hive的代码<br>//下面能直接运行</p>
+<p>sqoop import <br>–connect <br>jdbc:mysql://192.168.8.10:3306/student \                    //student(数据库名)<br>–username <br>root <br>–password <br>123456 <br>–table <br>student <br>–m <br>1 \             //一个map,生成的文件只有2个,一个success,一个part-0-00000<br>–target-dir <br>/sqoop/employee \                 //数据导过来放在hdfs的哪个目录下<br>–fields-terminated-by <br>‘\t’ </p>
+<p>sqoop import <br>–connect <br>jdbc:mysql://192.168.8.10:3306/student \                    //student(数据库名)<br>–username <br>root <br>–password <br>123456 <br>–table <br>student <br>–m <br>2 \             //如果为2，就要添加分隔字段,尽量使用int类型,数据分布均匀<br>–split-by <br>id <br>–target-dir <br>/sqoop/employee \                 //数据导过来放在hdfs的哪个目录下<br>–fields-terminated-by <br>‘\t’ </p>
+<p>select * from student where id&gt; and id&lt;</p>
+<p>hive数据导入到hdfs的代码<br>sqoop import <br>–connect <br>jdbc:mysql://192.168.8.10:3306/student \        //如果报错jdbc拒绝连接，那么ip地址可能错了<br>–username <br>root <br>–password <br>123456 <br>–table \      //这一行可以写：–query ‘select id,age from student where $CONDITINS LIMIT 99’ <br>score <br>–fields-terminated-by <br>“\t” <br>–lines-terminated-by <br>“\n” <br>–hive-import <br>–target-dir <br>/user/hive/warehouse/employee <br>–hive-table <br>employee</p>
+<p>可以写成配置文件</p>
+<p>import<br>–connect <br>jdbc:mysql://192.168.8.10:3306/student       //如果报错jdbc拒绝连接，那么ip地址可能错了<br>–username<br>root<br>–password<br>123456<br>–table     //这一行可以写：–query ‘select id,age from student where $CONDITINS LIMIT 99’ <br>score<br>–fields-terminated-by<br>“\t”<br>–lines-terminated-by<br>“\n”<br>–hive-import<br>–target-dir<br>/user/hive/warehouse/employee           //写成配置文件时，这个文件必须不能存在<br>–hive-table<br>employee</p>
+<p>找一个文件夹<br>vi mysqlToHdfs.conf    //自己命名<br>把上面代码放进去，退出，保存</p>
+<p>//执行上面的命令，必须启动yarn,端口为：<br>node1:8088        或者    192.168.8.20(node1的ip地址)</p>
+<p>sqoop –options-file sqoop1      //sqoop1:sqoop写的配置文件名<br>sqoop –options-file mysqlToHdfs.conf</p>
+<p>mysql导入hbase    //如果报错，zookeeper可能没有启动    zkServer.sh start,start-hbase.sh</p>
+<p>import<br>–connect<br>jdbc:mysql://192.168.8.10:3306/student<br>–username<br>root<br>–password<br>123456<br>–table<br>student<br>–hbase-table<br>student<br>–hbase-create-table<br>–hbase-row-key<br>id<br>//–split-by         //这里为-m为1，不用指定<br>//date<br>-m<br>1<br>–column-family<br>info</p>
+<p>start-hbase.sh<br>starting…,logging to /usr/local/…/habse-0.98-hadoop2/bin../logs/hbase-root-master-node1.out</p>
+<p>tail -f /usr/local/…/habse-0.98-hadoop2/bin../logs/hbase-root-master-node1.log  //看日志<br>出现：Master has completed initialization 就说明成功了<br>也可以去：node1:60010看网页<br>加入此时，上面导入命令中的student表存在了，现在要删除它<br>hbase shell<br>disable ‘student’<br>drop ‘student’<br>现在就可以了，重新执行导入命令</p>
+<p>hdfs导入mysql   </p>
+<p>export<br>–connect<br>jdbc:mysql://192.168.8.10:3306/student<br>–username<br>root<br>–password<br>123456<br>-m<br>1<br>–columns<br>id,name                          //数据和字段必须匹配<br>–export-dir<br>/user/hive/warehouse/employee<br>–fields-terminated-by<br>‘\t’<br>–table<br>employee  //如果表存在，且其中有数据，则不成功，如果表存在，但进行了数据清空，则成功，                              //或者提前认为在mysql中把表创建好</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzmfbs2j0009s0vgr5xvklet" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/23/sqoop/" data-id="cjznvcjvq0000ysvg2ji05380" class="article-share-link">分享</a>
       
       
       
@@ -146,17 +161,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/18/hive随笔1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/17/hive命令12/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/23/数据仓库/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="平均成绩mapreduce 计算平均成绩   public static class Map extends Mapper&amp;lt;LongWritable, Text, Text, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(LongWritable">
+  <meta name="description" content="DB–&amp;gt;ETL–&amp;gt;ODS–&amp;gt;Data warehouse–&amp;gt;DataMart DB：传统关系型数据库1.数据来源  1).传统关系型数据库：mysql，oracl，等  2).文本文件类的日志  3).实时数据来源2.其它来源 ETL：抽取，转换，加载（这是一个过程）工具：sqoop,kettle,datax ODS：Data warehouse：DataMart： 数据仓">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/09/平均成绩/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/23/数据仓库/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="平均成绩mapreduce 计算平均成绩   public static class Map extends Mapper&amp;lt;LongWritable, Text, Text, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(LongWritable">
+<meta property="og:description" content="DB–&amp;gt;ETL–&amp;gt;ODS–&amp;gt;Data warehouse–&amp;gt;DataMart DB：传统关系型数据库1.数据来源  1).传统关系型数据库：mysql，oracl，等  2).文本文件类的日志  3).实时数据来源2.其它来源 ETL：抽取，转换，加载（这是一个过程）工具：sqoop,kettle,datax ODS：Data warehouse：DataMart： 数据仓">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-09T10:53:39.751Z">
+<meta property="og:updated_time" content="2019-08-23T08:43:12.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="平均成绩mapreduce 计算平均成绩   public static class Map extends Mapper&amp;lt;LongWritable, Text, Text, IntWritable&amp;gt;{        private static IntWritable data = new IntWritable();     public void map(LongWritable">
+<meta name="twitter:description" content="DB–&amp;gt;ETL–&amp;gt;ODS–&amp;gt;Data warehouse–&amp;gt;DataMart DB：传统关系型数据库1.数据来源  1).传统关系型数据库：mysql，oracl，等  2).文本文件类的日志  3).实时数据来源2.其它来源 ETL：抽取，转换，加载（这是一个过程）工具：sqoop,kettle,datax ODS：Data warehouse：DataMart： 数据仓">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-平均成绩" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-数据仓库" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/09/平均成绩/" class="article-date">
-  <time datetime="2019-08-09T10:53:39.751Z" itemprop="datePublished">2019-08-09</time>
+    <a href="/2019/08/23/数据仓库/" class="article-date">
+  <time datetime="2019-08-23T08:43:12.344Z" itemprop="datePublished">2019-08-23</time>
 </a>
     
   </div>
@@ -82,39 +82,19 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="平均成绩"><a href="#平均成绩" class="headerlink" title="平均成绩"></a>平均成绩</h2><p>mapreduce 计算平均成绩</p>
-<p>  public static class Map extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;{<br>        private static IntWritable data = new IntWritable();</p>
-<pre><code>    public void map(LongWritable key,Text value,Context context)throws IOException, InterruptedException{
-        String line = value.toString();
-        String [] ss = line.split(&quot; &quot;);        
-        String strName = ss[0];
-        String strScore = ss[1];        
-        Text name = new Text(strName);
-        int scoreInt =     Integer.parseInt(strScore);
-        context.write(name, new IntWritable(scoreInt));
-    }        
-}
+        <p>DB–&gt;ETL–&gt;ODS–&gt;Data warehouse–&gt;DataMart</p>
+<p>DB：传统关系型数据库<br>1.数据来源<br>  1).传统关系型数据库：mysql，oracl，等<br>  2).文本文件类的日志<br>  3).实时数据来源<br>2.其它来源</p>
+<p>ETL：抽取，转换，加载（这是一个过程）<br>工具：sqoop,kettle,datax</p>
+<p>ODS：<br>Data warehouse：<br>DataMart：</p>
+<p>数据仓库建模方式：<br>(1)分库分表，命名规范，库名以所在数据层开头命名，如：ods_test<br>(2)星型和雪花型建模</p>
+<p>范式<br>1NF:<br>1NF简单点就是原子性，列不可在分，没有重复的列，也没有重复的行<br>基本上主要有主键的表都满足第一范式</p>
+<p>2NF:<br>2NF首先要满足1NF<br>非主属性必须依赖于键的全部，如果只依赖于主键的一部分，则需要移出，并创建新表</p>
+<p>1.事实表：事实表是用来存储主题的主干内容，一些外键指向维度表。事实表一般是没有主键的，<br>基本都是外键。数据的质量完全由业务系统来把握。一般单表字段较多，数据量比较大。<br>2.维度表：事实表中某个方向分支，必须有主键，用于关联事实表。一般数据量较小，变化缓慢。<br>3.宽表：字段和数据量比较巨大，很多维度杂糅在一起。好处：方便查询分析。缺点：没有规范。<br>4.拉链表：记录一个事务从开始，一直到当前状态的所有变化的信息。</p>
 
-
-
-
-public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
-    protected void reduce(Text key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException {
-        int sum = 0;
-        int count = 0;
-        Iterator&lt;IntWritable&gt; iterator = values.iterator();
-        while(iterator.hasNext()) {
-            sum += iterator.next().get();
-            count++;
-        }
-        int average = (int)sum/count;
-        context.write(key, new IntWritable(average));
-    }
-}</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/09/平均成绩/" data-id="cjzmfbs2z000ws0vgf5ifcw8y" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/23/数据仓库/" data-id="cjznvcjw20001ysvg3mro5pzd" class="article-share-link">分享</a>
       
       
       
@@ -166,7 +146,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
     
 <nav id="article-nav">
   
-    <a href="/2019/08/09/数据排序/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/23/sqoop/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -176,7 +156,7 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
     </a>
   
   
-    <a href="/2019/08/06/在eclipse中向hdfs上传文件/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/22/hive随笔7/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -208,24 +188,42 @@ public static class Reduce extends Reducer&lt;Text, IntWritable, Text, IntWritab
 
   
     
-    <div class="widget-wrap">
+  
     
-      <div class="widget" id="toc-widget-fixed">
-      
-        <strong class="toc-title">文章目录</strong>
-        <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平均成绩"><span class="toc-number">1.</span> <span class="toc-text">平均成绩</span></a></li></ol>
-          </div>
-      </div>
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/08/23/sqoop/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/23/数据仓库/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/22/hive随笔7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/22/hive随笔6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/21/hive随笔5/">(no title)</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
 
-  
-    
-
-  
-    
-  
-    
   
     
 

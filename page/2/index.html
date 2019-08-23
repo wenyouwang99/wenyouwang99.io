@@ -66,6 +66,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令12" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/hive命令12/" class="article-date">
+  <time datetime="2019-08-17T08:18:32.361Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.ACID<br>(1)原子性(A)<br>(2)一致性(C)<br>(3)隔离性(I)<br>(4)持久性(D)</p>
+<p>2.HIVE的配置<br>hive.support.concurrency—true<br>hive.enforce.bucketing——true<br>hive.exec.dynamic.partition.mode—–true<br>hive.txn.manager—org.apache.hadoop.hive.ql.lockmgr.DbTxnManager<br>hive.compactor.initiator.on—在Thrift元存储服务的一个实例上为true<br>hive.compactor.worker.threads—在Thrift元存储服务的一个实例上为10</p>
+<p>3.请使用如下建表格式  //这里字段作为举例<br>create table census.personname(<br>persid       int,<br>firstname  string,<br>lastname   string<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzmfbs2i0007s0vgxinfzvaq" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hive命令11" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/hive命令11/" class="article-date">
+  <time datetime="2019-08-17T08:18:00.806Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.使用左半连接<br>hive支持表之间的嵌套连接，假设有这样的嵌套连接（如下）<br>select a.key,a.value<br>from a<br>where a.key in (select b.key from B);<br>由于采用分布式处理，该查询在hive中会失败<br>hive处理使用semi join命令<br>select table_fields<br>from table_one<br>left semi join table_two<br>on (table_one.key_one = table_two.key_one);<br>语法解释<br>from table_one left semi join table_two  –罗列检索table_fields而进行半连接操作的2个表<br>on (table_one.key_one = table_two.key_one)  –罗列2个表所需的等值规则</p>
+<p>2.案例<br>目标：使用半连接操作，对两个表中的数据进行整合<br>use census;</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname<br>from<br>    census.personname<br>left semi join<br>    census.address<br>on<br>    (personname.persid = address.persid);</p>
+<p>结果如下<br>Bob    Burger    KA13<br>Charlie    Clown    KA9</p>
+<p>3.用单次mapreduce实现连接<br>select table_one.key_one,table_two.key_one,table_three.key_one<br>from table_one join table_two<br>on (table_one.key_one = table_two.key_one)<br>join table_three<br>on (table_three.key_one = table_two.key_one);<br>语法解释<br>(1)select table_one.key_one,table_two.key_one,table_three.key_one<br>    –选关键字<br>(2)from table_one join table_two<br>    –列出为检索table_fields所需连接的第一个表和第二个表<br>(3)on (table_one.key_one = table_two.key_one)<br>    –列出连接第一个表和第二个表的等值规则<br>(4)join table_three<br>    –列出检索table_fields所需连接的第三个表<br>(5)on (table_three.key_one = table_two.key_one)<br>    –列出连接第三个表的等值规则</p>
+<p>4.案例，在一次mapreduce中连接3个表<br>use census;</p>
+<p>create table census.account (<br>persid       int,<br>bamount  int<br>)<br>clustered by (persid) into 1 buckets<br>stored as orc<br>tblproperties(‘transactional’ = ‘true’);</p>
+<p>insert into table census.personname<br>values<br>(1,12),<br>(2,9);</p>
+<p>select<br>    personname.firstname,<br>    personname.lastname,<br>    address.postname,<br>    account.bamount<br>from<br>    census.personname<br>join<br>    census.address<br>on<br>    (personname.persid = address.persid)<br>join<br>    census.account<br>on<br>    (personname.persid = address.persid);</p>
+<p>结果如下<br>Bob    Burger    KA13    12<br>Charlie    Clown    KA9    9</p>
+<p>5.最后使用最大的表<br>hive在实施连接时可以先缓存前几个要连接的表，然后在针对它们映射最后一个表。<br>总是将最大的表放在后面时一种比较好的实践方法，因为这样做会加速处理过程。<br>(1)hive语法1：<br>select table_one.key_one,table_two.key_one,table_three.key_one<br>from table_one join table_two<br>on (table_one.key_one = table_two.key_one)<br>join table_three<br>on (table_three.key_one = table_two.key_one);<br>语法解释<br>(1)table_one,table_two<br>    –在内存中缓存<br>(2)table_three<br>    –直接从硬盘映射</p>
+<p>(1)hive语法2：<br>select table_one.key_one,table_two.key_one,table_three.key_one<br>from table_one join table_three<br>on (table_one.key_one = table_three.key_one)<br>join table_two<br>on (table_two.key_one = table_three.key_one);<br>语法解释<br>(1)table_one,table_three<br>    –在内存中缓存<br>(2)table_two<br>    –直接从硬盘映射</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzmfbs2i0008s0vgk9u2fv0o" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/17/hive命令10/" class="article-date">
@@ -107,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzmf6plu000670vg9geztxa4" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzmfbs2h0006s0vgqpp916lb" class="article-share-link">分享</a>
       
       
       
@@ -164,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzmf6pm5000h70vg34i0tpap" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzmfbs2q000hs0vgamwjm0bx" class="article-share-link">分享</a>
       
       
       
@@ -201,7 +276,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzmf6pm5000g70vgy2w2kf2x" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzmfbs2p000gs0vg2roz5qb7" class="article-share-link">分享</a>
       
       
       
@@ -243,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzmf6pm3000e70vgu4rqlymj" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzmfbs2o000es0vg7to3nr4w" class="article-share-link">分享</a>
       
       
       
@@ -299,7 +374,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzmf6pm2000d70vg8cszyw8a" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzmfbs2p000fs0vgylvmjx94" class="article-share-link">分享</a>
       
       
       
@@ -336,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzmf6pm4000f70vgft2jg3ks" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzmfbs2n000ds0vgj0eihtr2" class="article-share-link">分享</a>
       
       
       
@@ -374,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzmf6pm1000c70vggsija10f" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzmfbs2n000cs0vgeaksedd2" class="article-share-link">分享</a>
       
       
       
@@ -415,240 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzmf6plz000b70vghkj2uce4" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-MapReduce_Join" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/14/MapReduce_Join/" class="article-date">
-  <time datetime="2019-08-14T12:01:19.908Z" itemprop="datePublished">2019-08-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>## </p>
-<p>package hadoop;<br>//需求：城市区域id,城市id,城市名<br>/**</p>
-<ul>
-<li>数据样式：</li>
-<li>用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期</li>
-<li>数据进入hdfs的方式：put</li>
-<li></li>
-<li>/<br>import java.io.IOException;<br>import java.util.Iterator;<br>import java.util.Vector;</li>
-</ul>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapred.FileSplit;<br>import org.apache.hadoop.mapreduce.InputSplit;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class MapReduce_Join {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, Text&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, Text&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        //获取切片信息
-        InputSplit inputSplit = (FileSplit)context.getInputSplit();
-        //获取路径信息
-        String path = ((FileSplit) inputSplit).getPath().toString();
-        //====打标签===区分两个输入路径的数据
-        //判断是否是data的数据
-
-
-        if(path.contains(&quot;data&quot;)) {
-            String line = value.toString();
-            String [] split = line.split(&quot;\t&quot;);
-            if(split.length==8 &amp;&amp; split[2] != null) {
-                String JoinKey = split[2];
-                //将value打上标记
-                String joinValue = &quot;data&quot;+split[0] + split[4];
-                context.write(new Text(JoinKey), new Text(joinValue));
-                //数据此时会变成
-                //83522     data.txt,手机号码,停留时间    
-            }
-        }    
-        //给city_ID的数据打标记
-        if(path.contains(&quot;city_id&quot;)) {
-            String line = value.toString();
-            String [] split = line.split(&quot;,&quot;);
-            if(split.length==2) {
-                String JoinKey = split[0];
-                //将value打上标记
-                String joinValue = &quot;city_id&quot; + &quot;,&quot; +split[1];    
-                context.write(new Text(JoinKey), new Text(joinValue));
-                //数据此时会变成
-                //83522   city_id,合肥市    
-            }
-        }
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, Text, Text, Text&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;Text&gt; v2s,
-            Reducer&lt;Text, Text, Text, Text&gt;.Context context) throws IOException, InterruptedException {
-
-        //01  {data.txt,手机号码,301  city_id,合肥市}
-
-        //创建2个集合,用ArrayList也可以，都行
-        Vector&lt;String&gt; vecA = new Vector&lt;String&gt;();
-        Vector&lt;String&gt; vecB = new Vector&lt;String&gt;();
-        //判断两个输入数据的value,分别加入上面两个集合
-        for (Text value : v2s) {
-            String line = value.toString();
-            //判断开头标记，然后放入集合
-            if(line.startsWith(&quot;data&quot;)) {
-                //把数据中的data截取掉，让输出的数据中没有data
-                vecA.add(line.substring(4)); 
-            }
-            if(line.startsWith(&quot;city_id&quot;)) {
-                //把数据中的data截取掉，让输出的数据中没有city_id
-                vecB.add(line.substring(7)); 
-            }
-
-        }
-
-        //将两个集合 拼接，笛卡尔积
-        for (String s1 : vecA) {
-            for (String s2 : vecB) {
-
-                context.write(new Text(s1+k2.toString()), new Text(s2));
-
-            }
-        }
-
-
-
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, MapReduce_Join.class.getSimpleName());
-
-    //输出以逗号为间隔,加上这个配置，前面substring里的值都加x
-    //conf.set(&quot;mapred.textoutputformat.separator&quot;,&quot;,&quot;);
-
-    job.setJarByClass(MapReduce_Join.class);
-
-    //输入两个路径  //在传参数时，两个文件夹路径之间用空格
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    FileInputFormat.addInputPath(job, new Path(args[1]));
-
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(Text.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(Text.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[2]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzmf6plo000170vgkq5b9y7u" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-求每个用户平均停留时长" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/14/求每个用户平均停留时长/" class="article-date">
-  <time datetime="2019-08-14T09:04:11.915Z" itemprop="datePublished">2019-08-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="求每个用户平均停留时长"><a href="#求每个用户平均停留时长" class="headerlink" title="求每个用户平均停留时长"></a>求每个用户平均停留时长</h2><p>package hadoop;<br>//需求：求每个用户平均停留时长<br>/**</p>
-<ul>
-<li>数据样式：</li>
-<li>用户手机号码，时间戳，城市id，城市区域id，所在区域停留时长，开始进入区域的时间，离开区域的时间，日期</li>
-<li>数据进入hdfs的方式：put</li>
-<li></li>
-<li>/<br>import java.io.IOException;</li>
-</ul>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class test {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, Text&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, Text&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        String line = value.toString();
-        String[] split = line.split(&quot;\t&quot;);
-        //  \N 是所取数据位置上出现的错误数据
-        if(split.length == 3 &amp;&amp; split[4] != null ) {
-            if(split[4].equals(&quot;\\N&quot;)) {
-                split[4]=&quot;0&quot;;    
-            }
-            context.write(new Text(split[0]), new Text(split[4]));
-
-        }
-
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, Text, Text, LongWritable&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;Text&gt; v2s,
-            Reducer&lt;Text, Text, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        long sum = 0l;
-        //定义次数
-        long count = 0l;
-        for (Text time : v2s) {
-            count++;
-            sum += Long.parseLong(time.toString());
-        }
-        context.write(k2, new LongWritable(sum/count));        
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, test.class.getSimpleName());
-    job.setJarByClass(test.class);    
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzmf6pmi001270vgz7ftfchd" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzmfbs2m000bs0vg4lxzpu4l" class="article-share-link">分享</a>
       
       
       
@@ -686,6 +528,14 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       <ul>
         
           <li>
+            <a href="/2019/08/23/sqoop/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/23/数据仓库/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/22/hive随笔7/">(no title)</a>
           </li>
         
@@ -695,14 +545,6 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
         
           <li>
             <a href="/2019/08/21/hive随笔5/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/21/hive随笔4/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/19/hive随笔3/">(no title)</a>
           </li>
         
       </ul>

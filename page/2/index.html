@@ -66,6 +66,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令13" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/hive命令13/" class="article-date">
+  <time datetime="2019-08-18T08:22:52.453Z" itemprop="datePublished">2019-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.sqoop示例<br>(1)将表导入hdfs<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的<br>/user/(user)/test1/part-m-00000中      //这行用()来代替&lt;&gt;,&lt;&gt;里代码不显示</p>
+<p>(2)将表导入hdfs的特定目录下<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–target-dir /hive/tables/test1/<br>在本例中，表test1的内容将存放在hdfs的/hive/tables/test1目录下</p>
+<p>(3)将数据库中的表全部导入hdfs<br>sqoop import-all-tables –connect jdbc:mysql://localhost/test –username root<br>该命令将test数据库中的所有表导入到hdfs中。sqoop导入作业在/user/root目录下为每个表<br>都创建了一个目录，如下<br>hadoop fs -ls /user/root</p>
+<p>(4)将表导入hive<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–hive-import<br>该命令将把表test1导入到hdfs中，同时也会将其元数据添加到hive中。如下验证数据<br>use default;</p>
+<p>select count(*) from test1;</p>
+<p>(5)将表导入hive并且将表存储为orc表<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–hcatalog-database default –hcatalog-table test10_orc –create-hcatalog-table –hcatalog-<br>storage-stanza “stored as orcfile”<br>该命令将在默认数据库中创建一个名为test_orc的新表，并且以orc文件格式存储数据。<br>将hive表数据存储为orc，有理由 矢量化。验证如下<br>hive&gt;<br>describe extended test10_orc;</p>
+<p>(6)导入所选择的数据<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–where “a&gt;1”<br>通过该命令，可以导入表test1中列a的所有值大于1的数据。<br>该选项提供了一种方法，可以导入任何表的一个子集</p>
+<p>(7)导入增量数据<br>incremental  –sqoop使用它来判断哪一行是新的<br>check-column  –提供需要检查确定候选行的列<br>last-value  –执行上一次导入操作的最大值<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–incremental  append –check-column id -last-value 1000</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjznvd93u0008rgvg1srg480h" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令12" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/17/hive命令12/" class="article-date">
@@ -87,7 +125,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzmfbs2i0007s0vgxinfzvaq" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjznvd93v0009rgvgymebvmtz" class="article-share-link">分享</a>
       
       
       
@@ -129,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzmfbs2i0008s0vgk9u2fv0o" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjznvd93t0007rgvgcqtv88j9" class="article-share-link">分享</a>
       
       
       
@@ -182,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzmfbs2h0006s0vgqpp916lb" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjznvd93r0005rgvgxsikcsos" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +277,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzmfbs2q000hs0vgamwjm0bx" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjznvd943000hrgvg9oc9zisc" class="article-share-link">分享</a>
       
       
       
@@ -276,7 +314,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzmfbs2p000gs0vg2roz5qb7" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjznvd942000grgvgb270eehw" class="article-share-link">分享</a>
       
       
       
@@ -318,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzmfbs2o000es0vg7to3nr4w" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjznvd940000drgvg54d88yrr" class="article-share-link">分享</a>
       
       
       
@@ -374,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzmfbs2p000fs0vgylvmjx94" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjznvd941000frgvgbmkvlh1a" class="article-share-link">分享</a>
       
       
       
@@ -411,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzmfbs2n000ds0vgj0eihtr2" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjznvd941000ergvgsqfijxm3" class="article-share-link">分享</a>
       
       
       
@@ -449,48 +487,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzmfbs2n000cs0vgeaksedd2" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/15/hive命令3/" class="article-date">
-  <time datetime="2019-08-15T09:21:51.256Z" itemprop="datePublished">2019-08-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hive命令3"><a href="#hive命令3" class="headerlink" title="hive命令3"></a>hive命令3</h2><p>1.重命名表   –stud:表名<br>create external table stud (state string) location ‘/opt/stud’;</p>
-<p>alter table stud rename to stud_old; </p>
-<p>2.修改表的存储属性<br>(1)alter table<br>(2)删除该表，然后重新创建表，修改create table中的存储属性</p>
-<p>3.orc文件格式<br>将states表转换成orc文件格式并且查看其属性<br>create table states_orc stored as orc tblproperties(“orc.compress”=”snappy”)<br>as select * from states;</p>
-<p>4.hadoop中处理小文件将会大量耗费大量的namenode元数据记录，所以通常合并小文件<br>hdfs的namenode进程维护了hdfs上所有文件的元数据<br>对于以rcfile或orcfile格式存储的hive表，可以做下面的操作，将多个数据文件合并成一个<br>alter table states concatenate;</p>
-<p>5.避免小文件的方式之一（推荐），在数据进入hadoop之前，将它们合并成集群数据块<br>数倍大小的文件，通常为好几GB或者更大。在数据进入hadoop之后，有很多的方式整合，<br>但hadoop处理小文件并不在行，因此这样合并速度会比较慢。</p>
-<p>6.hive表分区<br>hive中的分区表有一个或多个分区键，基于这些键，数据被分割成若干逻辑块并存放在单独<br>的路径中。每个分区键都为表的存储添加了一个目录层结构。</p>
-<p>7.hive表分区代码案例<br>create external table retail.transactions(<br>transdate  date,<br>transid       int,<br>custid        int,<br>fname       string     //注意：最后一个属性不要打逗号<br>)<br>partitioned by (store string);<br>本例中的表基于一个名为store(存放商店的名称)的字符串列进行分区。<br>注意：在分区中用到的列实际上在create table 结构中并不存在。</p>
-<p>8.当你查询一个分区表时，分区的值会作为该分区中所有行在这一列的值，例<br>select * from retail.transactions 将返回store列的值，即使数据库中兵没有<br>存储这样的数据。</p>
-<p>9.创建分区表需要你预先为底层分区创建目录结构。对于内部表的情形，当你使用insert<br>命令将数据插入新分区时，分区目录是自动创建的。</p>
-<p>10.注意：不能在实际的表定义中加入分区键列，否则报错<br>failed:error in semantic analysis:column repeated in patitioning columns错误</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzmfbs2m000bs0vg4lxzpu4l" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjznvd93z000crgvg351zfa3l" class="article-share-link">分享</a>
       
       
       
@@ -528,6 +525,10 @@
       <ul>
         
           <li>
+            <a href="/2019/08/25/hbase命令1/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/23/sqoop/">(no title)</a>
           </li>
         
@@ -541,10 +542,6 @@
         
           <li>
             <a href="/2019/08/22/hive随笔6/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/21/hive随笔5/">(no title)</a>
           </li>
         
       </ul>

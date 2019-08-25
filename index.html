@@ -66,6 +66,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hbase命令1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/25/hbase命令1/" class="article-date">
+  <time datetime="2019-08-25T08:37:49.651Z" itemprop="datePublished">2019-08-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.hbase集群增加节点<br>假设新增节点ip为：192.168.1.10，slave2</p>
+<p>  1.修改/etc/hosts文件，在所有节点(除新加节点)上运行如下命令以追加新机器名与ip绑定到host文件<br>  然后将hosts文件复制到slave2<br>echo ‘192.168.1.10’ slave2 &gt;&gt; /etc/hosts</p>
+<p>  2.修改../hadoop-2.6.5/etc/hadoop/slaves文件，在所有节点上运行如下命令以追加新机器名<br>  到slaves文件<br>echo ‘slave2’ &gt;&gt; ../hadoop-2.6.5/etc/hadoop/slaves(具体路径，这里是略写)</p>
+<p>  3.刷新集群节点，在主节点运行<br>../hadoop-2.6.5/etc/hadoop/slaves dfsadmin -refershNodes</p>
+<p>  4.启动slave2，在slave2上运行<br>../hadoop-2.6.5/etc/sbin/hadoop-daemon.sh start datanode</p>
+<p>  5.运行负载均衡，参数设置为5<br>../hadoop-2.6.5/etc/bin/hdfs balancer -threshold 5</p>
+<p>  6.增加hbase分区服务器，在除新加节点外所有节点上运行如下命令以将新节点加入hbase分区服务列表<br>echo ‘slave2’ &gt;&gt; ../hbase-1.2.6/conf/regionservers</p>
+<p>  7.启动hbase分区服务器，在slave2上运行<br>../hbase-1.2.6/bin/hbase-daemon.sh start regionserver</p>
+<p>1.hbase集群删除节点</p>
+<p>  1.下线hbase分区服务器，在slave2上执行，该节点下线过程中，会将数据都转移到集群中其他在线的<br>  节点上<br>../hbase-1.2.6/bin/graceful_stop.sh slave2</p>
+<p>  2.hadoop配置数据节点下线，在../hadoop-2.6.5/etc/hadoop/hdfs-site.xml中配置，注意：slaves<br>  文件之前已经存在，只需新建exclude-slaves文件，然后在该文件中添加一行内容slave2，表示将<br>  slave2节点排除<br><property><br><name>dfs.hosts</name><br><value>../hadoop-2.6.5/etc/hadoop/slaves</value><br></property></p>
+<property>
+<name>dfs.hosts.exclude</name>
+<value>../hadoop-2.6.5/etc/hadoop/exclude-slaves</value>
+</property>
+
+<p>  3.下线hadoop数据节点，执行刷新命令<br>../hadoop-2.6.5/bin/hadoop dfsadmin -refreshNodes</p>
+<p>  4.执行  hadoop dfsadmin -report  或者用浏览器 50070 端口，可以看到执行过程</p>
+<p>  5.清理slave2，将slaves与exclude-slaves文件中slave2这行数据删除，然后执行刷新hadoop节点命令<br>  至此slave2已经下线成功了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/25/hbase命令1/" data-id="cjzqq0li300004svgibt7r7ek" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-sqoop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/23/sqoop/" class="article-date">
@@ -107,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/23/sqoop/" data-id="cjznvcjvq0000ysvg2ji05380" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/23/sqoop/" data-id="cjznvd94c000trgvgmtnbbl3h" class="article-share-link">分享</a>
       
       
       
@@ -145,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/23/数据仓库/" data-id="cjznvcjw20001ysvg3mro5pzd" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/23/数据仓库/" data-id="cjznvd94f000zrgvg3ptwtdb7" class="article-share-link">分享</a>
       
       
       
@@ -185,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔7/" data-id="cjzmfbs2t000ns0vg1axuanlx" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔7/" data-id="cjznvd949000prgvgukhx0tkg" class="article-share-link">分享</a>
       
       
       
@@ -218,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjzmfbs2u000os0vgwbrl915n" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/22/hive随笔6/" data-id="cjznvd947000nrgvgmhmgzozz" class="article-share-link">分享</a>
       
       
       
@@ -271,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjzmfbs2t000ms0vgm0db11sc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔5/" data-id="cjznvd946000mrgvgac5r4tpf" class="article-share-link">分享</a>
       
       
       
@@ -320,7 +369,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjzmfbs2s000ls0vgg72xzshv" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/21/hive随笔4/" data-id="cjznvd944000jrgvg4f43ifef" class="article-share-link">分享</a>
       
       
       
@@ -372,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjzmfbs2s000ks0vg58mcdvtn" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔3/" data-id="cjznvd945000lrgvgj03icf5z" class="article-share-link">分享</a>
       
       
       
@@ -422,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjzmfbs2r000js0vglritoslw" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/19/hive随笔2/" data-id="cjznvd945000krgvg25e0joep" class="article-share-link">分享</a>
       
       
       
@@ -463,45 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzmfbs2r000is0vgpnpeseov" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令13" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/18/hive命令13/" class="article-date">
-  <time datetime="2019-08-18T08:22:52.453Z" itemprop="datePublished">2019-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>1.sqoop示例<br>(1)将表导入hdfs<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>该命令将从mysql数据库test中导出表test1,并将其存放在hdfs的<br>/user/(user)/test1/part-m-00000中      //这行用()来代替&lt;&gt;,&lt;&gt;里代码不显示</p>
-<p>(2)将表导入hdfs的特定目录下<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–target-dir /hive/tables/test1/<br>在本例中，表test1的内容将存放在hdfs的/hive/tables/test1目录下</p>
-<p>(3)将数据库中的表全部导入hdfs<br>sqoop import-all-tables –connect jdbc:mysql://localhost/test –username root<br>该命令将test数据库中的所有表导入到hdfs中。sqoop导入作业在/user/root目录下为每个表<br>都创建了一个目录，如下<br>hadoop fs -ls /user/root</p>
-<p>(4)将表导入hive<br>sqoop import –connect jdbc:mysql://localhost/test –table test1 –username root –m 1<br>–hive-import<br>该命令将把表test1导入到hdfs中，同时也会将其元数据添加到hive中。如下验证数据<br>use default;</p>
-<p>select count(*) from test1;</p>
-<p>(5)将表导入hive并且将表存储为orc表<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–hcatalog-database default –hcatalog-table test10_orc –create-hcatalog-table –hcatalog-<br>storage-stanza “stored as orcfile”<br>该命令将在默认数据库中创建一个名为test_orc的新表，并且以orc文件格式存储数据。<br>将hive表数据存储为orc，有理由 矢量化。验证如下<br>hive&gt;<br>describe extended test10_orc;</p>
-<p>(6)导入所选择的数据<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–where “a&gt;1”<br>通过该命令，可以导入表test1中列a的所有值大于1的数据。<br>该选项提供了一种方法，可以导入任何表的一个子集</p>
-<p>(7)导入增量数据<br>incremental  –sqoop使用它来判断哪一行是新的<br>check-column  –提供需要检查确定候选行的列<br>last-value  –执行上一次导入操作的最大值<br>sqoop import –connect jdbc:mysql://localhost/test –table test10 –username root –m 1<br>–incremental  append –check-column id -last-value 1000</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzmfbs2j0009s0vgr5xvklet" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjznvd943000irgvgobe2ituo" class="article-share-link">分享</a>
       
       
       
@@ -559,6 +570,10 @@
       <ul>
         
           <li>
+            <a href="/2019/08/25/hbase命令1/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/23/sqoop/">(no title)</a>
           </li>
         
@@ -574,10 +589,6 @@
             <a href="/2019/08/22/hive随笔6/">(no title)</a>
           </li>
         
-          <li>
-            <a href="/2019/08/21/hive随笔5/">(no title)</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -587,7 +598,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">41</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">42</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

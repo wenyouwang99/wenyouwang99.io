@@ -5,17 +5,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
+  <meta name="description" content="1.hbase集群增加节点假设新增节点ip为：192.168.1.10，slave2   1.修改/etc/hosts文件，在所有节点(除新加节点)上运行如下命令以追加新机器名与ip绑定到host文件  然后将hosts文件复制到slave2echo ‘192.168.1.10’ slave2 &amp;gt;&amp;gt; /etc/hosts   2.修改../hadoop-2.6.5/etc/hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wenyouwang99.io/2019/08/18/hive随笔1/index.html">
+<meta property="og:url" content="https://wenyouwang99.io/2019/08/25/hbase命令1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
+<meta property="og:description" content="1.hbase集群增加节点假设新增节点ip为：192.168.1.10，slave2   1.修改/etc/hosts文件，在所有节点(除新加节点)上运行如下命令以追加新机器名与ip绑定到host文件  然后将hosts文件复制到slave2echo ‘192.168.1.10’ slave2 &amp;gt;&amp;gt; /etc/hosts   2.修改../hadoop-2.6.5/etc/hadoop">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-18T08:25:20.690Z">
+<meta property="og:updated_time" content="2019-08-25T08:37:49.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="1.查看一个有很多内容的1.txt文件，可以先看一点内容head 1.txt 2.hive基本语法-建表create [external] table table_name(a    int,b    string,c    string)partitioned by(非必选，创建分区表 dt string)clustered by (userid) into 3000 buckets    //">
+<meta name="twitter:description" content="1.hbase集群增加节点假设新增节点ip为：192.168.1.10，slave2   1.修改/etc/hosts文件，在所有节点(除新加节点)上运行如下命令以追加新机器名与ip绑定到host文件  然后将hosts文件复制到slave2echo ‘192.168.1.10’ slave2 &amp;gt;&amp;gt; /etc/hosts   2.修改../hadoop-2.6.5/etc/hadoop">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hive随笔1" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hbase命令1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/18/hive随笔1/" class="article-date">
-  <time datetime="2019-08-18T08:23:41.156Z" itemprop="datePublished">2019-08-18</time>
+    <a href="/2019/08/25/hbase命令1/" class="article-date">
+  <time datetime="2019-08-25T08:37:49.651Z" itemprop="datePublished">2019-08-25</time>
 </a>
     
   </div>
@@ -82,22 +82,30 @@
       
         <!-- Table of Contents -->
         
-        <p>1.查看一个有很多内容的1.txt文件，可以先看一点内容<br>head 1.txt</p>
-<p>2.hive基本语法-建表<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</p>
-<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
-<p>4.mysql登录<br>mysql -uroot -proot</p>
-<p>5.查看hive中的表<br>mysql&gt;<br>use hive;<br>show tables;<br>select * from &lt;&gt;;</p>
-<p>6.2种建表方式<br>create table table_name1 as select * from table_name2 limit 10;<br>create external table if not exists table_name3 like table_name4;</p>
-<p>7.hive中加载数据<br>(1)使用load data命令<br>从hdfs导入数据，路径可以是目录，会将目录下所有文件导入，但是文件格式必须一致<br>load data inpath ‘/test/‘ [overwrite] into table table_name;<br>(2)从本地文件系统导入<br>load data local inpath ‘/test/‘ into table table_name;<br>(3)表对表加载<br>create table if not exists table_name2 as select * from table_name1;<br>insert [overwrite] into table table_name2 select * from table_name1;<br>注意：<br>1.如果建表语句没有指定存储路径，不管是外部表还是内部表，存储路径都是会默认在<br>hive/warehouse/xx.db/表名的目录下<br>加载的数据也会移动到该表的存储目录下。注意是–移动，不是–复制。<br>2.删除外部表。文件不会删除，对应目录也不会删除。</p>
-<p>8.<br>hadoop fs -ls /opt/test | wc -l</p>
-<p>hadoop fs -ls /opt/test | head -10</p>
-<p>9.建表时，集合之间的分隔符<br>collection items terminated by ‘,’ ;<br>create table stud(<br>name      string,<br>chengji   array(int)     //这行用()代替&lt;&gt;<br>)<br>collection items terminated by ‘,’ ;        //集合之间以，分割</p>
-<p>张三     [10,20,30]</p>
+        <p>1.hbase集群增加节点<br>假设新增节点ip为：192.168.1.10，slave2</p>
+<p>  1.修改/etc/hosts文件，在所有节点(除新加节点)上运行如下命令以追加新机器名与ip绑定到host文件<br>  然后将hosts文件复制到slave2<br>echo ‘192.168.1.10’ slave2 &gt;&gt; /etc/hosts</p>
+<p>  2.修改../hadoop-2.6.5/etc/hadoop/slaves文件，在所有节点上运行如下命令以追加新机器名<br>  到slaves文件<br>echo ‘slave2’ &gt;&gt; ../hadoop-2.6.5/etc/hadoop/slaves(具体路径，这里是略写)</p>
+<p>  3.刷新集群节点，在主节点运行<br>../hadoop-2.6.5/etc/hadoop/slaves dfsadmin -refershNodes</p>
+<p>  4.启动slave2，在slave2上运行<br>../hadoop-2.6.5/etc/sbin/hadoop-daemon.sh start datanode</p>
+<p>  5.运行负载均衡，参数设置为5<br>../hadoop-2.6.5/etc/bin/hdfs balancer -threshold 5</p>
+<p>  6.增加hbase分区服务器，在除新加节点外所有节点上运行如下命令以将新节点加入hbase分区服务列表<br>echo ‘slave2’ &gt;&gt; ../hbase-1.2.6/conf/regionservers</p>
+<p>  7.启动hbase分区服务器，在slave2上运行<br>../hbase-1.2.6/bin/hbase-daemon.sh start regionserver</p>
+<p>1.hbase集群删除节点</p>
+<p>  1.下线hbase分区服务器，在slave2上执行，该节点下线过程中，会将数据都转移到集群中其他在线的<br>  节点上<br>../hbase-1.2.6/bin/graceful_stop.sh slave2</p>
+<p>  2.hadoop配置数据节点下线，在../hadoop-2.6.5/etc/hadoop/hdfs-site.xml中配置，注意：slaves<br>  文件之前已经存在，只需新建exclude-slaves文件，然后在该文件中添加一行内容slave2，表示将<br>  slave2节点排除<br><property><br><name>dfs.hosts</name><br><value>../hadoop-2.6.5/etc/hadoop/slaves</value><br></property></p>
+<property>
+<name>dfs.hosts.exclude</name>
+<value>../hadoop-2.6.5/etc/hadoop/exclude-slaves</value>
+</property>
+
+<p>  3.下线hadoop数据节点，执行刷新命令<br>../hadoop-2.6.5/bin/hadoop dfsadmin -refreshNodes</p>
+<p>  4.执行  hadoop dfsadmin -report  或者用浏览器 50070 端口，可以看到执行过程</p>
+<p>  5.清理slave2，将slaves与exclude-slaves文件中slave2这行数据删除，然后执行刷新hadoop节点命令<br>  至此slave2已经下线成功了</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjznvd943000irgvgobe2ituo" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/25/hbase命令1/" data-id="cjzqq0li300004svgibt7r7ek" class="article-share-link">分享</a>
       
       
       
@@ -149,17 +157,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/08/19/hive随笔2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/18/hive命令13/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/23/sqoop/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title"></div>
     </a>

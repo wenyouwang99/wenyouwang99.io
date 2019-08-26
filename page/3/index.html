@@ -66,6 +66,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive命令4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/15/hive命令4/" class="article-date">
+  <time datetime="2019-08-15T09:22:36.897Z" itemprop="datePublished">2019-08-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="hive命令4"><a href="#hive命令4" class="headerlink" title="hive命令4"></a>hive命令4</h2><p>1.分区注意事项<br>(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间<br>(2)避免分区小于1GB（越大越好）<br>(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存<br>(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的<br>嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小<br>(5)当使用hive流处理插入数据时，如果多个会话向相同的分区写入数据，那么就会导致锁闭<br>(6)可以修改某一分区表的模式，但是，一旦结构发生变化，就无法在已有分区中修改数据了<br>(7)如果要将数据并行插入到多个分区，应该将<br>hive.optimize.sort.dynamic.partition设置为true</p>
+<p>2.对日期列进行高效分区<br>如：日期中按照”YYYY-MM-DD”格式比按照 年月日各自的值进行多深度分区在某些时候<br>更加高效。<br>使用单个字符串的优势：它允许使用更多的SQL运算符，例如：LIKE,IN,BETWEEN，<br>但是如果采用嵌套分区，就不太容易使用这些运算符了</p>
+<p>3.案例<br>假设有表A，通过DataStamp字符串按照”YYYY-MM-DD”格式进行分区，SQL查询如下</p>
+<p>查询选择特定日期：<br>select * from table A where DataStamp IN (‘2015-01-01’,’2016-02-02’,’2017-03-03’);</p>
+<p>查询一年中所有的日期<br>select * from table A where DataStamp LIKE ‘2018-%’;</p>
+<p>查询一年中特定月的所有日期<br>select * from table A where DataStamp LIKE ‘2019-02-%’;</p>
+<p>查询所有以5开始/结束的日子<br>select * from table A where DataStamp LIKE ‘%-%-%5’;</p>
+<p>查询2015年1月1日到2015年3月1日的所有日子<br>select * from table A where DataStamp BETWEEN ‘2015-01-01’ AND ‘2015-03-01’;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjzqq1kal000c04vg8maxtku8" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/15/hive命令3/" class="article-date">
@@ -95,7 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjznvd93y000brgvgko44eue9" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令3/" data-id="cjzqq1kan000e04vgt31usjl7" class="article-share-link">分享</a>
       
       
       
@@ -239,7 +277,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjznvd93n0001rgvgytr5ax5z" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/MapReduce_Join/" data-id="cjzqq1kab000204vg6a5m72k6" class="article-share-link">分享</a>
       
       
       
@@ -328,7 +366,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjznvd94j0013rgvgq7t6lycy" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/求每个用户平均停留时长/" data-id="cjzqq1kb4001504vg6wf0kgo1" class="article-share-link">分享</a>
       
       
       
@@ -363,7 +401,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjznvd93p0002rgvg4r0hssx7" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/14/hadoop中combine优化/" data-id="cjzqq1ka9000104vgv5ea0um9" class="article-share-link">分享</a>
       
       
       
@@ -406,7 +444,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjznvd93x000argvgyzhl0dw2" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/hive命令2/" data-id="cjzqq1kak000b04vg5ownojxi" class="article-share-link">分享</a>
       
       
       
@@ -523,7 +561,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 /" data-id="cjznvd94l0015rgvg0bhoy6pt" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求平均以及数据清洗 /" data-id="cjzqq1kb4001404vg501ybbb1" class="article-share-link">分享</a>
       
       
       
@@ -621,7 +659,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求和以及数据清洗 /" data-id="cjznvd94i0012rgvgfg04y5d0" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求和以及数据清洗 /" data-id="cjzqq1kb3001304vghkduiop8" class="article-share-link">分享</a>
       
       
       
@@ -700,7 +738,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/求和/" data-id="cjznvd94h0011rgvg4lgp6bzd" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/求和/" data-id="cjzqq1kb2001204vg621rdk33" class="article-share-link">分享</a>
       
       
       
@@ -773,81 +811,7 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数/" data-id="cjznvd94d000wrgvg83sonb98" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-wordcount 完整案例" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/12/wordcount 完整案例/" class="article-date">
-  <time datetime="2019-08-12T13:16:40.407Z" itemprop="datePublished">2019-08-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="wordcount-完整案例"><a href="#wordcount-完整案例" class="headerlink" title="wordcount 完整案例"></a>wordcount 完整案例</h2><p>package hadoop;</p>
-<p>import java.io.IOException;</p>
-<p>import org.apache.hadoop.conf.Configuration;<br>import org.apache.hadoop.fs.Path;<br>import org.apache.hadoop.io.LongWritable;<br>import org.apache.hadoop.io.Text;<br>import org.apache.hadoop.mapreduce.Job;<br>import org.apache.hadoop.mapreduce.Mapper;<br>import org.apache.hadoop.mapreduce.Reducer;<br>import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;<br>import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</p>
-<p>public class MapReduceWC {</p>
-<pre><code>public static class MyMapper extends Mapper&lt;LongWritable, Text, Text, LongWritable&gt;{
-
-    protected void map(LongWritable key, Text value, org.apache.hadoop.mapreduce.Mapper&lt;LongWritable, Text, Text, LongWritable&gt;.Context context) throws java.io.IOException ,InterruptedException 
-    {
-        String line = value.toString();
-        String[] split = line.split(&quot;,&quot;);
-        for (String word : split) {
-            context.write(new Text(word), new LongWritable(1L));
-        }
-    };    
-}
-
-public static class MyReduce extends Reducer&lt;Text, LongWritable, Text, LongWritable&gt;{
-
-    @Override
-    protected void reduce(Text k2, Iterable&lt;LongWritable&gt; v2s,
-            Reducer&lt;Text, LongWritable, Text, LongWritable&gt;.Context context) throws IOException, InterruptedException {
-        long count = 0l;
-        for (LongWritable value : v2s) {
-            count += value.get();
-        }
-        context.write(k2, new LongWritable(count));        
-    }
-}
-
-
-public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-    Configuration conf = new Configuration();
-    Job job = Job.getInstance(conf, MapReduceWC.class.getSimpleName());
-    job.setJarByClass(MapReduceWC.class);    
-    FileInputFormat.addInputPath(job, new Path(args[0]));    
-    job.setMapperClass(MyMapper.class);    
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(LongWritable.class);
-    job.setReducerClass(MyReduce.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(LongWritable.class);    
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));    
-    job.waitForCompletion(true);    
-}</code></pre><p>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/12/wordcount 完整案例/" data-id="cjznvd94a000rrgvgkcmcgrm5" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/13/单词计数/" data-id="cjzqq1kaz000w04vg8a2vmt5e" class="article-share-link">分享</a>
       
       
       
@@ -885,6 +849,10 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
       <ul>
         
           <li>
+            <a href="/2019/08/26/hbase命令2/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/25/hbase命令1/">(no title)</a>
           </li>
         
@@ -898,10 +866,6 @@ public static void main(String[] args) throws IOException, ClassNotFoundExceptio
         
           <li>
             <a href="/2019/08/22/hive随笔7/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/22/hive随笔6/">(no title)</a>
           </li>
         
       </ul>

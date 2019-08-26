@@ -66,6 +66,47 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hive随笔1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/18/hive随笔1/" class="article-date">
+  <time datetime="2019-08-18T08:23:41.156Z" itemprop="datePublished">2019-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>1.查看一个有很多内容的1.txt文件，可以先看一点内容<br>head 1.txt</p>
+<p>2.hive基本语法-建表<br>create [external] table table_name(<br>a    int,<br>b    string,<br>c    string<br>)<br>partitioned by(非必选，创建分区表 dt string)<br>clustered by (userid) into 3000 buckets    //非必选，分桶子<br>row format delimited fields terminated by ‘\t’  //必选，指定列之间的分隔符<br>stored as rcfile  //非必选，指定文件的读取格式，默认textfile格式<br>location ‘/opt’;   //非必选，指定文件在hdfs上的存储路径，如果已经有文件，会自动加载，<br>默认在hive的warehouse下</p>
+<p>注意：还可以这样写<br>create [external] table table_name(<br>a int comment ‘姓名’,<br>b string comment ‘年龄’,<br>c string comment ‘班级’<br>)……</p>
+<p>4.mysql登录<br>mysql -uroot -proot</p>
+<p>5.查看hive中的表<br>mysql&gt;<br>use hive;<br>show tables;<br>select * from &lt;&gt;;</p>
+<p>6.2种建表方式<br>create table table_name1 as select * from table_name2 limit 10;<br>create external table if not exists table_name3 like table_name4;</p>
+<p>7.hive中加载数据<br>(1)使用load data命令<br>从hdfs导入数据，路径可以是目录，会将目录下所有文件导入，但是文件格式必须一致<br>load data inpath ‘/test/‘ [overwrite] into table table_name;<br>(2)从本地文件系统导入<br>load data local inpath ‘/test/‘ into table table_name;<br>(3)表对表加载<br>create table if not exists table_name2 as select * from table_name1;<br>insert [overwrite] into table table_name2 select * from table_name1;<br>注意：<br>1.如果建表语句没有指定存储路径，不管是外部表还是内部表，存储路径都是会默认在<br>hive/warehouse/xx.db/表名的目录下<br>加载的数据也会移动到该表的存储目录下。注意是–移动，不是–复制。<br>2.删除外部表。文件不会删除，对应目录也不会删除。</p>
+<p>8.<br>hadoop fs -ls /opt/test | wc -l</p>
+<p>hadoop fs -ls /opt/test | head -10</p>
+<p>9.建表时，集合之间的分隔符<br>collection items terminated by ‘,’ ;<br>create table stud(<br>name      string,<br>chengji   array(int)     //这行用()代替&lt;&gt;<br>)<br>collection items terminated by ‘,’ ;        //集合之间以，分割</p>
+<p>张三     [10,20,30]</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive随笔1/" data-id="cjzqq1kaq000j04vg6hv1i3bd" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-hive命令13" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/18/hive命令13/" class="article-date">
@@ -92,7 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjznvd93u0008rgvg1srg480h" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/18/hive命令13/" data-id="cjzqq1kaj000a04vgfu6npu99" class="article-share-link">分享</a>
       
       
       
@@ -125,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjznvd93v0009rgvgymebvmtz" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令12/" data-id="cjzqq1kah000904vgxta00seo" class="article-share-link">分享</a>
       
       
       
@@ -167,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjznvd93t0007rgvgcqtv88j9" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令11/" data-id="cjzqq1kag000804vg3u0ts5vw" class="article-share-link">分享</a>
       
       
       
@@ -220,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjznvd93r0005rgvgxsikcsos" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令10/" data-id="cjzqq1kag000704vg53vv4apa" class="article-share-link">分享</a>
       
       
       
@@ -277,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjznvd943000hrgvg9oc9zisc" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/17/hive命令9/" data-id="cjzqq1kaq000i04vg00lyin02" class="article-share-link">分享</a>
       
       
       
@@ -314,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjznvd942000grgvgb270eehw" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令8/" data-id="cjzqq1kap000h04vgx4sppl84" class="article-share-link">分享</a>
       
       
       
@@ -356,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjznvd940000drgvg54d88yrr" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令7/" data-id="cjzqq1kap000g04vgb9ikg0um" class="article-share-link">分享</a>
       
       
       
@@ -412,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjznvd941000frgvgbmkvlh1a" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/16/hive命令6/" data-id="cjzqq1kao000f04vgvh0x7m1b" class="article-share-link">分享</a>
       
       
       
@@ -449,45 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjznvd941000ergvgsqfijxm3" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-hive命令4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/15/hive命令4/" class="article-date">
-  <time datetime="2019-08-15T09:22:36.897Z" itemprop="datePublished">2019-08-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="hive命令4"><a href="#hive命令4" class="headerlink" title="hive命令4"></a>hive命令4</h2><p>1.分区注意事项<br>(1)挑选一列作为分区键，其唯一值的个数应在较低值到中间值之间<br>(2)避免分区小于1GB（越大越好）<br>(3)当分区数量较多时，调整HiveServer2和Hive Metastore的内存<br>(4)当使用多列作为分区键时，对于每一个分区键列的组合都要创建一个子目录的<br>嵌套树。应该避免深入嵌套，因为这回导致太多的分区，进而使创建的文件非常小<br>(5)当使用hive流处理插入数据时，如果多个会话向相同的分区写入数据，那么就会导致锁闭<br>(6)可以修改某一分区表的模式，但是，一旦结构发生变化，就无法在已有分区中修改数据了<br>(7)如果要将数据并行插入到多个分区，应该将<br>hive.optimize.sort.dynamic.partition设置为true</p>
-<p>2.对日期列进行高效分区<br>如：日期中按照”YYYY-MM-DD”格式比按照 年月日各自的值进行多深度分区在某些时候<br>更加高效。<br>使用单个字符串的优势：它允许使用更多的SQL运算符，例如：LIKE,IN,BETWEEN，<br>但是如果采用嵌套分区，就不太容易使用这些运算符了</p>
-<p>3.案例<br>假设有表A，通过DataStamp字符串按照”YYYY-MM-DD”格式进行分区，SQL查询如下</p>
-<p>查询选择特定日期：<br>select * from table A where DataStamp IN (‘2015-01-01’,’2016-02-02’,’2017-03-03’);</p>
-<p>查询一年中所有的日期<br>select * from table A where DataStamp LIKE ‘2018-%’;</p>
-<p>查询一年中特定月的所有日期<br>select * from table A where DataStamp LIKE ‘2019-02-%’;</p>
-<p>查询所有以5开始/结束的日子<br>select * from table A where DataStamp LIKE ‘%-%-%5’;</p>
-<p>查询2015年1月1日到2015年3月1日的所有日子<br>select * from table A where DataStamp BETWEEN ‘2015-01-01’ AND ‘2015-03-01’;</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令4/" data-id="cjznvd93z000crgvg351zfa3l" class="article-share-link">分享</a>
+      <a data-url="https://wenyouwang99.io/2019/08/15/hive命令5/" data-id="cjzqq1kam000d04vgs3zy1bdj" class="article-share-link">分享</a>
       
       
       
@@ -525,6 +528,10 @@
       <ul>
         
           <li>
+            <a href="/2019/08/26/hbase命令2/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/25/hbase命令1/">(no title)</a>
           </li>
         
@@ -538,10 +545,6 @@
         
           <li>
             <a href="/2019/08/22/hive随笔7/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/22/hive随笔6/">(no title)</a>
           </li>
         
       </ul>
